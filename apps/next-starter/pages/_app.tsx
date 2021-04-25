@@ -4,7 +4,7 @@ import { AppProps } from 'next/app';
 import { Provider } from 'next-auth/client';
 //
 import './styles.css';
-import { ReactComponent as NxLogo } from '../public/nx-logo-white.svg';
+import { TopNavigationLayout } from '../components/layouts/top-nav';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
@@ -12,17 +12,17 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Welcome to next-starter!</title>
       </Head>
-      <div className="app">
-        {/* <header className="flex">
-          <NxLogo width="75" height="50" />
-          <h1>Welcome to next-starter :)</h1>
-        </header> */}
-        <main>
+      {pageProps.session ? (
+        <TopNavigationLayout href="">
           <Provider session={pageProps.session}>
             <Component {...pageProps} />
           </Provider>
-        </main>
-      </div>
+        </TopNavigationLayout>
+      ) : (
+        <Provider session={pageProps.session}>
+          <Component {...pageProps} />
+        </Provider>
+      )}
     </Provider>
   );
 }
