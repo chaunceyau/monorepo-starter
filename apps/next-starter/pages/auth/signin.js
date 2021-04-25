@@ -1,4 +1,4 @@
-import { getCsrfToken, signIn } from "next-auth/client";
+import { getCsrfToken, signIn, getSession } from 'next-auth/client';
 
 /*
   This example requires Tailwind CSS v2.0+ 
@@ -29,12 +29,12 @@ export default function SignIn({ csrfToken }) {
           Sign in to your account
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600 max-w">
-          Or{" "}
+          or{' '}
           <a
             href="#"
             className="font-medium text-indigo-600 hover:text-indigo-500"
           >
-            start your 14-day free trial
+            create a new account
           </a>
         </p>
       </div>
@@ -137,7 +137,7 @@ export default function SignIn({ csrfToken }) {
             <div className="mt-6 grid grid-cols-3 gap-3">
               <div>
                 <button
-                  onClick={() => signIn("google")}
+                  onClick={() => signIn('google')}
                   className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                 >
                   <span className="sr-only">Sign in with Google</span>
@@ -214,8 +214,17 @@ export default function SignIn({ csrfToken }) {
   );
 }
 
-// This is the recommended way for Next.js 9.3 or newer
 export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  if (session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: {
       csrfToken: await getCsrfToken(context),

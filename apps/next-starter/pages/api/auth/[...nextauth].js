@@ -13,10 +13,10 @@ export default NextAuth({
       //
       // The credentials is used to generate a suitable form on the sign in page.
       // You can specify whatever fields you are expecting to be submitted.
-      // e.g. domain, username, password, 2FA token, etc.
+      // e.g. domain, email, password, 2FA token, etc.
       credentials: {
         // , placeholder: "jsmith"
-        username: { label: 'Username', type: 'text' },
+        email: { label: 'Email', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
       session: {
@@ -28,7 +28,7 @@ export default NextAuth({
         // submitted and returns either a object representing a user or value
         // that is false/null if the credentials are invalid.
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-        const match = USERS.find((u) => u.email === credentials.username);
+        const match = USERS.find((u) => u.email === credentials.email);
         if (!match) {
           return null;
         }
@@ -57,60 +57,6 @@ const USERS = [
     id: 55674,
     name: 'Catherine Crist',
     email: 'crist@gmail.com',
-    password: 'password',
-  },
-  {
-    id: 4733,
-    name: 'Asa Luettgen',
-    email: 'luettgen@gmail.com',
-    password: 'password',
-  },
-  {
-    id: 43731,
-    name: 'Ahmed Kilback',
-    email: 'kilback@gmail.com',
-    password: 'password',
-  },
-  {
-    id: 19684,
-    name: 'Simeon Leuschke',
-    email: 'leuschke@gmail.com',
-    password: 'password',
-  },
-  {
-    id: 23949,
-    name: 'Frida Rippin',
-    email: 'rippin@gmail.com',
-    password: 'password',
-  },
-  {
-    id: 57003,
-    name: 'Mckayla Brekke',
-    email: 'brekke@gmail.com',
-    password: 'password',
-  },
-  {
-    id: 52023,
-    name: 'Edyth Kuhlman',
-    email: 'kuhlman@gmail.com',
-    password: 'password',
-  },
-  {
-    id: 50233,
-    name: 'Noemie Russel',
-    email: 'russel@gmail.com',
-    password: 'password',
-  },
-  {
-    id: 6435,
-    name: 'Conner Mosciski',
-    email: 'mosciski@gmail.com',
-    password: 'password',
-  },
-  {
-    id: 2424,
-    name: 'Davin Sanford',
-    email: 'sanford@gmail.com',
     password: 'password',
   },
   {
