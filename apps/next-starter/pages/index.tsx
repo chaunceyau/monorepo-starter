@@ -1,4 +1,4 @@
-import { signIn, signOut, useSession, getSession } from 'next-auth/client';
+import { signIn, signOut, getSession } from 'next-auth/client';
 
 export default function Page({ session }) {
   return (
@@ -11,7 +11,9 @@ export default function Page({ session }) {
       )}
       {session && (
         <>
-          Signed in as {session.user.email} <br />
+          <span>
+            Signed in as {session.user.email} <br />
+          </span>{' '}
           <button onClick={() => signOut()}>Sign out</button>
         </>
       )}
