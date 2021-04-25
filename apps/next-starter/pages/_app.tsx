@@ -1,12 +1,13 @@
 import React from 'react';
-import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { AppProps } from 'next/app';
+import { Provider } from 'next-auth/client';
 import { ReactComponent as NxLogo } from '../public/nx-logo-white.svg';
 import './styles.css';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <Provider session={pageProps.session}>
       <Head>
         <title>Welcome to next-starter!</title>
       </Head>
@@ -16,10 +17,12 @@ function CustomApp({ Component, pageProps }: AppProps) {
           <h1>Welcome to next-starter :)</h1>
         </header>
         <main>
-          <Component {...pageProps} />
+          <Provider session={pageProps.session}>
+            <Component {...pageProps} />
+          </Provider>
         </main>
       </div>
-    </>
+    </Provider>
   );
 }
 
