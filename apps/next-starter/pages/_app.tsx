@@ -13,7 +13,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <div className="app">
         <header className="flex">
           <NxLogo width="75" height="50" />
-          <h1>Welcome to next-starter!</h1>
+          <h1>Welcome to next-starter :)</h1>
         </header>
         <main>
           <Component {...pageProps} />

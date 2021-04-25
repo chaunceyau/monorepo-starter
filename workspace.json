@@ -25,7 +25,9 @@
       "targets": {
         "build": {
           "executor": "@nrwl/next:build",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "root": "apps/next-starter",
             "outputPath": "dist/apps/next-starter"
@@ -38,7 +40,8 @@
           "executor": "@nrwl/next:server",
           "options": {
             "buildTarget": "next-starter:build",
-            "dev": true
+            "dev": true,
+            "proxyConfig": "apps/next-starter/proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -55,7 +58,9 @@
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/next-starter"],
+          "outputs": [
+            "coverage/apps/next-starter"
+          ],
           "options": {
             "jestConfig": "apps/next-starter/jest.config.js",
             "passWithNoTests": true
@@ -64,7 +69,9 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/next-starter/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": [
+              "apps/next-starter/**/*.{ts,tsx,js,jsx}"
+            ]
           }
         }
       }
@@ -90,7 +97,67 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/next-starter-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/next-starter-e2e/**/*.{js,ts}"
+            ]
+          }
+        }
+      }
+    },
+    "api-starter": {
+      "root": "apps/api-starter",
+      "sourceRoot": "apps/api-starter/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/api-starter",
+            "main": "apps/api-starter/src/main.ts",
+            "tsConfig": "apps/api-starter/tsconfig.app.json",
+            "assets": [
+              "apps/api-starter/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api-starter/src/environments/environment.ts",
+                  "with": "apps/api-starter/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "api-starter:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/api-starter/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/api-starter"
+          ],
+          "options": {
+            "jestConfig": "apps/api-starter/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }
