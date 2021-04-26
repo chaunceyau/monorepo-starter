@@ -1,27 +1,32 @@
 import React from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
-import { Provider } from 'next-auth/client';
+import { Provider, useSession } from 'next-auth/client';
 //
 import './styles.css';
 import { TopNavigationLayout } from '../components/layouts/top-nav';
 
-function CustomApp({ Component, pageProps }: AppProps) {
+function CustomApp({ Component, pageProps, router }: AppProps) {
+  const clientSession = useSession();
+  const session = pageProps.session || clientSession;
+
+  const provider = (
+    <Provider session={session}>
+      <Component {...pageProps} />
+    </Provider>
+  );
+
   return (
-    <Provider session={pageProps.session}>
+    <Provider session={session}>
       <Head>
-        <title>Welcome to next-starter!</title>
+        <title>Client Application Starter</title>
       </Head>
-      {pageProps.session ? (
-        <TopNavigationLayout href="">
-          <Provider session={pageProps.session}>
-            <Component {...pageProps} />
-          </Provider>
+      {session ? (
+        <TopNavigationLayout session={session} router={router}>
+          {provider}
         </TopNavigationLayout>
       ) : (
-        <Provider session={pageProps.session}>
-          <Component {...pageProps} />
-        </Provider>
+        provider
       )}
     </Provider>
   );
