@@ -1,3 +1,5 @@
-export const ENV = {
-    NEXTAUTH_URL: process.env.NEXTAUTH_URL
-}
+export const env = {
+  NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+  GOOGLE_OAUTH_CLIENT_ID: process.env.GOOGLE_OAUTH_CLIENT_ID,
+  GOOGLE_OAUTH_CLIENT_SECRET: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+};

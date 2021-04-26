@@ -1,3 +1,4 @@
+import { env } from 'apps/next-starter/util/config';
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
 
@@ -42,9 +43,8 @@ export default NextAuth({
       },
     }),
     Providers.Google({
-      clientId:
-        '826478107421-psjilupapk79e5q5nena6ir07hup625c.apps.googleusercontent.com',
-      clientSecret: 'DDLphrsFtEWLSLU4qeKPbWbh',
+      clientId: env.GOOGLE_OAUTH_CLIENT_ID,
+      clientSecret: env.GOOGLE_OAUTH_CLIENT_SECRET,
     }),
   ],
 
