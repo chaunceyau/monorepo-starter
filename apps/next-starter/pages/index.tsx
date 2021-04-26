@@ -1,8 +1,10 @@
 import { signIn, signOut, getSession } from 'next-auth/client';
+import React from 'react';
+import { TopNavigationLayout } from '../components/layouts/top-nav';
 
-export default function Page({ session }) {
+export default function Dashboard({ session, router }) {
   return (
-    <>
+    <TopNavigationLayout session={session} router={router} title="Dashboard">
       {!session && (
         <>
           Not signed in <br />
@@ -17,7 +19,7 @@ export default function Page({ session }) {
           <button onClick={() => signOut()}>Sign out</button>
         </>
       )}
-    </>
+    </TopNavigationLayout>
   );
 }
 
