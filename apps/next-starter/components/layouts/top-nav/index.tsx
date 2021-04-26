@@ -13,7 +13,7 @@ const navigation = [
   { to: '/projects', label: 'Projects' },
   { to: '/calendar', label: 'Calendar' },
 ];
-const profile = ['Your Profile', 'Settings', 'Sign out'];
+const profile = ['Your Profile', 'Settings'];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -21,8 +21,12 @@ function classNames(...classes) {
 
 export function TopNavigationLayout({
   children,
+  session,
+  router,
 }: {
   children: React.ReactNode;
+  session: any;
+  router: any;
 }) {
   return (
     <div className="h-screen">
@@ -42,7 +46,11 @@ export function TopNavigationLayout({
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
                       {navigation.map((item) => (
-                        <TopNavigationItem key={item.to} {...item} />
+                        <TopNavigationItem
+                          key={item.to}
+                          {...item}
+                          router={router}
+                        />
                       ))}
                     </div>
                   </div>
@@ -51,7 +59,7 @@ export function TopNavigationLayout({
                   <div className="ml-4 flex items-center md:ml-6">
                     <NotificationButton />
                     {/* Profile dropdown */}
-                    <ProfileDropdown />
+                    <ProfileDropdown session={session} />
                   </div>
                 </div>
                 <div className="-mr-2 flex md:hidden">
@@ -145,8 +153,7 @@ function MainContent({ children }: { children: React.ReactNode }) {
 }
 
 export function TopNavigationItem(props) {
-  const router = useRouter();
-  const match = router.pathname === props.href;
+  const match = props.router.pathname === props.to;
   return match ? (
     <React.Fragment>
       {/* Current: "bg-indigo-700 text-white", Default: "text-white hover:bg-indigo-500 hover:bg-opacity-75" */}
@@ -165,7 +172,7 @@ export function TopNavigationItem(props) {
   );
 }
 
-function ProfileDropdown() {
+function ProfileDropdown(props) {
   return (
     <Menu as="div" className="ml-3 relative">
       {({ open }) => (
@@ -197,19 +204,6 @@ function ProfileDropdown() {
               {profile.map((item) => (
                 <Menu.Item key={item}>
                   {({ active }) => (
-                    <button
-                      onClick={() => {
-                        signOut();
-                      }}
-                      className={classNames(
-                        active ? 'bg-gray-100' : '',
-                        'block px-4 py-2 text-sm text-gray-700 w-full text-left'
-                      )}
-                    >
-                      {item}
-                    </button>
-                  )}
-                  {/* {({ active }) => (
                     <a
                       href="#"
                       className={classNames(
@@ -217,11 +211,27 @@ function ProfileDropdown() {
                         'block px-4 py-2 text-sm text-gray-700'
                       )}
                     >
-                      Your Profile
+                      {item}
                     </a>
-                  )} */}
+                  )}
                 </Menu.Item>
               ))}
+              <Menu.Item>
+                <button
+                  onClick={() => signOut()}
+                  className="block px-4 py-2 text-sm text-gray-700 w-full text-left hover:bg-gray-100"
+                >
+                  Sign Out
+                </button>
+              </Menu.Item>
+              <Menu.Item>
+                <div className="block px-4 py-2 text-sm w-full text-left border-t mt-1">
+                  <p className="font-bold text-gray-700">Current User</p>
+                  <p className="text-gray-400 truncate">
+                    {props.session?.user?.email}
+                  </p>
+                </div>
+              </Menu.Item>
             </Menu.Items>
           </Transition>
         </>
