@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Menu } from '@headlessui/react';
 
 const anchorClassNames = (active) => {
@@ -12,9 +13,9 @@ export function ProfileDropdownLink(props) {
   return (
     <Menu.Item key={props.label}>
       {({ active }) => (
-        <a href={props.to} className={anchorClassNames(active)}>
-          {props.label}
-        </a>
+        <Link href={props.to}>
+          <a className={anchorClassNames(active)}>{props.label}</a>
+        </Link>
       )}
     </Menu.Item>
   );
