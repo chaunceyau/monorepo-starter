@@ -34,7 +34,7 @@ export function ProfileDropdown(props) {
               className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
               {props.profile.map((item) => (
-                <ProfileDropdownLink {...item} />
+                <ProfileDropdownLink key={item.label} {...item} />
               ))}
               <ProfileDropdownSignout />
               <ProfileDropdownCurrentUser email={props.session?.user?.email} />
