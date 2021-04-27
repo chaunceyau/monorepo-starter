@@ -1,0 +1,31 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: String!
+  email: String!
+}
+
+type CreateSubscriptionResponse {
+  id: String!
+}
+
+type Query {
+  user(id: String!): User!
+  currentUser: User!
+  getBillingPortalSessionURL: String!
+}
+
+type Mutation {
+  createCheckoutSession(input: CreateSubscriptionInput!): CreateSubscriptionResponse!
+}
+
+input CreateSubscriptionInput {
+  plan: SubscriptionPlan!
+}
+
+enum SubscriptionPlan {
+  PREMIUM_MONTHLY
+  PREMIUM_ANNUAL
+}
