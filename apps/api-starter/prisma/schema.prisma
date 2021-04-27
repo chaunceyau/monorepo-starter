@@ -1,0 +1,26 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                     String            @id
+  email                  String            @unique
+  password               String
+  salt                   String
+  subscription_type      SubscriptionType?
+  stripe_customer_id     String?           @unique
+  stripe_subscription_id String?           @unique
+  current_period_end     DateTime?
+}
+
+enum SubscriptionType {
+  FREE_TIER
+  PREMIUM_SUBSCRIBER
+  ENTERPRISE_SUBSCRIBER
+}

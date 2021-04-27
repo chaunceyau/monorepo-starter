@@ -7,6 +7,8 @@ export default NextAuth({
   pages: {
     signIn: '/auth/signin',
   },
+  // database: 'postgres://postgres:postgres@127.0.0.1:5432/postgres',
+  secret: env.COOKIE_SIGNING_SECRET,
   providers: [
     Providers.Credentials({
       // The name to display on the sign in form (e.g. 'Sign in with...')
