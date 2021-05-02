@@ -8,6 +8,7 @@ import { UserService } from './user.service';
 import { GraphQLUser } from '../common/decorators/user.decorator';
 // import { CreatePaymentInput } from './models/create-payment.input'
 import { AuthenticatedGuard } from '../common/guards/authenticated.guard';
+import { JwtAuthGuard } from '../common/guards/jwt.guard';
 
 @Resolver((_of) => User)
 export class UserResolver {
@@ -22,10 +23,12 @@ export class UserResolver {
     return this.userService.findUniqueById(id);
   }
 
-  @UseGuards(AuthenticatedGuard)
+  @UseGuards(JwtAuthGuard)
+  // @UseGuards(AuthenticatedGuard)
   @Query((_returns) => User)
   // TODO: rename viewer
   async currentUser(@GraphQLUser() user) {
+    console.log("IN RESOLVER")
     try {
       const currentUser = await this.userService.findUniqueById(user.id);
       return currentUser;
