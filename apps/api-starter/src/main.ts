@@ -6,6 +6,7 @@ import { ValidationPipe } from '@nestjs/common';
 import * as helmet from 'helmet';
 import * as passport from 'passport';
 import * as cookieParser from 'cookie-parser';
+import * as nA from 'next-auth/jwt';
 // import * as session from 'express-session';
 // import * as connectRedis from 'connect-redis';
 
@@ -35,8 +36,24 @@ async function bootstrap() {
     app.set('trust proxy', 1); // trust first proxy
   }
 
-  app.use(cookieParser());
+  app.use(cookieParser('cookies_secret'));
+  app.use((req, res, next) => {
+    const token = req.cookies['next-auth.session-token'];
+    // console.log({ token: token.length });
+
+    // const clean = nA
+    //   .getToken({ req, secret: 'cookies_secret' })
+    //   .then((t) => console.log({ t }))
+    //   .catch((e) => console.log({ e }));
+    // console.log({ clean });
+
+
+    // const decoded = jwt.decode(token);
+
+    next();
+  });
   // app.use(cookieParser(cookiesConfigService.cookieSigningKey));
+  app.use(cookieParser('cookies_secret'));
 
   // app.use(
   //   session({
@@ -53,8 +70,8 @@ async function bootstrap() {
   //   })
   // );
 
-  // app.use(passport.initialize());
-  // app.use(passport.session());
+  app.use(passport.initialize());
+  app.use(passport.session());
 
   // TODO: instead of csurf, let's enforce JSON only communication?
   // 👀 potential problem - multipart form data?

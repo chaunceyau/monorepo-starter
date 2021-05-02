@@ -21,6 +21,7 @@ export class PoliciesGuard implements CanActivate {
     const req = context.switchToHttp().getRequest();
     // TODO: potentially pass variables here - req.body.variables
     const ability = this.caslAbilityFactory.createForUser(user);
+    console.log('req.body.variables');
     console.log(req.body.variables);
     return policyHandlers.every((handler) =>
       this.execPolicyHandler(handler, ability)
