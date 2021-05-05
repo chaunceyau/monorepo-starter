@@ -13,7 +13,7 @@ type CreateSubscriptionResponse {
 
 type Query {
   user(id: String!): User!
-  currentUser: User!
+  viewer: User!
   getBillingPortalSessionURL: String!
 }
 

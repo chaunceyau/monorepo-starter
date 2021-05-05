@@ -4,24 +4,10 @@ import { Menu, Transition } from '@headlessui/react';
 import { ProfileDropdownLink } from './link';
 import { ProfileDropdownSignout } from './sign-out';
 import { ProfileDropdownCurrentUser } from './viewer-info';
+import { useSession } from 'next-auth/client';
 
 export function ProfileDropdown(props) {
-  React.useEffect(() => {
-    fetch('http://localhost:5000/graphql', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ query: `
-        query {
-          currentUser {
-            id
-          }
-        }` 
-      })
-      })
-    .then(res => res.json())
-    .then(res => console.log(res.data));
-  }, []);
+  const [session] = useSession();
 
   return (
     <Menu as="div" className="ml-3 relative">
@@ -55,7 +41,7 @@ export function ProfileDropdown(props) {
                 <ProfileDropdownLink key={item.label} {...item} />
               ))}
               <ProfileDropdownSignout />
-              <ProfileDropdownCurrentUser email={props.session?.user?.email} />
+              <ProfileDropdownCurrentUser email={session?.user?.email} />
             </Menu.Items>
           </Transition>
         </>

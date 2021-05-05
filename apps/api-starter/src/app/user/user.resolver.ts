@@ -1,7 +1,7 @@
 import Stripe from 'stripe';
+import { UseGuards } from '@nestjs/common';
 import { InjectStripe } from 'nestjs-stripe';
 import { Resolver, Query, Args } from '@nestjs/graphql';
-import { UseGuards, NotFoundException } from '@nestjs/common';
 //
 import { User } from './models/user.model';
 import { UserService } from './user.service';
@@ -24,17 +24,10 @@ export class UserResolver {
   }
 
   @UseGuards(JwtAuthGuard)
-  // @UseGuards(AuthenticatedGuard)
   @Query((_returns) => User)
-  // TODO: rename viewer
-  async currentUser(@GraphQLUser() user) {
-    console.log("IN RESOLVER")
-    try {
-      const currentUser = await this.userService.findUniqueById(user.id);
-      return currentUser;
-    } catch (err) {
-      throw new NotFoundException('Not user found with this ID.');
-    }
+  async viewer(@GraphQLUser() user) {
+    const viewer = await this.userService.findUniqueById(user.id);
+    return viewer;
   }
 
   // @Mutation(_returns => String)
