@@ -8,21 +8,23 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { AccountService } from '../account/account.service';
 import { SessionSerializer } from './util/session.serializer';
 import { JwtStrategy } from './util/jwt.strategy';
+import { JwtConfigService } from '../config/services/jwt.config';
+import { LocalConfigModule } from '../config/config.module';
 
 @Module({
   imports: [
     UserModule,
     PrismaModule,
+    LocalConfigModule,
     PassportModule.register({
       defaultStrategy: 'jwt',
     }),
-    JwtModule.register({
-      secret: JSON.stringify({
-        kty: 'oct',
-        kid: 'X-yjrKBannu7fp7LYP3pEDHnF5enDayamaFGVTxMf3M',
-        alg: 'HS512',
-        k: 'Z3DVSmbLvMCXeVcHQZcnBs4jERm7Ym8YpBpGNcNY62c',
+    JwtModule.registerAsync({
+      useFactory: (jwtConfig: JwtConfigService) => ({
+        secret: jwtConfig.jwtSigningKey,
       }),
+      imports: [LocalConfigModule],
+      inject: [JwtConfigService],
     }),
   ],
   providers: [AuthService, AccountService, JwtStrategy, SessionSerializer],
