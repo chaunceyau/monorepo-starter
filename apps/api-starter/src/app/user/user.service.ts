@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 //
-import { User } from './models/user.model';
+import { UserGraphModel } from './models/user.model';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -8,7 +8,7 @@ export class UserService {
   constructor(private prisma: PrismaService) {}
 
   // potentially dangerous - shows existence of an account...
-  async findByEmail(email: string): Promise<User | undefined> {
+  async findByEmail(email: string): Promise<UserGraphModel | undefined> {
     const user = await this.prisma.user.findUnique({
       where: { email },
     });
@@ -17,7 +17,7 @@ export class UserService {
     return result;
   }
 
-  async findUniqueById(id: string): Promise<User | undefined> {
+  async findUniqueById(id: string): Promise<UserGraphModel | undefined> {
     const user = await this.prisma.user.findUnique({
       where: { id },
     });

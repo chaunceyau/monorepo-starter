@@ -7,23 +7,16 @@ export default NextAuth({
   pages: {
     signIn: '/auth/signin',
   },
-  secret: JSON.stringify({
-    kty: 'oct',
-    kid: 'X-yjrKBannu7fp7LYP3pEDHnF5enDayamaFGVTxMf3M',
-    alg: 'HS512',
-    k: 'Z3DVSmbLvMCXeVcHQZcnBs4jERm7Ym8YpBpGNcNY62c',
-  }),
   session: {
     maxAge: 30 * 24 * 60 * 60,
   },
+  secret:
+    'eyJrdHkiOiJvY3QiLCJraWQiOiJYLXlqcktCYW5udTdmcDdMWVAzcEVESG5GNWVuRGF5YW1hRkdWVHhNZjNNIiwiYWxnIjoiSFM1MTIiLCJrIjoiWjNEVlNtYkx2TUNYZVZjSFFaY25CczRqRVJtN1ltOFlwQnBHTmNOWTYyYyJ9',
   jwt: {
-    signingKey: JSON.stringify({
-      kty: 'oct',
-      kid: 'X-yjrKBannu7fp7LYP3pEDHnF5enDayamaFGVTxMf3M',
-      alg: 'HS512',
-      k: 'Z3DVSmbLvMCXeVcHQZcnBs4jERm7Ym8YpBpGNcNY62c',
-    }),
+    signingKey:
+      'eyJrdHkiOiJvY3QiLCJraWQiOiJYLXlqcktCYW5udTdmcDdMWVAzcEVESG5GNWVuRGF5YW1hRkdWVHhNZjNNIiwiYWxnIjoiSFM1MTIiLCJrIjoiWjNEVlNtYkx2TUNYZVZjSFFaY25CczRqRVJtN1ltOFlwQnBHTmNOWTYyYyJ9',
     async encode({ secret, token, maxAge }) {
+      console.log({ token });
       return jwt.sign(token, secret);
     },
     async decode({ secret, token, maxAge }) {
@@ -56,7 +49,7 @@ export default NextAuth({
         }
 
         if (match.password === credentials.password) {
-          const {password, ...rest} = match
+          const { password, ...rest } = match;
           return Promise.resolve(rest);
         }
         return null;
@@ -90,3 +83,11 @@ const USERS = [
     password: 'password',
   },
 ];
+
+
+const secret = JSON.stringify({
+  kty: 'oct',
+  kid: 'X-yjrKBannu7fp7LYP3pEDHnF5enDayamaFGVTxMf3M',
+  alg: 'HS512',
+  k: 'Z3DVSmbLvMCXeVcHQZcnBs4jERm7Ym8YpBpGNcNY62c',
+});

@@ -7,10 +7,10 @@ import { InjectStripe } from 'nestjs-stripe'
 import { genSalt, hash } from 'bcrypt'
 import { Stripe } from 'stripe'
 import * as cuid from 'cuid'
+import { SubscriptionType } from '@prisma/client'
 //
 import { PrismaService } from '../prisma/prisma.service'
-import { User } from '../user/models/user.model'
-import { SubscriptionType } from '@prisma/client'
+import { UserGraphModel } from '../user/models/user.model'
 
 @Injectable()
 export class AccountService {
@@ -19,7 +19,7 @@ export class AccountService {
     @InjectStripe() private readonly stripeClient: Stripe
   ) { }
 
-  async createAccount(email: string, password: string): Promise<User> {
+  async createAccount(email: string, password: string): Promise<UserGraphModel> {
     if (!email || !password)
       throw new Error('You must provide email & password')
 
