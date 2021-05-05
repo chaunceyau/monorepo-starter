@@ -4,12 +4,10 @@ import { PassportModule } from '@nestjs/passport';
 //
 import { AuthService } from './auth.service';
 import { UserModule } from '../user/user.module';
-import { AuthController } from './auth.controller';
 import { PrismaModule } from '../prisma/prisma.module';
 import { AccountService } from '../account/account.service';
 import { SessionSerializer } from './util/session.serializer';
 import { JwtStrategy } from './util/jwt.strategy';
-import { JWTSECRET } from './util/jwt.secret.temp';
 
 @Module({
   imports: [
@@ -17,14 +15,16 @@ import { JWTSECRET } from './util/jwt.secret.temp';
     PrismaModule,
     PassportModule.register({
       defaultStrategy: 'jwt',
-      // session: false,
     }),
     JwtModule.register({
-      secret: JWTSECRET,
-      // secret: 'hm_randomsecret'
+      secret: JSON.stringify({
+        kty: 'oct',
+        kid: 'X-yjrKBannu7fp7LYP3pEDHnF5enDayamaFGVTxMf3M',
+        alg: 'HS512',
+        k: 'Z3DVSmbLvMCXeVcHQZcnBs4jERm7Ym8YpBpGNcNY62c',
+      }),
     }),
   ],
   providers: [AuthService, AccountService, JwtStrategy, SessionSerializer],
-  controllers: [AuthController],
 })
 export class AuthModule {}
