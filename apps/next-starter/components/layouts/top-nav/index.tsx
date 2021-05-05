@@ -7,6 +7,7 @@ import { TopNavigationItem } from './desktop/nav-item';
 import { NotificationButton } from './desktop/notification-button';
 import { ProfileDropdown } from './profile-dropdown';
 import { MobileMenuBody, MobileMenuButton } from './mobile';
+import Link from 'next/link';
 
 export const navigation = [
   { to: '/', label: 'Dashboard' },
@@ -38,13 +39,15 @@ export function TopNavigationLayout({
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between h-16">
                 <div className="flex items-center">
-                  <div id="top-navigation-logo" className="flex-shrink-0">
-                    <img
-                      className="h-8 w-8"
-                      src="https://tailwindui.com/img/logos/workflow-mark-indigo-300.svg"
-                      alt="Workflow"
-                    />
-                  </div>
+                  <Link href="/">
+                    <a id="top-navigation-logo" className="flex-shrink-0">
+                      <img
+                        className="h-8 w-8"
+                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-300.svg"
+                        alt="Workflow"
+                      />
+                    </a>
+                  </Link>
                   <LargerThanMobilePrimaryNav router={router} />
                 </div>
                 <LargerThanMobileRightNav session={session} />
