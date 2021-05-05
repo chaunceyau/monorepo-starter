@@ -11,6 +11,12 @@ export default NextAuth({
   },
   // A random string used to hash tokens, sign cookies and generate crytographic keys.
   // secret: stringified_signingKey,
+  // secret: JSON.stringify({
+  //   kty: 'oct',
+  //   kid: 'X-yjrKBannu7fp7LYP3pEDHnF5enDayamaFGVTxMf3M',
+  //   alg: 'HS512',
+  //   k: 'Z3DVSmbLvMCXeVcHQZcnBs4jERm7Ym8YpBpGNcNY62c',
+  // }),
   secret: JSON.stringify({
     kty: 'oct',
     kid: 'X-yjrKBannu7fp7LYP3pEDHnF5enDayamaFGVTxMf3M',
@@ -22,12 +28,12 @@ export default NextAuth({
   },
   jwt: {
     // secret: 'test_secret',
-    // signingKey: JSON.stringify({
-    //   kty: 'oct',
-    //   kid: 'X-yjrKBannu7fp7LYP3pEDHnF5enDayamaFGVTxMf3M',
-    //   alg: 'HS512',
-    //   k: 'Z3DVSmbLvMCXeVcHQZcnBs4jERm7Ym8YpBpGNcNY62c',
-    // }),
+    signingKey: JSON.stringify({
+      kty: 'oct',
+      kid: 'X-yjrKBannu7fp7LYP3pEDHnF5enDayamaFGVTxMf3M',
+      alg: 'HS512',
+      k: 'Z3DVSmbLvMCXeVcHQZcnBs4jERm7Ym8YpBpGNcNY62c',
+    }),
     // You can define your own encode/decode functions for signing and encryption
     // if you want to override the default behaviour.
     async encode({ secret, token, maxAge }) {
