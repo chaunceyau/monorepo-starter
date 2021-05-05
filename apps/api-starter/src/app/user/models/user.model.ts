@@ -1,11 +1,11 @@
 import { ObjectType, Field, registerEnumType } from '@nestjs/graphql';
 // import { SubscriptionType } from '@prisma/client'
 
-@ObjectType()
-export class User {
-  @Field(_type => String)
+@ObjectType('User')
+export class UserGraphModel {
+  @Field((_type) => String)
   id: string;
-  @Field(_type => String)
+  @Field((_type) => String)
   email: string;
   // @Field(_type => SubscriptionType)
   // subscription_type: SubscriptionType

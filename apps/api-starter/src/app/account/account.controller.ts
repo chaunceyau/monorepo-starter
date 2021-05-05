@@ -1,13 +1,13 @@
 import { Controller, Post, UseGuards, Body, Get } from '@nestjs/common';
 //
-import { User } from '../user/models/user.model';
+import { UserGraphModel } from '../user/models/user.model';
 import { AccountService } from './account.service';
 import { PoliciesGuard } from '../casl/policy-guard';
 import { RbacAbility } from '../casl/casl-ability.factory';
 import { Action, CheckPolicies } from '../casl/policy-types';
 import { UpdatePasswordDTO } from './dto/update-password.dto';
 import {
-  RESTUser,
+  AuthenticatedUser,
   ResponseObjectUser,
 } from '../common/decorators/user.decorator';
 import { AuthenticatedGuard } from '../common/guards/authenticated.guard';
@@ -19,7 +19,7 @@ export class AccountController {
   @Get('hm')
   @UseGuards(PoliciesGuard)
   // note - can't pass more here
-  @CheckPolicies((ability: RbacAbility) => ability.can(Action.Read, User))
+  @CheckPolicies((ability: RbacAbility) => ability.can(Action.Read, UserGraphModel))
   fdafds() {
     return 'fldmsalfmd';
   }
@@ -28,7 +28,7 @@ export class AccountController {
   @Post('changepass')
   async changePassword(
     @Body() body: UpdatePasswordDTO,
-    @RESTUser() user: ResponseObjectUser
+    @AuthenticatedUser() user: ResponseObjectUser
   ) {
     return this.accountService.changePassword(
       user.id,

@@ -7,7 +7,7 @@ import {
   PremiumPlanType,
 } from './models/create-subscription.input';
 import {
-  GraphQLUser,
+  AuthenticatedUser,
   ResponseObjectUser,
 } from '../common/decorators/user.decorator';
 import { PrismaService } from '../prisma/prisma.service';
@@ -33,7 +33,7 @@ export class SubscriptionResolver {
 
   @UseGuards(AuthenticatedGuard)
   @Query((_returns) => String)
-  async getBillingPortalSessionURL(@GraphQLUser() user: ResponseObjectUser) {
+  async getBillingPortalSessionURL(@AuthenticatedUser() user: ResponseObjectUser) {
     const db_user = await this.prisma.user.findUnique({
       where: { id: user.id },
     });
@@ -48,7 +48,7 @@ export class SubscriptionResolver {
   @Mutation((_returns) => CreateSubscriptionResponse)
   async createCheckoutSession(
     @Args('input') input: CreateSubscriptionInput,
-    @GraphQLUser() user: ResponseObjectUser
+    @AuthenticatedUser() user: ResponseObjectUser
   ) {
     const session = await this.subscriptionService.createCheckoutSession({
       customer_id: user.stripe_customer_id,
@@ -63,7 +63,7 @@ export class SubscriptionResolver {
   // @Mutation(_returns => CreateSubscriptionResponse)
   // async upgradeToPremium(
   //   @Args('input') { plan }: CreateSubscriptionInput,
-  //   @GraphQLUser() user: ResponseObjectUser
+  //   @AuthenticatedUser() user: ResponseObjectUser
   // ): Promise<CreateSubscriptionResponse> {
   //   const db_user = await this.prisma.user.findUnique({
   //     where: { id: user.id },

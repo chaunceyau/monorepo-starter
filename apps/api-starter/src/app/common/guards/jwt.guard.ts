@@ -1,7 +1,6 @@
-import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { ExecutionContext, Injectable } from '@nestjs/common';
-import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
+import { GqlExecutionContext } from '@nestjs/graphql';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -10,7 +9,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   // }
 
   getRequest(context: ExecutionContext) {
-    console.log('RUNNING GUARD');
     const ctx = GqlExecutionContext.create(context);
     return ctx.getContext().req;
   }
@@ -23,9 +21,17 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   //   }
   // }
 
-  canActivate(context: ExecutionContext) {
+  async canActivate(context: ExecutionContext) {
     console.log('canActivate?');
-    return super.canActivate(context);
+    const can = await super.canActivate(context);
+    if (can) {
+      console.log('1');
+      const ctx = GqlExecutionContext.create(context);
+      console.log(ctx.getContext().req.user);
+      await super.logIn(ctx.getContext().req);
+    }
+    console.log('2');
+    return true;
   }
   //   const isPublic = this.reflector.getAllAndOverride<boolean>('isPublic', [
   //     context.getHandler(),
