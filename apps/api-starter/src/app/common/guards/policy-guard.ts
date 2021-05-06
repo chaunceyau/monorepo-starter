@@ -1,7 +1,12 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { RbacAbility, CaslAbilityFactory } from './casl-ability.factory';
-import { CHECK_POLICIES_KEY, PolicyHandler } from './policy-types';
+import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+// Z
+import {
+  RbacAbility,
+  CaslAbilityFactory,
+} from '../../casl/casl-ability.factory';
+import { CHECK_POLICIES_KEY, PolicyHandler } from '../../casl/policy-types';
 
 @Injectable()
 export class PoliciesGuard implements CanActivate {
@@ -17,12 +22,23 @@ export class PoliciesGuard implements CanActivate {
         context.getHandler()
       ) || [];
 
-    const { user } = context.switchToHttp().getRequest();
-    const req = context.switchToHttp().getRequest();
+    let request;
+
+    if (context.getType() === 'http') {
+      request = context.switchToHttp().getRequest();
+    } else if (context.getType<GqlContextType>() === 'graphql') {
+      const ctx = GqlExecutionContext.create(context);
+      request = ctx.getContext().req;
+    }
+
+    if (!request) {
+      return false;
+    }
+
+    const { user } = request;
+    const req = request;
     // TODO: potentially pass variables here - req.body.variables
     const ability = this.caslAbilityFactory.createForUser(user);
-    console.log('req.body.variables');
-    console.log(req.body.variables);
     return policyHandlers.every((handler) =>
       this.execPolicyHandler(handler, ability)
     );

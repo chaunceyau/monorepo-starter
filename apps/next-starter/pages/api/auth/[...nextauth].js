@@ -16,7 +16,6 @@ export default NextAuth({
     signingKey:
       'eyJrdHkiOiJvY3QiLCJraWQiOiJYLXlqcktCYW5udTdmcDdMWVAzcEVESG5GNWVuRGF5YW1hRkdWVHhNZjNNIiwiYWxnIjoiSFM1MTIiLCJrIjoiWjNEVlNtYkx2TUNYZVZjSFFaY25CczRqRVJtN1ltOFlwQnBHTmNOWTYyYyJ9',
     async encode({ secret, token, maxAge }) {
-      console.log({ token });
       return jwt.sign(token, secret);
     },
     async decode({ secret, token, maxAge }) {
@@ -83,7 +82,6 @@ const USERS = [
     password: 'password',
   },
 ];
-
 
 const secret = JSON.stringify({
   kty: 'oct',
