@@ -1,10 +1,9 @@
 import { Controller, Post, UseGuards, Body, Get } from '@nestjs/common';
 //
-import { UserGraphModel } from '../user/models/user.model';
 import { AccountService } from './account.service';
-import { PoliciesGuard } from '../casl/policy-guard';
 import { RbacAbility } from '../casl/casl-ability.factory';
 import { Action, CheckPolicies } from '../casl/policy-types';
+import { PoliciesGuard } from '../common/guards/policy-guard';
 import { UpdatePasswordDTO } from './dto/update-password.dto';
 import {
   AuthenticatedUser,
@@ -18,10 +17,9 @@ export class AccountController {
 
   @Get('hm')
   @UseGuards(PoliciesGuard)
-  // note - can't pass more here
-  @CheckPolicies((ability: RbacAbility) => ability.can(Action.Read, UserGraphModel))
+  @CheckPolicies((ability: RbacAbility) => ability.can(Action.Read, 'User'))
   fdafds() {
-    return 'fldmsalfmd';
+    return this.accountService.testFunction();
   }
 
   @UseGuards(AuthenticatedGuard)

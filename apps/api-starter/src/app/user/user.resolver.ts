@@ -9,6 +9,9 @@ import { AuthenticatedUser } from '../common/decorators/user.decorator';
 // import { CreatePaymentInput } from './models/create-payment.input'
 import { AuthenticatedGuard } from '../common/guards/authenticated.guard';
 import { JwtAuthGuard } from '../common/guards/jwt.guard';
+import { Action, CheckPolicies } from '../casl/policy-types';
+import { RbacAbility } from '../casl/casl-ability.factory';
+import { PoliciesGuard } from '../common/guards/policy-guard';
 
 @Resolver((_of) => UserGraphModel)
 export class UserResolver {
@@ -24,7 +27,10 @@ export class UserResolver {
   }
 
   @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
   @Query((_returns) => UserGraphModel)
+  // @UseGuards(PoliciesGuard)
+  @CheckPolicies((ability: RbacAbility) => ability.can(Action.Read, 'User'))
   async viewer(@AuthenticatedUser() user) {
     const viewer = await this.userService.findUniqueById(user.id);
     return viewer;

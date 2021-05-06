@@ -14,14 +14,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         if (req && req.cookies) {
           token = req.cookies['next-auth.session-token'];
         }
-        console.log('grabbing jwtFromRequest, ' + token);
         return token;
       },
     });
   }
 
   async validate(payload: any) {
-    console.log('JwtStrategy: VALIDATING JWT', payload);
     return { id: payload.sub, name: payload.name, email: payload.email };
   }
 }

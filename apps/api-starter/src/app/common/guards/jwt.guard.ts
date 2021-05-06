@@ -22,15 +22,11 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   // }
 
   async canActivate(context: ExecutionContext) {
-    console.log('canActivate?');
     const can = await super.canActivate(context);
     if (can) {
-      console.log('1');
       const ctx = GqlExecutionContext.create(context);
-      console.log(ctx.getContext().req.user);
       await super.logIn(ctx.getContext().req);
     }
-    console.log('2');
     return true;
   }
   //   const isPublic = this.reflector.getAllAndOverride<boolean>('isPublic', [
