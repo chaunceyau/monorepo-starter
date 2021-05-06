@@ -115,6 +115,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "husky": "^6.0.0",
     "jest": "26.2.2",
+    "lint-staged": ">=10",
     "postcss": "^8.2.4",
     "prettier": "2.2.1",
     "prisma": "^2.22.0",
@@ -122,5 +123,9 @@
     "ts-jest": "26.4.0",
     "ts-node": "~9.1.1",
     "typescript": "~4.1.4"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.format:write": "prettier --write"
   }
 }
