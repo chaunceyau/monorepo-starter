@@ -10,11 +10,14 @@ import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app/app.module';
 import { GlobalConfigService } from './app/config/services/global.config';
 import { CookiesConfigService } from './app/config/services/cookies.config';
+import { CustomLogger } from './app/common/logger';
 
 async function bootstrap() {
 
   //
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: CustomLogger
+  });
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
 
