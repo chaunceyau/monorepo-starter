@@ -5,7 +5,6 @@ import { ValidationPipe } from '@nestjs/common';
 import * as helmet from 'helmet';
 import * as passport from 'passport';
 import * as cookieParser from 'cookie-parser';
-// import * as session from 'express-session';
 
 import { AppModule } from './app/app.module';
 import { GlobalConfigService } from './app/config/services/global.config';
@@ -34,20 +33,6 @@ async function bootstrap() {
   }
 
   app.use(cookieParser(cookiesConfigService.cookieSigningKey));
-
-  // app.use(
-  //   session({
-  //     secret: cookiesConfigService.cookieSigningKey,
-  //     resave: false,
-  //     saveUninitialized: true,
-  //     cookie: {
-  //       secure: false,
-  //       httpOnly: false,
-  //       domain: 'localhost',
-  //       maxAge: 60 * 60 * 60 * 60,
-  //     },
-  //   })
-  // );
 
   app.use(passport.initialize());
   app.use(passport.session());

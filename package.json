@@ -1,6 +1,6 @@
 {
   "name": "monorepo-starter",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "scripts": {
     "nx": "nx",
@@ -55,7 +55,6 @@
     "core-js": "^3.6.5",
     "cuid": "^2.1.8",
     "document-register-element": "1.13.1",
-    "express-session": "^1.17.1",
     "graphql": "^15.5.0",
     "helmet": "^4.5.0",
     "jsonwebtoken": "^8.5.1",
@@ -72,8 +71,7 @@
     "regenerator-runtime": "0.13.7",
     "rxjs": "~6.6.3",
     "stripe": "^8.145.0",
-    "tslib": "^2.0.0",
-    "v": "^0.3.0"
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.12.13",
