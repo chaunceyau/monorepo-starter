@@ -2,9 +2,36 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type PresignedUploadPayload {
+  fileId: String!
+  url: String!
+  fields: [AwsS3UploadDataField!]!
+}
+
+type AwsS3UploadDataField {
+  key: String!
+  value: String!
+}
+
+type PresignedImageAssetPayload {
+  url: String!
+}
+
 type User {
   id: String!
   email: String!
+}
+
+type UserGraphModelEdge {
+  cursor: String!
+  node: User!
+}
+
+type UserConnection {
+  edges: [UserGraphModelEdge!]
+  nodes: [User!]
+  totalCount: Int!
+  hasNextPage: Boolean!
 }
 
 type CreateSubscriptionResponse {
@@ -13,12 +40,42 @@ type CreateSubscriptionResponse {
 
 type Query {
   user(id: String!): User!
+  allUsers: UserConnection!
   viewer: User!
+  presignedImageAccess(input: AccessImageByKeyInput!): PresignedImageAssetPayload!
+  presignedUpload(input: AwsS3UploadOptions!): PresignedUploadPayload!
   getBillingPortalSessionURL: String!
 }
 
+input AccessImageByKeyInput {
+  key: String!
+}
+
+input AwsS3UploadOptions {
+  type: String!
+  size: Int!
+  fileName: String!
+  fileId: String!
+}
+
 type Mutation {
+  changePassword(input: UpdatePasswordInput!): ChangePasswordResult!
   createCheckoutSession(input: CreateSubscriptionInput!): CreateSubscriptionResponse!
+}
+
+union ChangePasswordResult = UpdatePasswordSuccess | UpdatePasswordFailed
+
+type UpdatePasswordSuccess {
+  message: String!
+}
+
+type UpdatePasswordFailed {
+  message: String!
+}
+
+input UpdatePasswordInput {
+  oldPassword: String!
+  newPassword: String!
 }
 
 input CreateSubscriptionInput {

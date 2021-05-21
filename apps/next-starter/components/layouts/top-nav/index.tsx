@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Link from 'next/link';
 import { Disclosure } from '@headlessui/react';
 //
 import { MainContent } from './main-content';
@@ -7,18 +8,12 @@ import { TopNavigationItem } from './desktop/nav-item';
 import { NotificationButton } from './desktop/notification-button';
 import { ProfileDropdown } from './profile-dropdown';
 import { MobileMenuBody, MobileMenuButton } from './mobile';
-import Link from 'next/link';
-
-export const navigation = [
-  { to: '/', label: 'Dashboard' },
-  { to: '/team', label: 'Team' },
-  { to: '/projects', label: 'Projects' },
-  { to: '/calendar', label: 'Calendar' },
-];
-export const profile = [
-  { label: 'Your Profile', to: '/account' },
-  { label: 'Settings', to: '/settings' },
-];
+//
+import {
+  PROFILE_DROPDOWN_LINKS,
+  PRIMARY_NAVIGATION_LINKS,
+} from 'apps/next-starter/util/routes/nav';
+import { UserSession } from 'apps/next-starter/util/types';
 
 export function TopNavigationLayout({
   children,
@@ -27,13 +22,13 @@ export function TopNavigationLayout({
   title,
 }: {
   children: React.ReactNode;
-  session: any;
-  router: any;
+  session: UserSession;
+  router?: any;
   title: string;
 }) {
   return (
-    <div className="h-screen bg-gray-100">
-      <Disclosure as="nav" className="bg-indigo-600">
+    <div className="flex flex-col min-h-screen bg-gray-100">
+      <Disclosure as="nav" className="bg-primary">
         {({ open }) => (
           <>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -42,9 +37,9 @@ export function TopNavigationLayout({
                   <Link href="/">
                     <a id="top-navigation-logo" className="flex-shrink-0">
                       <img
-                        className="h-8 w-8"
-                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-300.svg"
                         alt="Workflow"
+                        className="h-8 w-8"
+                        src="https://tailwindui.com/img/logos/workflow-mark.svg?color=green&shade=400"
                       />
                     </a>
                   </Link>
@@ -72,7 +67,10 @@ function LargerThanMobileRightNav(props) {
     <div className="hidden md:block">
       <div className="ml-4 flex items-center md:ml-6">
         <NotificationButton />
-        <ProfileDropdown session={props.session} profile={profile} />
+        <ProfileDropdown
+          session={props.session}
+          profile={PROFILE_DROPDOWN_LINKS}
+        />
       </div>
     </div>
   );
@@ -82,7 +80,7 @@ function LargerThanMobilePrimaryNav(props) {
   return (
     <div className="hidden md:block">
       <div className="ml-10 flex items-baseline space-x-4">
-        {navigation.map((item) => (
+        {PRIMARY_NAVIGATION_LINKS.map(item => (
           <TopNavigationItem key={item.to} {...item} router={props.router} />
         ))}
       </div>

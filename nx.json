@@ -17,6 +17,9 @@
       "tags": [],
       "implicitDependencies": ["next-starter"]
     },
-    "api-starter": { "tags": [] }
+    "api-starter": { "tags": [] },
+    "casl": { "tags": [] },
+    "api-upload": { "tags": [] },
+    "ui": { "tags": [] }
   }
 }

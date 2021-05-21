@@ -1,7 +1,10 @@
 {
   "name": "monorepo-starter",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
+  "engines": {
+    "node": "^12.0.0"
+  },
   "scripts": {
     "nx": "nx",
     "start": "nx serve",
@@ -28,14 +31,22 @@
     "help": "nx help",
     "prepare": "husky install",
     "prisma:migrate": "prisma migrate dev --schema=./apps/api-starter/prisma/schema.prisma",
-    "prisma:generate": "prisma generate --schema=./apps/api-starter/prisma/schema.prisma"
+    "prisma:gen": "prisma generate --schema=./apps/api-starter/prisma/schema.prisma",
+    "tailwind:gen": "tailwindcss-cli build ./apps/next-starter/styles/tailwind.css -o ./apps/next-starter/styles/tailwind.generated.css"
   },
   "private": true,
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.15.0",
+    "@aws-sdk/s3-presigned-post": "^3.15.0",
     "@casl/ability": "^5.2.2",
+    "@casl/prisma": "*",
+    "@casl/react": "^2.2.2",
+    "@chaunceyau/react-components": "^0.2.17",
+    "@devoxa/prisma-relay-cursor-connection": "^1.1.1",
     "@hapi/joi": "^17.1.1",
     "@headlessui/react": "^1.0.0",
     "@heroicons/react": "^1.0.1",
+    "@imgix/js-core": "^3.1.3",
     "@nestjs/common": "^7.0.0",
     "@nestjs/config": "^0.6.3",
     "@nestjs/core": "^7.0.0",
@@ -44,7 +55,7 @@
     "@nestjs/passport": "^7.1.5",
     "@nestjs/platform-express": "^7.0.0",
     "@ntegral/nestjs-sentry": "^2.0.6",
-    "@prisma/client": "^2.21.2",
+    "@prisma/client": "^2.22.1",
     "@sentry/node": "^6.3.1",
     "@tailwindcss/forms": "^0.3.2",
     "apollo-server-express": "^2.23.0",
@@ -54,8 +65,8 @@
     "cookie-parser": "^1.4.5",
     "core-js": "^3.6.5",
     "cuid": "^2.1.8",
+    "dataloader": "^2.0.0",
     "document-register-element": "1.13.1",
-    "express-session": "^1.17.1",
     "graphql": "^15.5.0",
     "helmet": "^4.5.0",
     "jsonwebtoken": "^8.5.1",
@@ -72,8 +83,7 @@
     "regenerator-runtime": "0.13.7",
     "rxjs": "~6.6.3",
     "stripe": "^8.145.0",
-    "tslib": "^2.0.0",
-    "v": "^0.3.0"
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.12.13",
@@ -91,6 +101,7 @@
     "@nrwl/next": "12.0.8",
     "@nrwl/node": "12.0.8",
     "@nrwl/react": "12.0.8",
+    "@nrwl/storybook": "^12.3.4",
     "@nrwl/tao": "12.0.8",
     "@nrwl/web": "12.0.8",
     "@nrwl/workspace": "12.0.8",
@@ -115,12 +126,18 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "husky": "^6.0.0",
     "jest": "26.2.2",
+    "lint-staged": ">=10",
     "postcss": "^8.2.4",
     "prettier": "2.2.1",
-    "prisma": "^2.21.2",
+    "prisma": "^2.22.1",
     "tailwindcss": "^2.1.2",
+    "tailwindcss-cli": "^0.1.2",
     "ts-jest": "26.4.0",
     "ts-node": "~9.1.1",
     "typescript": "~4.1.4"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.format:write": "prettier --write"
   }
 }

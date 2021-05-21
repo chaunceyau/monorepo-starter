@@ -1,14 +1,12 @@
-import { Module } from '@nestjs/common'
-// 
-import { AccountController } from './account.controller'
-import { AccountService } from './account.service'
-import { PrismaModule } from '../prisma/prisma.module'
-import { UserService } from '../user/user.service'
-import { CaslModule } from '../casl/casl.module'
+import { Module } from '@nestjs/common';
+//
+import { AccountService } from './account.service';
+import { UserService } from '../user/user.service';
+import { AccountResolver } from './account.resolvers';
+import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
-  imports: [PrismaModule, CaslModule],
-  providers: [AccountService, UserService],
-  controllers: [AccountController],
+  imports: [PrismaModule],
+  providers: [AccountService, AccountResolver, UserService],
 })
 export class AccountModule {}

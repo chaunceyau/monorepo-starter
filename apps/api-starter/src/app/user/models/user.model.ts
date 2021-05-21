@@ -1,8 +1,9 @@
 import { ObjectType, Field, registerEnumType } from '@nestjs/graphql';
+import { Paginated } from '../../common/pagination';
 // import { SubscriptionType } from '@prisma/client'
 
-@ObjectType()
-export class User {
+@ObjectType('User')
+export class UserGraphModel {
   @Field(_type => String)
   id: string;
   @Field(_type => String)
@@ -10,6 +11,9 @@ export class User {
   // @Field(_type => SubscriptionType)
   // subscription_type: SubscriptionType
 }
+
+@ObjectType('UserConnection')
+export class UserConnectionGraphModel extends Paginated(UserGraphModel) {}
 
 // enum SubscriptionType {
 //   FREE_TIER = 'FREE_TIER',

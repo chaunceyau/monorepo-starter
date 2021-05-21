@@ -13,10 +13,17 @@ model User {
   email                  String            @unique
   password               String
   salt                   String
-  subscription_type      SubscriptionType?
+  roles                  GlobalRole[]
+  subscription_type      SubscriptionType? 
   stripe_customer_id     String?           @unique
   stripe_subscription_id String?           @unique
   current_period_end     DateTime?
+}
+
+enum GlobalRole {
+  OWNER
+  ADMIN
+  STANDARD
 }
 
 enum SubscriptionType {

@@ -1,13 +1,12 @@
 import { getGreeting } from '../support/app.po';
 
 describe('next-starter', () => {
-  beforeEach(() => cy.visit('/'));
+  // beforeEach(() => cy.visit('/'));
 
-  it('should display welcome message', () => {
-    // Custom command example, see `../support/commands.ts` file
-    cy.login('my-email@something.com', 'myPassword');
-
-    // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains('Welcome to next-starter!');
+  it('should allow me to login', () => {
+    cy.visit('/auth/signin');
+    cy.get('#email').type('demo@gmail.com');
+    cy.get('#password').type('pass');
+    cy.get('#submit-login').click();
   });
 });

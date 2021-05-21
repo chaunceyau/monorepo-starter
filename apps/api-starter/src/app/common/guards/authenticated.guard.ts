@@ -23,6 +23,7 @@ export class AuthenticatedGuard implements CanActivate {
       const ctx = GqlExecutionContext.create(context);
       const req = ctx.getContext().req;
       // req.cookies['next-auth.session-token'] ||
+      console.log("AFLDSMALFMDSLM");
       return req?.user;
     }
   }

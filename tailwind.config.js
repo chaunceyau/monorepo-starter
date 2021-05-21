@@ -1,8 +1,16 @@
 module.exports = {
-  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  purge: [
+    './apps/next-starter/pages/**/*.{js,ts,jsx,tsx}',
+    './apps/next-starter/components/**/*.{js,ts,jsx,tsx}',
+  ],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#059669',
+        secondary: '#374151',
+      },
+    },
   },
   variants: {
     extend: {},

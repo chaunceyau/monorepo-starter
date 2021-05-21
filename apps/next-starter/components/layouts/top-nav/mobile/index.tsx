@@ -1,10 +1,14 @@
+import React from 'react';
+import Link from 'next/link';
 import { Disclosure } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
-import Link from 'next/link';
-import React from 'react';
-import { navigation, profile } from '..';
+//
+import {
+  PROFILE_DROPDOWN_LINKS,
+  PRIMARY_NAVIGATION_LINKS,
+} from 'apps/next-starter/util/routes/nav';
 
-export function MobileMenuBody(props) {
+export function MobileMenuBody() {
   return (
     <Disclosure.Panel className="md:hidden">
       <MobileMenuPrimaryLinks />
@@ -16,10 +20,10 @@ export function MobileMenuBody(props) {
   );
 }
 
-function MobileMenuPrimaryLinks(props) {
+function MobileMenuPrimaryLinks() {
   return (
     <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-      {navigation.map((item, itemIdx) =>
+      {PRIMARY_NAVIGATION_LINKS.map((item, itemIdx) =>
         itemIdx === 0 ? (
           <React.Fragment key={item.to}>
             {/* Current: "bg-indigo-700 text-white", Default: "text-white hover:bg-indigo-500 hover:bg-opacity-75" */}
@@ -40,10 +44,10 @@ function MobileMenuPrimaryLinks(props) {
     </div>
   );
 }
-function MobileMenuUserLinks(props) {
+function MobileMenuUserLinks() {
   return (
     <div className="px-2 space-y-1">
-      {profile.map((item) => (
+      {PROFILE_DROPDOWN_LINKS.map(item => (
         <Link key={item.label} href={item.to}>
           <a className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-indigo-500 hover:bg-opacity-75">
             {item.label}
@@ -54,7 +58,7 @@ function MobileMenuUserLinks(props) {
   );
 }
 
-function MobileMenuViewer(props) {
+function MobileMenuViewer() {
   return (
     <div className="flex items-center px-5 pt-4">
       <div className="flex-shrink-0">

@@ -1,21 +1,10 @@
 {
   "version": 2,
-  "cli": {
-    "defaultCollection": "@nrwl/next"
-  },
+  "cli": { "defaultCollection": "@nrwl/next" },
   "defaultProject": "next-starter",
   "generators": {
-    "@nrwl/react": {
-      "application": {
-        "babel": true
-      }
-    },
-    "@nrwl/next": {
-      "application": {
-        "style": "css",
-        "linter": "eslint"
-      }
-    }
+    "@nrwl/react": { "application": { "babel": true } },
+    "@nrwl/next": { "application": { "style": "css", "linter": "eslint" } }
   },
   "projects": {
     "next-starter": {
@@ -25,16 +14,12 @@
       "targets": {
         "build": {
           "executor": "@nrwl/next:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
             "root": "apps/next-starter",
             "outputPath": "dist/apps/next-starter"
           },
-          "configurations": {
-            "production": {}
-          }
+          "configurations": { "production": {} }
         },
         "serve": {
           "executor": "@nrwl/next:server",
@@ -52,15 +37,11 @@
         },
         "export": {
           "executor": "@nrwl/next:export",
-          "options": {
-            "buildTarget": "next-starter:build:production"
-          }
+          "options": { "buildTarget": "next-starter:build:production" }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/next-starter"
-          ],
+          "outputs": ["coverage/apps/next-starter"],
           "options": {
             "jestConfig": "apps/next-starter/jest.config.js",
             "passWithNoTests": true
@@ -69,9 +50,7 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/next-starter/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["apps/next-starter/**/*.{ts,tsx,js,jsx}"]
           }
         }
       }
@@ -89,17 +68,13 @@
             "devServerTarget": "next-starter:serve"
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "next-starter:serve:production"
-            }
+            "production": { "devServerTarget": "next-starter:serve:production" }
           }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/next-starter-e2e/**/*.{js,ts}"
-            ]
+            "lintFilePatterns": ["apps/next-starter-e2e/**/*.{js,ts}"]
           }
         }
       }
@@ -111,16 +86,12 @@
       "targets": {
         "build": {
           "executor": "@nrwl/node:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/api-starter",
             "main": "apps/api-starter/src/main.ts",
             "tsConfig": "apps/api-starter/tsconfig.app.json",
-            "assets": [
-              "apps/api-starter/src/assets"
-            ]
+            "assets": ["apps/api-starter/src/assets"]
           },
           "configurations": {
             "production": {
@@ -138,25 +109,74 @@
         },
         "serve": {
           "executor": "@nrwl/node:execute",
-          "options": {
-            "buildTarget": "api-starter:build"
-          }
+          "options": { "buildTarget": "api-starter:build" }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "apps/api-starter/**/*.ts"
-            ]
-          }
+          "options": { "lintFilePatterns": ["apps/api-starter/**/*.ts"] }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/api-starter"
-          ],
+          "outputs": ["coverage/apps/api-starter"],
           "options": {
             "jestConfig": "apps/api-starter/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "casl": {
+      "root": "libs/casl",
+      "sourceRoot": "libs/casl/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["libs/casl/**/*.ts"] }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/casl"],
+          "options": {
+            "jestConfig": "libs/casl/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "api-upload": {
+      "root": "libs/api-upload",
+      "sourceRoot": "libs/api-upload/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["libs/api-upload/**/*.ts"] }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/api-upload"],
+          "options": {
+            "jestConfig": "libs/api-upload/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "ui": {
+      "root": "libs/ui",
+      "sourceRoot": "libs/ui/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["libs/ui/**/*.{ts,tsx,js,jsx}"] }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui"],
+          "options": {
+            "jestConfig": "libs/ui/jest.config.js",
             "passWithNoTests": true
           }
         }
