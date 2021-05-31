@@ -33,7 +33,10 @@ export class UserResolver {
   }
 
   @Query(_returns => UserConnectionGraphModel)
-  async allUsers(@Args('input') input: ConnectionArguments) {
+  async allUsers(
+    @Args('input', { nullable: true, defaultValue: { first: 5 } })
+    input?: ConnectionArguments
+  ) {
     return this.userService.findAllConnection(input);
   }
 

@@ -19,7 +19,7 @@ model User {
   // Notification relationship
   notifications UserNotification[]
   // Stripe relationship
-  stripeSync    StripeSync?        @relation(fields: [stripeSyncId], references: [id])
+  stripeSync    StripeSync?        @relation(fields: stripeSyncId, references: id)
   stripeSyncId  String?            @map("stripe_sync_id")
 }
 

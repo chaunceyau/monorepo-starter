@@ -12,9 +12,8 @@ import { UpdatePasswordFailed } from './models/update-password.input';
 @Injectable()
 export class AccountService {
   constructor(
-    private prisma: PrismaService
-  ) // @InjectStripe() private readonly stripeClient: Stripe
-  {}
+    private prisma: PrismaService // @InjectStripe() private readonly stripeClient: Stripe
+  ) {}
 
   async createAccount(
     email: string,
@@ -47,7 +46,6 @@ export class AccountService {
           salt,
           email,
           password: hashedPassword,
-          subscription_type: SubscriptionType.FREE_TIER,
           // stripe_customer_id: stripe_user.id,
         },
       });

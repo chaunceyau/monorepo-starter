@@ -1,4 +1,5 @@
 import React from 'react'
+import {CheckCircleIcon} from '@heroicons/react/solid'
 import { LoadingSpinner } from '../misc/spinner'
 
 export interface ButtonProps {
@@ -58,6 +59,8 @@ function getButtonClasses({
     // padding
     'py-2',
     'px-4',
+    // position
+    'relative',
     // border
     'border',
     'border-transparent',
@@ -74,7 +77,7 @@ function getButtonClasses({
     'focus:ring-2',
     'focus:outline-none',
     'focus:ring-offset-2',
-    'focus:ring-indigo-500'
+    'focus:ring-indigo-500',
   ]
 
   switch (buttonStyle) {
@@ -151,6 +154,12 @@ export function Button(props: ButtonProps) {
       <LoadingSpinner color='white' />
     </div>
   )
+  
+  const switchingToDone = (
+    <div className='absolute w-full h-full flex items-center justify-center -mt-2'>
+      <CheckCircleIcon height={20} width={20} />
+    </div>
+  )
 
   const buttonProps = getButtonProps({
     type: props.type,
@@ -160,12 +169,40 @@ export function Button(props: ButtonProps) {
     onClick: props.onClick
   })
 
+  const buttonState = useButtonState(props.loading);
+
   return (
     <button {...buttonProps}>
-      {props.loading ? spinner : null}
-      <span className={props.loading ? 'opacity-0' : 'font-bold'}>
+      {buttonState === 'loading' ? spinner : null}
+      {buttonState === 'switching-to-done' ? switchingToDone : null}
+      <span className={buttonState === 'loading' || buttonState === 'switching-to-done' ? 'opacity-0' : 'font-bold'}>
         {props.children}
       </span>
     </button>
   )
+}
+
+function useButtonState(loading: boolean) {
+  const [buttonState, setButtonState] = React.useState<'idle' |'loading' | 'switching-to-done' | 'done'>('idle')
+
+  React.useEffect(() => {
+    if (loading) {
+      setButtonState('loading')
+    }
+  }, [loading])
+  
+  React.useEffect(() => {
+    setButtonState(prevState => {
+      if (!loading && prevState === 'loading') {
+        setTimeout(() => {
+          setButtonState('done')
+        }, 1000)
+        return 'switching-to-done'
+      }
+
+      return prevState
+    })
+  }, [buttonState, loading])
+
+  return buttonState
 }

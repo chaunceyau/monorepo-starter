@@ -16,7 +16,7 @@ export default function AccountPage() {
       },
       credentials: 'include',
       body: JSON.stringify({
-        query: '{ allUsers { edges { node { id } } totalCount } }',
+        query: '{ allUsers { edges { node { id email } } pageInfo { startCursor } } }',
       }),
     })
       .then(r => r.json())
@@ -29,6 +29,7 @@ export default function AccountPage() {
           id="account-settings"
           styled
           onSubmit={async () => {
+            console.log("FLDSAMFLDSMALFDS");
             return new Promise((resolve, _reject) =>
               setTimeout(() => resolve(), 5000)
             );

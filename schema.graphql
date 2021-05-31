@@ -46,7 +46,7 @@ type CreateSubscriptionResponse {
 
 type Query {
   user(id: String!): User!
-  allUsers(input: ConnectionArguments!): UserConnection!
+  allUsers(input: ConnectionArguments = {first: 5}): UserConnection!
   viewer: User!
   presignedImageAccess(input: AccessImageByKeyInput!): PresignedImageAssetPayload!
   presignedUpload(input: AwsS3UploadOptions!): PresignedUploadPayload!

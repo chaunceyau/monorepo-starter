@@ -161,9 +161,9 @@ export function Form({
   return (
     // todo pass formId to form children
     <form id={id} onSubmit={handleSubmit(onSubmit)}>
-      <div className={styled ? 'border rounded-lg bg-white py-6 px-8' : ''}>
+      <div className={styled ? 'border rounded-lg bg-white py-6 px-8 shadow-sm relative' : ''}>
         {title ? <FormHeader title={title} description={description} /> : null}
-        <div className='flex flex-col space-y-4 py-6'>
+        <div className='flex flex-col space-y-4 pt-6 pb-20'>
           <RHForm.FormProvider {...methods}>
             {React.Children.map(children, (child) => {
               switch (child.type) {
@@ -172,7 +172,7 @@ export function Form({
                     <div
                       className={
                         styled
-                          ? 'bg-gray-100 py-4 px-8 rounded-b-lg border border-t-0 flex justify-end'
+                          ? 'bg-gray-100 py-4 px-8 rounded-b-lg shadow-t flex justify-end absolute bottom-0 left-0 w-full'
                           : 'pt-2'
                       }
                     >

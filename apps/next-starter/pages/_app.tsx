@@ -17,6 +17,8 @@ Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
 function CustomApp({ Component, pageProps }: AppProps) {
+  // @ts-ignore
+  const getLayout = Component.getLayout || (page => page)
   return (
     <>
       <Head>
@@ -27,7 +29,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <AbilityContext.Provider
           value={createAbilitiesForUser(pageProps.session?.user)}
         >
-          <Component {...pageProps} />
+          {getLayout(<Component {...pageProps} />)}
         </AbilityContext.Provider>
       </Provider>
     </>

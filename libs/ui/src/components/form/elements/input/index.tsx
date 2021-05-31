@@ -12,7 +12,7 @@ export interface FormInputProps {
 }
 
 function getFormInputStyles({ loading, error }: any) {
-  let textColor = 'text-gray-700'
+  let textColor = 'text-gray-700' 
 
   const inputBaseClasses = [
     'border',

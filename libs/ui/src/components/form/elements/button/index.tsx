@@ -11,8 +11,8 @@ export function FormButton(props: FormButtonProps) {
     <Button
       {...props}
       type='submit'
-      loading={!!ctx?.formState?.isSubmitting}
-      disabled={false}
+      loading={ctx.formState.isSubmitting}
+      disabled={props.disabled}
     />
   )
 }

@@ -1,11 +1,11 @@
 import React from 'react';
-import { signIn, signOut, getSession } from 'next-auth/client';
+import { signIn, getSession } from 'next-auth/client';
 //
 import { TopNavigationLayout } from '../components/layouts/top-nav';
 
 export default function Dashboard({ session, router }) {
   return (
-    <TopNavigationLayout session={session} router={router} title="Dashboard">
+    <>
       {!session && (
         <div>
           <span>
@@ -19,8 +19,16 @@ export default function Dashboard({ session, router }) {
           <h2 className="text-xl font-bold">Welcome, {session.user.email}!</h2>
         </div>
       )}
-    </TopNavigationLayout>
+    </>
   );
+}
+
+Dashboard.getLayout = page => {
+  return (
+    <TopNavigationLayout session={page.props.session} router={null} title="Dashboard">
+      {page}
+    </TopNavigationLayout>
+  )
 }
 
 export async function getServerSideProps(context) {

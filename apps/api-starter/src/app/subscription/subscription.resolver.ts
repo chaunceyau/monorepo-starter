@@ -32,20 +32,23 @@ export class SubscriptionResolver {
   };
 
   @UseGuards(AuthenticatedGuard)
-  @Query((_returns) => String)
-  async getBillingPortalSessionURL(@AuthenticatedUser() user: ResponseObjectUser) {
-    const db_user = await this.prisma.user.findUnique({
-      where: { id: user.id },
+  @Query(_returns => String)
+  async getBillingPortalSessionURL(
+    @AuthenticatedUser() user: ResponseObjectUser
+  ) {
+    const stripeRecord = await this.prisma.stripeSync.findFirst({
+      where: { relatedUser: { id: user.id } },
     });
+    
     const url = await this.subscriptionService.createBillingPortalSession({
-      customer_id: db_user.stripe_customer_id,
+      customer_id: stripeRecord.stripeCustomerId,
     });
 
     return url;
   }
 
   @UseGuards(AuthenticatedGuard)
-  @Mutation((_returns) => CreateSubscriptionResponse)
+  @Mutation(_returns => CreateSubscriptionResponse)
   async createCheckoutSession(
     @Args('input') input: CreateSubscriptionInput,
     @AuthenticatedUser() user: ResponseObjectUser

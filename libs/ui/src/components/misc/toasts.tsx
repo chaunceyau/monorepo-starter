@@ -13,7 +13,7 @@ export const Toasts = () => {
 
   return ReactDOM.createPortal(
     <div
-      className="fixed top-0 right-0 max-w-sm w-full h-screen flex flex-col pt-6 space-y-6 px-4"
+      className="fixed top-0 right-0 max-w-sm w-full flex flex-col space-y-6 px-4"
       onMouseEnter={startPause}
       onMouseLeave={endPause}
     >
