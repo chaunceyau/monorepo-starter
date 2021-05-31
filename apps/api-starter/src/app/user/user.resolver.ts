@@ -3,7 +3,6 @@ import { subject } from '@casl/ability';
 import { UseGuards } from '@nestjs/common';
 import { InjectStripe } from 'nestjs-stripe';
 import { Resolver, Query, Args } from '@nestjs/graphql';
-import { findManyCursorConnection } from '@devoxa/prisma-relay-cursor-connection';
 //
 import { DatabaseAction, RbacAbility } from '@monorepo-starter/casl';
 //
@@ -14,6 +13,7 @@ import { AuthenticatedUser } from '../common/decorators/user.decorator';
 import { JwtAuthGuard } from '../common/guards/jwt.guard';
 import { CheckPolicies } from '../casl/types';
 import { PoliciesGuard } from '../common/guards/policy-guard';
+import { ConnectionArguments } from '../common/pagination';
 
 @Resolver(_of => UserGraphModel)
 export class UserResolver {
@@ -33,8 +33,8 @@ export class UserResolver {
   }
 
   @Query(_returns => UserConnectionGraphModel)
-  async allUsers() {
-    return this.userService.findAllConnection();
+  async allUsers(@Args('input') input: ConnectionArguments) {
+    return this.userService.findAllConnection(input);
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)

@@ -30,8 +30,14 @@ type UserGraphModelEdge {
 type UserConnection {
   edges: [UserGraphModelEdge!]
   nodes: [User!]
-  totalCount: Int!
+  pageInfo: PaginationPageInfo!
+}
+
+type PaginationPageInfo {
   hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String!
+  endCursor: String!
 }
 
 type CreateSubscriptionResponse {
@@ -40,11 +46,18 @@ type CreateSubscriptionResponse {
 
 type Query {
   user(id: String!): User!
-  allUsers: UserConnection!
+  allUsers(input: ConnectionArguments!): UserConnection!
   viewer: User!
   presignedImageAccess(input: AccessImageByKeyInput!): PresignedImageAssetPayload!
   presignedUpload(input: AwsS3UploadOptions!): PresignedUploadPayload!
   getBillingPortalSessionURL: String!
+}
+
+input ConnectionArguments {
+  first: Int
+  after: String
+  last: Int
+  before: String
 }
 
 input AccessImageByKeyInput {

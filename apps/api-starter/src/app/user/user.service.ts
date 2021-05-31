@@ -6,21 +6,26 @@ import {
 //
 import { UserGraphModel } from './models/user.model';
 import { PrismaService } from '../prisma/prisma.service';
-import { Prisma } from '.prisma/client';
+import { getPaginationArgs } from '../common/pagination';
 
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async findAllConnection(where?: ConnectionArguments) {
-    const users = await this.prisma.user.findMany({
-      // TODO: test this...
-      where: where as Prisma.UserWhereInput,
-    });
+  async findAllConnection(input?: ConnectionArguments) {
+    const pagination = getPaginationArgs(input);
+    // TODO: make sure cursor exists..
+    const [users, count] = await this.prisma.$transaction([
+      this.prisma.user.findMany({
+        ...pagination,
+      }),
+      this.prisma.user.count(),
+    ]);
+
     return await findManyCursorConnection(
       async () => users,
-      async () => users.length,
-      where
+      async () => count,
+      input
     );
   }
 
@@ -38,9 +43,7 @@ export class UserService {
     const user = await this.prisma.user.findUnique({
       where: { id },
     });
-    if (!user) {
-      throw new NotFoundException();
-    }
+    if (!user) throw new NotFoundException();
     const { password, salt, ...result } = user;
     return result;
   }

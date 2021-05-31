@@ -3,14 +3,14 @@
   "version": "0.0.1",
   "license": "MIT",
   "engines": {
-    "node": "^12.0.0"
+    "node": "^16.0.0"
   },
   "scripts": {
     "nx": "nx",
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
-    "api": "nx serve api-starter",
+    "api": "npm run prisma:gen && nx serve api-starter",
     "client": "nx serve next-starter",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",

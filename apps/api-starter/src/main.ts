@@ -21,7 +21,11 @@ async function bootstrap() {
   const cookiesConfigService = app.get(CookiesConfigService);
 
   app.enableCors(globalConfigService.corsConfig);
-  app.use(helmet());
+  app.use(
+    helmet({
+      contentSecurityPolicy: false,
+    })
+  );
 
   if (!globalConfigService.inDevelopment) {
     // @ts-ignore
