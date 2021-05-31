@@ -1,6 +1,6 @@
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-1.0.x"]
+  provider        = "prisma-client-js"
+  binaryTargets   = ["native", "rhel-openssl-1.0.x"]
   previewFeatures = ["selectRelationCount"]
 }
 
@@ -10,21 +10,39 @@ datasource db {
 }
 
 model User {
-  id                     String            @id
-  email                  String            @unique
-  password               String
-  salt                   String
-  roles                  GlobalRole[]
-  subscription_type      SubscriptionType? 
-  stripe_customer_id     String?           @unique
-  stripe_subscription_id String?           @unique
-  current_period_end     DateTime?
+  id            String             @id
+  email         String             @unique
+  password      String
+  salt          String
+  // Roles relationship
+  roles         GlobalRole[]
+  // Notification relationship
+  notifications UserNotification[]
+  // Stripe relationship
+  stripeSync    StripeSync?        @relation(fields: [stripeSyncId], references: [id])
+  stripeSyncId  String?            @map("stripe_sync_id")
+}
+
+model UserNotification {
+  id      String @id
+  message String
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
 }
 
 enum GlobalRole {
   OWNER
   ADMIN
   STANDARD
+}
+
+model StripeSync {
+  id                   String            @id
+  subscriptionType     SubscriptionType? @map("subscription_type")
+  stripeCustomerId     String?           @unique @map("stripe_customer_id")
+  stripeSubscriptionId String?           @unique @map("stripe_subscription_id")
+  relatedUser          User?
+  currentPeriodEnd     DateTime?         @map("current_period_end")
 }
 
 enum SubscriptionType {

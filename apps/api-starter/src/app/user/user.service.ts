@@ -15,6 +15,7 @@ export class UserService {
   async findAllConnection(input?: ConnectionArguments) {
     const pagination = getPaginationArgs(input);
     // TODO: make sure cursor exists..
+    // TODO: add dataloader..
     const [users, count] = await this.prisma.$transaction([
       this.prisma.user.findMany({
         ...pagination,
