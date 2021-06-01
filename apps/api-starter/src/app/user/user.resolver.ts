@@ -2,7 +2,7 @@ import Stripe from 'stripe';
 import { subject } from '@casl/ability';
 import { UseGuards } from '@nestjs/common';
 import { InjectStripe } from 'nestjs-stripe';
-import { Resolver, Query, Args } from '@nestjs/graphql';
+import { Resolver, Query, Args, ResolveField } from '@nestjs/graphql';
 //
 import { DatabaseAction, RbacAbility } from '@monorepo-starter/casl';
 //
@@ -14,6 +14,7 @@ import { JwtAuthGuard } from '../common/guards/jwt.guard';
 import { CheckPolicies } from '../casl/types';
 import { PoliciesGuard } from '../common/guards/policy-guard';
 import { ConnectionArguments } from '../common/pagination';
+import { SubscriptionGraphModel } from '../subscription/models/subscription.model';
 
 @Resolver(_of => UserGraphModel)
 export class UserResolver {
@@ -47,6 +48,20 @@ export class UserResolver {
   )
   async viewer(@AuthenticatedUser() user) {
     return await this.userService.findUniqueById(user.id);
+  }
+
+  @ResolveField(_type => SubscriptionGraphModel, { nullable: true })
+  async subscription() {
+    console.log('l213m4l23m143');
+    const stripeResponse = {
+      id: 'string',
+      planTitle: 'planTitlee',
+      planAmount: 250000,
+      billingFrequency: 'monthly',
+      upcomingAmountDue: 500000,
+      upcomingDueDate: 102340023,
+    };
+    return stripeResponse;
   }
 
   // @Mutation(_returns => String)

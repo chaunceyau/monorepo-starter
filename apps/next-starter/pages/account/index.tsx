@@ -17,7 +17,7 @@ export default function AccountPage() {
       },
       credentials: 'include',
       body: JSON.stringify({
-        query: '{ allUsers { edges { node { id email } } pageInfo { startCursor } } }',
+        query: '{ allUsers { edges { node { id email subscription { id planAmount upcomingAmountDue upcomingDueDate } } } pageInfo { startCursor } } }',
       }),
     })
       .then(r => r.json())

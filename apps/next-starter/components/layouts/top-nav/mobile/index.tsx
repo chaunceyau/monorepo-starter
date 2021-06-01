@@ -70,7 +70,7 @@ function MobileMenuViewer() {
       </div>
       <div className="ml-3">
         <div className="text-base font-medium text-white">Tom Cook</div>
-        <div className="text-sm font-medium text-primary">
+        <div className="text-sm font-medium text-green-900">
           tom@example.com
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { ObjectType, Field, registerEnumType } from '@nestjs/graphql';
 import { Paginated } from '../../common/pagination';
+import { SubscriptionGraphModel } from '../../subscription/models/subscription.model';
 // import { SubscriptionType } from '@prisma/client'
 
 @ObjectType('User')
@@ -8,6 +9,8 @@ export class UserGraphModel {
   id: string;
   @Field(_type => String)
   email: string;
+  @Field(_type => SubscriptionGraphModel, {nullable: true})
+  subscription?: SubscriptionGraphModel;
   // @Field(_type => SubscriptionType)
   // subscription_type: SubscriptionType
 }

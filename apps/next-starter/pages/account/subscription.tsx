@@ -1,15 +1,12 @@
 import React from 'react';
 import { getSession } from 'next-auth/client';
-import { HeartIcon } from '@heroicons/react/solid';
+import { Transition } from '@headlessui/react';
 //
-import { Button, Card, Form, FormButton, FormRadioGroup, FormSelect, H3 } from '@monorepo-starter/ui';
+import { Button, Card, Form, FormButton, FormRadioGroup } from '@monorepo-starter/ui';
 //
 import { TopNavigationLayout } from 'apps/next-starter/components/layouts/top-nav';
 import { ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS } from 'apps/next-starter/util/routes/nav';
 import { VerticalNavigationLayout } from 'apps/next-starter/components/layouts/vertical-nav';
-import { Transition } from '@headlessui/react';
-import { FormRadioOption } from 'libs/ui/src/components/form/elements/radio/option';
-// geometric-zig-zag-bg
 
 const BillingDetailCard = (props) => {
   return (
@@ -24,6 +21,8 @@ const BillingDetailCard = (props) => {
 
 export default function AccountSubscriptionPage() {
   const [showPlans, setShowPlans] = React.useState(false)
+  // todo: maybe delete?
+  const subscriptionPlansRef = React.useRef(null)
   return (
     <div className="space-y-6">
       <Card title="Subscription Information" description="Information about your subscription and any associated charges.">
@@ -33,7 +32,17 @@ export default function AccountSubscriptionPage() {
             amount={2500}
             bottomLine="Company Plus"
             button={
-              <Button buttonStyle="secondary" onClick={() => {setShowPlans(v => !v)}}>
+              <Button buttonStyle="secondary" onClick={() => {setShowPlans(v => {
+
+                // if (!v) {
+                //   setTimeout(() => {
+                //     subscriptionPlansRef.current?.scrollIntoView({behavior: "smooth", block: "start" })
+
+                //   }, 150)
+                // }
+
+                return !v
+              })}}>
                 Change Plan
               </Button>
             }
@@ -50,6 +59,7 @@ export default function AccountSubscriptionPage() {
             }
           />
         </div>
+        <div ref={subscriptionPlansRef}>
         <Transition
           show={showPlans}
           enter="duration-300"
@@ -59,20 +69,9 @@ export default function AccountSubscriptionPage() {
           leaveFrom="opacity-100 scale-y-100"
           leaveTo="opacity-0 scale-y-75"
         >
-
-            <Form onSubmit={() => {}} id="subscriptionPlan" styled={false}>
-              <FormRadioGroup
-                name="subscriptionPlan"
-                label="Subscription Plans" 
-                options={[
-                  {id:"12",value:"Basic Subscription Plan", caption:"$25/month"},
-                  {id:"13",value:"Premium Subscription Plan", caption:"$50/month"},
-                ]}
-              />
-              <FormButton buttonStyle="primary">Change Plan</FormButton>
-            </Form>
+          <Plans />
         </Transition>
-
+        </div>
       </Card>
       <Card title="Payment History" description="Information about your subscription and any associated charges.">
         <CardStack/> 
@@ -80,7 +79,25 @@ export default function AccountSubscriptionPage() {
     </div>
   );
 
-}/* This example requires Tailwind CSS v2.0+ */
+}
+
+const Plans = (props) => {
+  return (  
+    <Form onSubmit={() => {}} id="subscriptionPlan" styled={false}>
+      <FormRadioGroup
+        name="subscriptionPlan"
+        label="Subscription Plans" 
+        options={[
+          {id:"12",value:"Basic Subscription Plan", caption:"$25/month"},
+          {id:"13",value:"Premium Subscription Plan", caption:"$50/month"},
+        ]}
+      />
+      <FormButton buttonStyle="primary">Change Plan</FormButton>
+    </Form>
+  )
+}
+
+/* This example requires Tailwind CSS v2.0+ */
 const items = [
   { id: "1" },
   { id: "2" },

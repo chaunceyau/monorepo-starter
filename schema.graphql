@@ -17,9 +17,19 @@ type PresignedImageAssetPayload {
   url: String!
 }
 
+type Subscription {
+  id: ID!
+  planTitle: String!
+  planAmount: Int!
+  billingFrequency: String!
+  upcomingAmountDue: Int!
+  upcomingDueDate: Int!
+}
+
 type User {
   id: String!
   email: String!
+  subscription: Subscription
 }
 
 type UserGraphModelEdge {
