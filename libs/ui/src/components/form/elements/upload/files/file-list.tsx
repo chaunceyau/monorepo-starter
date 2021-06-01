@@ -39,5 +39,24 @@ export function FileList(props: FileListProps) {
     wrapperClasses.push('bg-gray-200')
   }
 
-  return null
+  return props.value.length ? (
+    <div className={wrapperClasses.join(' ')}>
+      <ul className={ulClasses.join(' ')}>
+        {props.value.map((fileState) => (
+          <FileListItem
+            {...fileState}
+            key={fileState.id}
+            name={props.name}
+            presignedUpload={props.presignedUpload}
+            onUploadComplete={props.onUploadComplete}
+          />
+        ))}
+      </ul>
+      {ctx.formState.isSubmitting || !props.allowMultipleFiles ? null : (
+        <Button fluid buttonStyle='secondary' onClick={onClickAddImageButton}>
+          Add another file
+        </Button>
+      )}
+    </div>
+  ) : null
 }
