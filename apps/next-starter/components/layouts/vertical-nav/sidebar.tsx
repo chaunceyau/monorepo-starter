@@ -40,11 +40,11 @@ export function VerticalNavigationSidebar(
                   active
                     ? 'text-white'
                     : 'text-gray-400 group-hover:text-gray-500',
-                  'flex-shrink-0 -ml-1 mr-3 h-5 w-5 my-px'
+                  'flex-shrink-0 -ml-1 h-5 w-5 my-px'
                 )}
                 aria-hidden="true"
               />
-              <span className="truncate">{item.label}</span>
+              <span className="truncate pl-3">{item.label}</span>
             </a>
           </Link>
         );

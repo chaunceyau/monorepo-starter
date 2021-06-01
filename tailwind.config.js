@@ -6,6 +6,11 @@ module.exports = {
     './apps/next-starter/components/**/*.{js,ts,jsx,tsx}',
   ],
   darkMode: false, // or 'media' or 'class'
+  variants: {
+    extend: {
+      backgroundColor: ['odd', 'even'],
+    },
+  },
   theme: {
     extend: {
       colors: {
@@ -13,9 +18,6 @@ module.exports = {
         secondary: '#374151',
       },
     },
-  },
-  variants: {
-    extend: {},
   },
   plugins: [require('@tailwindcss/forms')],
 };

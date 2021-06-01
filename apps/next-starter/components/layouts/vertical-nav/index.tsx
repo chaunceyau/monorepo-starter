@@ -14,7 +14,7 @@ interface VerticalNavigationLayoutProps {
 
 export function VerticalNavigationLayout(props: VerticalNavigationLayoutProps) {
   return (
-    <div className="flex w-full">
+    <div className="flex w-full flex-col md:flex-row space-y-8 md:space-y-0">
       <VerticalNavigationSidebar
         navLinks={ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS}
       />
