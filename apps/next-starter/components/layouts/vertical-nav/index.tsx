@@ -14,11 +14,11 @@ interface VerticalNavigationLayoutProps {
 
 export function VerticalNavigationLayout(props: VerticalNavigationLayoutProps) {
   return (
-    <div className="flex">
+    <div className="flex w-full">
       <VerticalNavigationSidebar
         navLinks={ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS}
       />
-      <div>{props.children}</div>
+      <div className="flex-grow">{props.children}</div>
     </div>
   );
 }

@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.geometric-zig-zag-bg {
+  background-color: #a5ffc5;
+  opacity: 0.8;
+  background: linear-gradient(135deg, #44ad4b55 25%, transparent 25%) -10px 0/
+      20px 20px,
+    linear-gradient(225deg, #44ad4b 25%, transparent 25%) -10px 0/ 20px 20px,
+    linear-gradient(315deg, #44ad4b55 25%, transparent 25%) 0px 0/ 20px 20px,
+    linear-gradient(45deg, #44ad4b 25%, #a5ffc5 25%) 0px 0/ 20px 20px;
+}

@@ -6,7 +6,6 @@ import * as RHForm from 'react-hook-form'
 import { Toasts } from '../misc/toasts'
 import { FormButton } from './elements/button'
 import { FormUpload } from './elements/upload'
-import { FormHeader } from './elements/misc/header'
 import { FormInput } from './elements/input'
 import { FormToggle } from './elements/toggle'
 import { FormSelect } from './elements/select'
@@ -14,6 +13,8 @@ import { FormDivider } from './elements/divider'
 import { FormRadioGroup, FormRadioGroupProps } from './elements/radio'
 import { FormTextarea } from './elements/textarea'
 import { FormDateInput } from './elements/date'
+import { CardHeader } from '../card/header'
+import { Card } from '@monorepo-starter/ui'
 
 export interface FormProps {
   id: string
@@ -161,8 +162,9 @@ export function Form({
   return (
     // todo pass formId to form children
     <form id={id} onSubmit={handleSubmit(onSubmit)}>
-      <div className={styled ? 'border rounded-lg bg-white py-6 px-8 shadow-sm relative' : ''}>
-        {title ? <FormHeader title={title} description={description} /> : null}
+      <Card styled={styled}>
+        {/* <div className={styled ? 'border rounded-lg bg-white py-6 px-8 shadow-sm relative' : ''}> */}
+        {title ? <CardHeader title={title} description={description} /> : null}
         <div className='flex flex-col space-y-4 pt-6 pb-20'>
           <RHForm.FormProvider {...methods}>
             {React.Children.map(children, (child) => {
@@ -186,8 +188,7 @@ export function Form({
             })}
           </RHForm.FormProvider>
         </div>
-      </div>
-
+      </Card>
       <Toasts />
     </form>
   )

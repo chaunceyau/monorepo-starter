@@ -1,17 +1,15 @@
 import React from 'react'
+import { CardHeader } from './header'
 
 interface CardProps {
   title?: string
   description?: string
   actions?: any[]
+  styled?: boolean;
+  children?: React.ReactNode
 }
-export function Card({ title, description, actions }: CardProps) {
-  const Title = title ? <h2 className='text-xl font-medium'>{title}</h2> : null
 
-  const Description = description ? (
-    <p className='text-base text-gray-700'>{description}</p>
-  ) : null
-
+export function Card({ title, description, actions, styled = true, children }: CardProps) {
   const Actions =
     actions?.map((action) => (
       <button
@@ -22,14 +20,18 @@ export function Card({ title, description, actions }: CardProps) {
       </button>
     )) || null
 
+  const wrapperClasses = ['w-full max-w-4xl']
+
+  if (styled) {
+    wrapperClasses.push('border rounded-lg bg-white pt-4 pb-5 px-6 shadow-sm relative')
+  }
+
   return (
-    <div className='border rounded-lg bg-white w-full max-w-4xl pt-4 pb-5 px-4'>
-      <div className='flex items-start justify-between space-x-2'>
-        <div>
-          {Title}
-          {Description}
-        </div>
-        <div className='flex space-x-2 flex-shrink-0 pl-2'>{Actions}</div>
+    <div className={wrapperClasses.join(' ')}>
+      <div className='flex flex-col items-start justify-between'>
+        <CardHeader title={title} description={description} />
+        <div className="pt-4 w-full">{children}</div>
+        <div className='flex flex-shrink-0 pl-2'>{Actions}</div>
       </div>
     </div>
   )

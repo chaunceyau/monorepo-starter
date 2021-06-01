@@ -1,6 +1,6 @@
 import React from 'react';
 import { getSession } from 'next-auth/client';
-import { Form, FormButton, FormInput } from '@monorepo-starter/ui';
+import { Card, Form, FormButton, FormInput } from '@monorepo-starter/ui';
 //
 import { TopNavigationLayout } from 'apps/next-starter/components/layouts/top-nav';
 import { VerticalNavigationLayout } from 'apps/next-starter/components/layouts/vertical-nav';
@@ -25,32 +25,35 @@ export default function AccountPage() {
   }, []);
 
   return (
-    <Form
-      id="account-settings"
-      styled
-      onSubmit={async () => {
-        console.log("FLDSAMFLDSMALFDS");
-        return new Promise((resolve, _reject) =>
-          setTimeout(() => resolve(), 5000)
-        );
-      }}
-      title="Personal Information"
-      description="Culpa possimus qui laboriosam voluptatem. Iusto tenetur et saepe
-          et. Perferendis illo omnis ut voluptates rerum ea. Nulla quas
-          corrupti quo id atque aspernatur. Ad est mollitia id est quisquam.
-          Omnis magnam cum veniam facere."
-    >
-      <FormInput name="displayName" label="Display Name" />
-      <FormInput name="email" label="Email Address" />
-      <FormButton buttonStyle="primary">Submit</FormButton>
-    </Form>
+    <div>
+      <Card title="Test Card" description="fdslamfldsmfls" />
+      <Form
+        id="account-settings"
+        styled
+        onSubmit={async () => {
+          console.log("FLDSAMFLDSMALFDS");
+          return new Promise((resolve, _reject) =>
+            setTimeout(() => resolve(), 5000)
+          );
+        }}
+        title="Personal Information"
+        description="Culpa possimus qui laboriosam voluptatem. Iusto tenetur et saepe
+            et. Perferendis illo omnis ut voluptates rerum ea. Nulla quas
+            corrupti quo id atque aspernatur. Ad est mollitia id est quisquam.
+            Omnis magnam cum veniam facere."
+      >
+        <FormInput name="displayName" label="Display Name" />
+        <FormInput name="email" label="Email Address" />
+        <FormButton buttonStyle="primary">Submit</FormButton>
+      </Form>
+    </div>
   );
 }
 
 
 AccountPage.getLayout = page => {
   return (
-    <TopNavigationLayout title="Account Settings" session={page.props.session} router={null}>
+    <TopNavigationLayout title="Account Settings" session={page.props.sessions} router={null}>
       <VerticalNavigationLayout
         navLinks={ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS}
       >

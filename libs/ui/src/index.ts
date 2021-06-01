@@ -10,7 +10,10 @@ export { FormTextarea } from './components/form/elements/textarea'
 export { FormDateInput } from './components/form/elements/date'
 export { FormRadioGroup } from './components/form/elements/radio'
 //
+export { H1, H2, H3, H4, H5, H6 } from './typography/headings'
+//
 export { Modal } from './components/modal'
+export { Card } from './components/card'
 export { Button } from './components/button'
 export { Toasts } from './components/misc/toasts'
 export { Statistic } from './components/statistic'
