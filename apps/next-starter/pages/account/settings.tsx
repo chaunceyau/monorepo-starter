@@ -6,14 +6,20 @@ import { ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS } from 'apps/next-starter/util/r
 
 export default function AccountSettingsPage() {
   return (
-    <TopNavigationLayout title="Account Settings" session={null} router={null}>
+    <h1>Account Settings</h1>
+  );
+}
+
+AccountSettingsPage.getLayout = page => {
+  return (
+    <TopNavigationLayout title="Account Settings" session={page.props.session} router={null}>
       <VerticalNavigationLayout
         navLinks={ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS}
       >
-        <h1>Account Settings</h1>
+        {page}
       </VerticalNavigationLayout>
     </TopNavigationLayout>
-  );
+  )
 }
 
 export async function getServerSideProps(context) {

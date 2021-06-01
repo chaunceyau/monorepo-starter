@@ -6,14 +6,20 @@ import { VerticalNavigationLayout } from 'apps/next-starter/components/layouts/v
 
 export default function AccountBillingPage() {
   return (
+    <h1>Account Billing</h1>
+  );
+}
+
+AccountBillingPage.getLayout = page => {
+  return (
     <TopNavigationLayout title="Account Settings" session={null} router={null}>
       <VerticalNavigationLayout
         navLinks={ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS}
       >
-        <h1>Account Billing</h1>
+        {page}
       </VerticalNavigationLayout>
     </TopNavigationLayout>
-  );
+  )
 }
 
 export async function getServerSideProps(context) {
