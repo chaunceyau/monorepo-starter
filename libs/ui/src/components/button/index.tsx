@@ -1,6 +1,7 @@
 import React from 'react'
 import {CheckCircleIcon} from '@heroicons/react/solid'
 import { LoadingSpinner } from '../misc/spinner'
+import { Transition } from '@headlessui/react'
 
 export interface ButtonProps {
   children: React.ReactNode
@@ -150,17 +151,9 @@ export function Button(props: ButtonProps) {
   })
 
   const spinner = (
-    <div className='absolute w-full h-full flex items-center justify-center -mt-2'>
       <LoadingSpinner color='white' />
-    </div>
   )
   
-  const switchingToDone = (
-    <div className='absolute w-full h-full flex items-center justify-center -mt-2'>
-      <CheckCircleIcon height={20} width={20} />
-    </div>
-  )
-
   const buttonProps = getButtonProps({
     type: props.type,
     loading: props.loading,
@@ -173,17 +166,40 @@ export function Button(props: ButtonProps) {
 
   return (
     <button {...buttonProps}>
-      {buttonState === 'loading' ? spinner : null}
-      {buttonState === 'switching-to-done' ? switchingToDone : null}
-      <span className={buttonState === 'loading' || buttonState === 'switching-to-done' ? 'opacity-0' : 'font-bold'}>
-        {props.children}
-      </span>
+      <div className='absolute w-full h-full flex flex-col items-center justify-center -mt-2'>
+        {buttonState === 'loading' ? spinner : null}
+        <Transition 
+          show={buttonState === 'completed'}
+          enter="duration-50"
+          enterFrom="opacity-50"
+          enterTo="opacity-100"
+          leave="duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+      >
+        <CheckCircleIcon height={20} width={20} />
+      </Transition>
+      <Transition 
+          show={buttonState === 'idle'}
+          enter="delay-150 duration-100"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave=""
+          leaveFrom=""
+          leaveTo=""
+      >
+          {props.children}
+      </Transition>
+      </div>
+      <span className="opacity-0">{props.children}</span>
     </button>
   )
 }
 
+type ButtonState = 'idle' |'loading' | 'completed'
+
 function useButtonState(loading: boolean) {
-  const [buttonState, setButtonState] = React.useState<'idle' |'loading' | 'switching-to-done' | 'done'>('idle')
+  const [buttonState, setButtonState] = React.useState<ButtonState>('idle')
 
   React.useEffect(() => {
     if (loading) {
@@ -192,16 +208,20 @@ function useButtonState(loading: boolean) {
   }, [loading])
   
   React.useEffect(() => {
+    let timeout;
+
     setButtonState(prevState => {
       if (!loading && prevState === 'loading') {
         setTimeout(() => {
-          setButtonState('done')
+          timeout = setButtonState('idle')
         }, 1000)
-        return 'switching-to-done'
+        return 'completed'
       }
 
       return prevState
     })
+
+    return () => clearTimeout(timeout);
   }, [buttonState, loading])
 
   return buttonState
