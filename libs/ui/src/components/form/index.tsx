@@ -54,7 +54,7 @@ function validateChild(child: any) {
   }
 }
 
-function initializeOptionInForm(child: any, defaultValues: any) {
+function initializeOptionInForm(child: any, defaultValues: any = {}) {
   switch (child.type) {
     case FormRadioGroup: {
       const props: FormRadioGroupProps = child.props
@@ -63,7 +63,7 @@ function initializeOptionInForm(child: any, defaultValues: any) {
         !defaultValues || !defaultValues[props.name]
 
       // default to first value
-      if (noDefaultValueForRadioGroup) {
+      if (noDefaultValueForRadioGroup && !!props.options?.length) {
         Object.assign(defaultValues, {
           [props.name]: props.options[0].id
         })
@@ -162,10 +162,10 @@ export function Form({
   return (
     // todo pass formId to form children
     <form id={id} onSubmit={handleSubmit(onSubmit)}>
-      <Card styled={styled}>
+      <Card styled={styled} title={title} description={description}>
         {/* <div className={styled ? 'border rounded-lg bg-white py-6 px-8 shadow-sm relative' : ''}> */}
-        {title ? <CardHeader title={title} description={description} /> : null}
-        <div className='flex flex-col space-y-4 pt-6 pb-20'>
+        {/* {title ? <CardHeader title={title} description={description} /> : null} */}
+        <div className={`flex flex-col space-y-4 ${styled ? 'pb-20' : ''}`}>
           <RHForm.FormProvider {...methods}>
             {React.Children.map(children, (child) => {
               switch (child.type) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { getSession } from 'next-auth/client';
-import { Card, Form, FormButton, FormInput } from '@monorepo-starter/ui';
+import { Card, Form, FormButton, FormInput, FormUpload } from '@monorepo-starter/ui';
 //
 import { TopNavigationLayout } from 'apps/next-starter/components/layouts/top-nav';
 import { VerticalNavigationLayout } from 'apps/next-starter/components/layouts/vertical-nav';
@@ -26,7 +26,6 @@ export default function AccountPage() {
 
   return (
     <div>
-      <Card title="Test Card" description="fdslamfldsmfls" />
       <Form
         id="account-settings"
         styled
@@ -42,8 +41,29 @@ export default function AccountPage() {
             corrupti quo id atque aspernatur. Ad est mollitia id est quisquam.
             Omnis magnam cum veniam facere."
       >
-        <FormInput name="displayName" label="Display Name" />
         <FormInput name="email" label="Email Address" />
+        <FormUpload 
+          name="profilePhoto"
+          label="Profile Image"
+          required={false}
+          defaultValue={undefined}
+          onDeleteMutation={() => {}} 
+          presignedUpload={async (file: {
+            id: string
+            file: File
+          }) => (
+            {
+              data: {
+                presignedUpload: {
+                  url: 'string',
+                  fileId: 'string',
+                  fields: []
+                }
+              }
+            }
+          )} 
+          onUploadComplete={async () =>{}}
+        />
         <FormButton buttonStyle="primary">Submit</FormButton>
       </Form>
     </div>

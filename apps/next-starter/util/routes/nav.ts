@@ -18,8 +18,8 @@ export const ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS = [
     icon: UserCircleIcon,
   },
   {
-    label: 'Billing',
-    href: ACCOUNT_ROUTES.ACCOUNT_BILLING_PAGE,
+    label: 'Subscription',
+    href: ACCOUNT_ROUTES.ACCOUNT_SUBSCRIPTION_PAGE,
     icon: CashIcon,
   },
   {

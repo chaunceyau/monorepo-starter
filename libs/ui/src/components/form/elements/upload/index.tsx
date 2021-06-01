@@ -73,7 +73,7 @@ export function FormUpload(props: FormUploadProps) {
       />
       <UploadInput
         name={name}
-        hidden={!!inputProps.value.length}
+        hidden={!!inputProps.value?.length}
         getRootProps={getRootProps}
         getInputProps={getInputProps}
       />
