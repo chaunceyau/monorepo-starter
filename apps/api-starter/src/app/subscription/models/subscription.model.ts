@@ -1,4 +1,4 @@
-import { Field, ObjectType, ID, Int } from '@nestjs/graphql';
+import { Field, ObjectType, ID, Int, registerEnumType } from '@nestjs/graphql';
 import { CurrencyScalar } from '../../common/graphql/currency-scalar';
 
 @ObjectType('Subscription')
@@ -21,3 +21,6 @@ export class SubscriptionGraphModel {
   @Field(_type => Int)
   upcomingDueDate: number;
 }
+
+// TODO: enum for billingFrequency?
+// registerEnumType()

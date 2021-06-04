@@ -1,6 +1,7 @@
 import { Field, ObjectType, InputType, registerEnumType } from '@nestjs/graphql'
 
 @InputType()
+// TODO: update??
 export class CreateSubscriptionInput {
   @Field(_type => PremiumPlanType)
   plan: PremiumPlanType

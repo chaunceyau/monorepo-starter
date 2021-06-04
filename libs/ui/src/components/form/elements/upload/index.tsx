@@ -62,7 +62,7 @@ export function FormUpload(props: FormUploadProps) {
     <div>
       {/* TODO: FIX ERROR */}
       <FormLabel label={label} name={name} error={false} />
-      {/* <FileListComponent
+      <FileListComponent
         name={props.name}
         value={inputProps.value}
         uploadInputRef={inputRef}
@@ -70,7 +70,7 @@ export function FormUpload(props: FormUploadProps) {
         onDeleteMutation={onDeleteMutation}
         onUploadComplete={onUploadComplete}
         allowMultipleFiles={!!props.multiple}
-      /> */}
+      />
       <UploadInput
         name={name}
         hidden={!!inputProps.value?.length}
