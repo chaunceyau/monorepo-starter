@@ -9,19 +9,17 @@ export function TopNavigationMobileMenu() {
     return (
         <Disclosure.Panel className="md:hidden">
             {(({open}) => {
-
                 return (
-<Transition show={open}
-           enter=" ease-out duration-100"
-           enterFrom="transform opacity-0 scale-50"
-           enterTo="transform opacity-100 scale-100"
-           leave=" ease-in duration-75"
-           leaveFrom="transform opacity-100 scale-100"
-           leaveTo="transform opacity-0 scale-95"
-                    as={React.Fragment}
->
-
-<div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <Transition show={open}
+                        enter="ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-50"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                        as={React.Fragment}
+                    >
+                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                 {/* todo: fix itemIdx */}
                 {PRIMARY_NAVIGATION_LINKS.map((item, itemIdx) =>
                     itemIdx === 0 ? (
