@@ -34,6 +34,7 @@ async function uploadFileToS3(
   presignedUpload: PresignedUpload,
   dispatch: React.Dispatch<UploadFileAction>
 ) {
+  console.log({fileState});
   if (fileState.file) {
     dispatch({ type: 'START_UPLOAD' })
 

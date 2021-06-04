@@ -42,7 +42,7 @@ export function FileList(props: FileListProps) {
   return props.value.length ? (
     <div className={wrapperClasses.join(' ')}>
       <ul className={ulClasses.join(' ')}>
-        {props.value.map((fileState) => (
+        {props.value.filter(v => !!v).map((fileState) => (
           <FileListItem
             {...fileState}
             key={fileState.id}

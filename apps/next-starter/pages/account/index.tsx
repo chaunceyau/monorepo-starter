@@ -46,7 +46,6 @@ export default function AccountPage() {
           name="profilePhoto"
           label="Profile Image"
           required={false}
-          defaultValue={undefined}
           onDeleteMutation={() => {}} 
           presignedUpload={async (file: {
             id: string
@@ -64,7 +63,7 @@ export default function AccountPage() {
           )} 
           onUploadComplete={async () =>{}}
         />
-        <FormButton buttonStyle="primary">Submit</FormButton>
+        <FormButton buttonStyle="primary">Save</FormButton>
       </Form>
     </div>
   );

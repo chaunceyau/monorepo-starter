@@ -32,7 +32,7 @@ export function FormUpload(props: FormUploadProps) {
     rules: { required: props.required },
     defaultValue: Array.isArray(props.defaultValue)
       ? props.defaultValue
-      : [props.defaultValue]
+      : props.defaultValue ? [props.defaultValue] : []
   })
 
   const onDrop = async (acceptedFiles: File[]) => {

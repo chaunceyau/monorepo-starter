@@ -81,6 +81,7 @@ export function UploadInput(props: UploadInputProps) {
     </div>
   )
 }
+
 function formatBytes(a: number, b: number = 2) {
   if (0 === a) return '0 Bytes'
   const c = 0 > b ? 0 : b,
