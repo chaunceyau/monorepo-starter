@@ -14,8 +14,11 @@ Production quality & field ready starter pack built to ship apps quick
 
 ## Application Pieces
 🖼️  *marketing-starter* - marketing/landing page for displaying product
+  - runs on port 4201 by default
 💻  *next-starter* - next.js frontend application & authentication
+  - runs on port 4200 by default
 📮  *api-starter* - nest.js graphql api
+  - runs on port 5000 by default
 
 ## Starting from scratch
 There are individual README files in each app directory as well. Complete both checklists to get application running.
