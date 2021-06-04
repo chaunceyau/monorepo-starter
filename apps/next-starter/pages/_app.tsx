@@ -11,7 +11,7 @@ import { createAbilitiesForUser } from '@monorepo-starter/casl';
 import '../styles/tailwind.generated.css';
 //
 import { AbilityContext } from '../util/casl';
-import { client } from '../util/api-client';
+import { client, useApollo } from '../util/api-client';
 
 //
 Router.events.on('routeChangeStart', (url) => NProgress.start());
@@ -21,6 +21,7 @@ Router.events.on('routeChangeError', () => NProgress.done());
 function CustomApp({ Component, pageProps }: AppProps) {
   // @ts-ignore
   const getLayout = Component.getLayout || (page => page)
+  const apolloClient = useApollo(pageProps.initialApolloState);
   return (
     <>
       <Head>
@@ -28,7 +29,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <link rel="stylesheet" type="text/css" href="/nprogress.css" />
       </Head>
       <Provider session={pageProps.session}>
-        <ApolloProvider client={client}>
+        <ApolloProvider client={apolloClient}>
           <AbilityContext.Provider
             value={createAbilitiesForUser(pageProps.session?.user)}
           >

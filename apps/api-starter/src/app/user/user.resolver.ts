@@ -43,16 +43,15 @@ export class UserResolver {
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
   @Query(_returns => UserGraphModel)
-  @CheckPolicies((ability: RbacAbility) =>
-    ability.can(DatabaseAction.Read, 'User')
-  )
+  // @CheckPolicies((ability: RbacAbility) =>
+  //   ability.can(DatabaseAction.Read, 'User')
+  // )
   async viewer(@AuthenticatedUser() user) {
     return await this.userService.findUniqueById(user.id);
   }
 
   @ResolveField(_type => SubscriptionGraphModel, { nullable: true })
   async subscription() {
-    console.log('l213m4l23m143');
     const stripeResponse = {
       id: 'string',
       planTitle: 'planTitlee',

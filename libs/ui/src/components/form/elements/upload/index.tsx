@@ -18,10 +18,17 @@ interface FormUploadBasics {
   required: boolean
   maxFiles?: number
   allowedFileTypes?: string[]
-  defaultValue: FileStateObject[]
+  defaultValue?: FileStateObject[]
   onDeleteMutation: () => void
   presignedUpload: PresignedUpload
   onUploadComplete: (key: string) => Promise<any>
+}
+
+function convertProvidedDefaultValueToArray(value: undefined | FileStateObject[]) {
+  if (value) {
+    return Array.isArray(value) ? value : [value];
+  }
+  return [];
 }
 
 export function FormUpload(props: FormUploadProps) {
@@ -30,9 +37,7 @@ export function FormUpload(props: FormUploadProps) {
   } = useController({
     name: props.name,
     rules: { required: props.required },
-    defaultValue: Array.isArray(props.defaultValue)
-      ? props.defaultValue
-      : props.defaultValue ? [props.defaultValue] : []
+    defaultValue: convertProvidedDefaultValueToArray(props.defaultValue), 
   })
 
   const onDrop = async (acceptedFiles: File[]) => {

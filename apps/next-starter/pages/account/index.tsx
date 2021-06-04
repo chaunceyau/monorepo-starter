@@ -1,28 +1,26 @@
 import React from 'react';
 import { getSession } from 'next-auth/client';
+import { gql, useQuery } from '@apollo/client'
+// 
 import { Card, Form, FormButton, FormInput, FormUpload } from '@monorepo-starter/ui';
 //
 import { TopNavigationLayout } from 'apps/next-starter/components/layouts/top-nav';
 import { VerticalNavigationLayout } from 'apps/next-starter/components/layouts/vertical-nav';
 import { ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS } from 'apps/next-starter/util/routes/nav';
 
+const ViewerGql = gql`
+  query Viewer { 
+    viewer { 
+      id
+      email
+    } 
+  }
+`
+
 export default function AccountPage() {
-  React.useEffect(() => {
-    fetch('http://localhost:5000/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        // Authorization:
-      },
-      credentials: 'include',
-      body: JSON.stringify({
-        query: '{ allUsers { edges { node { id email subscription { id planAmount upcomingAmountDue upcomingDueDate } } } pageInfo { startCursor } } }',
-      }),
-    })
-      .then(r => r.json())
-      .then(data => console.log('data returned:', data));
-  }, []);
+  const { data } = useQuery(ViewerGql);
+
+  console.log({ data });
 
   return (
     <div>

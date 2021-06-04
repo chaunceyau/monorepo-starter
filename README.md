@@ -31,3 +31,6 @@ This will run all of the databases the application needs to run.
 
 ### Terraform setup
 Terraform allows us to spin up infrastructure using code (main.tf file). running `terraform plan && terraform apply` will spin up our live servers.
+
+### Requirements
+- NodeJS v14+ (use of ??)
