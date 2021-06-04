@@ -37,6 +37,7 @@
   },
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.3.19",
     "@aws-sdk/client-s3": "^3.15.0",
     "@aws-sdk/s3-presigned-post": "^3.15.0",
     "@casl/ability": "^5.2.2",

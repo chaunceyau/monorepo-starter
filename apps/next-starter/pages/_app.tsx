@@ -4,12 +4,14 @@ import NProgress from 'nprogress';
 import Router from 'next/router';
 import { AppProps } from 'next/app';
 import { Provider } from 'next-auth/client';
+import { ApolloProvider } from '@apollo/client';
 //
 import { createAbilitiesForUser } from '@monorepo-starter/casl';
 //
 import '../styles/tailwind.generated.css';
 //
 import { AbilityContext } from '../util/casl';
+import { client } from '../util/api-client';
 
 //
 Router.events.on('routeChangeStart', (url) => NProgress.start());
@@ -26,11 +28,13 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <link rel="stylesheet" type="text/css" href="/nprogress.css" />
       </Head>
       <Provider session={pageProps.session}>
-        <AbilityContext.Provider
-          value={createAbilitiesForUser(pageProps.session?.user)}
-        >
-          {getLayout(<Component {...pageProps} />)}
-        </AbilityContext.Provider>
+        <ApolloProvider client={client}>
+          <AbilityContext.Provider
+            value={createAbilitiesForUser(pageProps.session?.user)}
+          >
+            {getLayout(<Component {...pageProps} />)}
+          </AbilityContext.Provider>
+        </ApolloProvider>
       </Provider>
     </>
   );
