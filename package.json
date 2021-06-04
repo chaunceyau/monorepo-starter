@@ -10,6 +10,7 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
+    "marketing": "nx serve marketing-starter --port=4201",
     "api": "yarn prisma:gen && nx serve api-starter",
     "client": "yarn tailwind:gen && nx serve next-starter",
     "lint": "nx workspace-lint && nx lint",

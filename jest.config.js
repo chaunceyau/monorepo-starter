@@ -5,5 +5,6 @@ module.exports = {
     '<rootDir>/libs/casl',
     '<rootDir>/libs/api-upload',
     '<rootDir>/libs/ui',
+    '<rootDir>/apps/marketing-starter',
   ],
 };
