@@ -2,6 +2,7 @@ import { Reflector } from '@nestjs/core';
 import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 
+// TODO: delete
 @Injectable()
 export class AuthenticatedGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
@@ -23,7 +24,6 @@ export class AuthenticatedGuard implements CanActivate {
       const ctx = GqlExecutionContext.create(context);
       const req = ctx.getContext().req;
       // req.cookies['next-auth.session-token'] ||
-      console.log("AFLDSMALFMDSLM");
       return req?.user;
     }
   }

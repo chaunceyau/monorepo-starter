@@ -14,7 +14,7 @@ export { H1, H2, H3, H4, H5, H6 } from './typography/headings'
 //
 export { Modal } from './components/modal'
 export { Card } from './components/card'
-export { Button } from './components/button'
+export * from './components/button'
 export { Toasts } from './components/misc/toasts'
 export { Statistic } from './components/statistic'
 export { Slideover } from './components/slideover'

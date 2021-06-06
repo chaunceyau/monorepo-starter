@@ -2,25 +2,25 @@ import React from 'react';
 import Head from 'next/head';
 import NProgress from 'nprogress';
 import Router from 'next/router';
-import { AppProps } from 'next/app';
-import { Provider } from 'next-auth/client';
-import { ApolloProvider } from '@apollo/client';
+import {AppProps} from 'next/app';
+import {Provider} from 'next-auth/client';
+import {ApolloProvider} from '@apollo/client';
 //
-import { createAbilitiesForUser } from '@monorepo-starter/casl';
+import {createAbilitiesForUser} from '@monorepo-starter/casl';
 //
 import '../styles/tailwind.generated.css';
 //
-import { AbilityContext } from '../util/casl';
-import { client, useApollo } from '../util/api-client';
+import {AbilityContext} from '../util/casl';
+import {useApollo} from '../util/api-client';
 
 //
-Router.events.on('routeChangeStart', (url) => NProgress.start());
+Router.events.on('routeChangeStart', url => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-function CustomApp({ Component, pageProps }: AppProps) {
+function CustomApp({Component, pageProps}: AppProps) {
   // @ts-ignore
-  const getLayout = Component.getLayout || (page => page)
+  const getLayout = Component.getLayout || (page => page);
   const apolloClient = useApollo(pageProps.initialApolloState);
   return (
     <>

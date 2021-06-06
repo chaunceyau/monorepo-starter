@@ -1,15 +1,9 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { GqlExecutionContext, GqlContextType } from '@nestjs/graphql';
+import { User } from '@prisma/client';
 
 // note: decorators not enforcing type safety on decorators...
-export interface ResponseObjectUser {
-  id: string;
-  email: string;
-  subscription_type?: SubscriptionType;
-  stripe_customer_id?: string;
-  stripe_subscription_id?: string;
-  current_period_end?: string;
-}
+export interface ResponseObjectUser extends User {}
 
 // TODO: convert to prisma enum
 enum SubscriptionType {

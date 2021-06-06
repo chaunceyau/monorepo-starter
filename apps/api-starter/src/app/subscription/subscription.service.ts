@@ -1,44 +1,81 @@
 import Stripe from 'stripe';
-import { Injectable } from '@nestjs/common';
-import { InjectStripe } from 'nestjs-stripe';
+import {StripeSync, User} from '@prisma/client';
+import {InjectStripe} from 'nestjs-stripe';
+import {Injectable, Logger} from '@nestjs/common';
 //
-import { PremiumPlanType } from './models/create-subscription.input';
-import { StripeConfigService } from '../config/services/stripe.config';
+import {PremiumPlanType} from './models/create-subscription.input';
+import {StripeConfigService} from '../config/services/stripe.config';
+import {ResponseObjectUser} from '../common/decorators/user.decorator';
+import {PrismaService} from '../prisma/prisma.service';
 
 @Injectable()
 export class SubscriptionService {
+  private readonly logger = new Logger(SubscriptionService.name);
+
   constructor(
-    private readonly stripeConfigService: StripeConfigService,
-    @InjectStripe() private readonly stripeClient: Stripe
+    private readonly prisma: PrismaService,
+    @InjectStripe() private readonly stripeClient: Stripe,
+    private readonly stripeConfigService: StripeConfigService
   ) {}
 
-  async createCheckoutSession({
-    customer_id,
-    price_id,
-  }: CreateCheckoutSession) {
+  private async getStripeSyncForViewer(user: User): Promise<StripeSync | null> {
+    const stripeSync = await this.prisma.stripeSync.findUnique({
+      where: {
+        relatedUserId: user.id,
+      },
+    });
+
+    if (!stripeSync) {
+      return null;
+    }
+  }
+
+  async getViewerSubscription(
+    user: ResponseObjectUser
+  ): Promise<Stripe.Subscription | null> {
+    const stripeSync = await this.getStripeSyncForViewer(user);
+
+    const subscriptions = await this.stripeClient.subscriptions.list({
+      customer: stripeSync.stripeCustomerId,
+    });
+
+    return subscriptions[0];
+  }
+
+  async createCheckoutSession({user, priceId}: CreateCheckoutSession) {
+    const stripeSync = await this.getStripeSyncForViewer(user);
+
     const session = this.stripeClient.checkout.sessions.create({
       success_url: this.stripeConfigService.checkoutSuccessRedirectURL,
       cancel_url: this.stripeConfigService.checkoutCancelRedirectURL,
       payment_method_types: ['card'],
       mode: 'subscription',
-      customer: customer_id,
-      line_items: [{ price: price_id, quantity: 1 }],
-      // expand: ['latest_invoice.payment_intent'],
+      customer: stripeSync.stripeCustomerId,
+      line_items: [{price: priceId, quantity: 1}],
     });
 
     return session;
   }
 
-  async createBillingPortalSession({ customer_id }) {
-    const session = await this.stripeClient.billingPortal.sessions.create({
-      customer: customer_id,
-      return_url: this.stripeConfigService.billingPortalRedirectURL,
-    });
-
-    return session.url;
+  async createBillingPortalSession({
+    customer_id,
+  }): Promise<Stripe.BillingPortal.Session | null> {
+    try {
+      const session = await this.stripeClient.billingPortal.sessions.create({
+        customer: customer_id,
+        return_url: this.stripeConfigService.billingPortalRedirectURL,
+      });
+      return session;
+    } catch (err) {
+      this.logger.warn(
+        `Failed to create billing session.`,
+        `createBillingPortalSession`
+      );
+      return null;
+    }
   }
 
-  async createSubscription({ payment_method_id, customer_id, price_id }) {
+  async createSubscription({payment_method_id, customer_id, price_id}) {
     // Attach the payment method to the customer
     try {
       await this.stripeClient.paymentMethods.attach(payment_method_id, {
@@ -57,7 +94,7 @@ export class SubscriptionService {
     // Create the subscription
     const subscription = await this.stripeClient.subscriptions.create({
       customer: customer_id,
-      items: [{ price: price_id }],
+      items: [{price: price_id}],
       expand: ['latest_invoice.payment_intent'],
     });
     return subscription;
@@ -72,6 +109,6 @@ export class SubscriptionService {
 }
 
 interface CreateCheckoutSession {
-  customer_id: string;
-  price_id: string;
+  user: User;
+  priceId: string;
 }

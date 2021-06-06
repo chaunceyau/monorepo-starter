@@ -41,8 +41,9 @@ model StripeSync {
   subscriptionType     SubscriptionType? @map("subscription_type")
   stripeCustomerId     String?           @unique @map("stripe_customer_id")
   stripeSubscriptionId String?           @unique @map("stripe_subscription_id")
-  relatedUser          User?
   currentPeriodEnd     DateTime?         @map("current_period_end")
+  relatedUser          User?
+  relatedUserId        String?            @unique @map("related_user_id")
 }
 
 enum SubscriptionType {

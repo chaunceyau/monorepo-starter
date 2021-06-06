@@ -14,7 +14,6 @@ import { GlobalConfigService } from './config/services/global.config';
 import { StripeConfigService } from './config/services/stripe.config';
 import { SentryConfigService } from './config/services/sentry.config';
 import { SubscriptionModule } from './subscription/subscription.module';
-import { CurrencyScalar } from './common/graphql/currency-scalar';
 
 @Module({
   imports: [

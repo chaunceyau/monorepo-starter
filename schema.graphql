@@ -60,7 +60,8 @@ type Query {
   viewer: User!
   presignedImageAccess(input: AccessImageByKeyInput!): PresignedImageAssetPayload!
   presignedUpload(input: AwsS3UploadOptions!): PresignedUploadPayload!
-  getBillingPortalSessionURL: String!
+  stripePortalSession: String
+  subscription: CreateSubscriptionResponse
 }
 
 input ConnectionArguments {

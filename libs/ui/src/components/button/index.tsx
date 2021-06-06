@@ -18,7 +18,7 @@ export interface ButtonProps {
   onClick?: () => void
 }
 
-type ButtonStyle = 'primary' | 'positive' | 'negative' | 'secondary'
+export type ButtonStyle = 'primary' | 'positive' | 'negative' | 'secondary'
 
 type ButtonType = 'submit' | 'button'
 

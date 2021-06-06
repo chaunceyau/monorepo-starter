@@ -1,5 +1,5 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { UseGuards } from '@nestjs/common';
+import {Resolver, Query, Mutation, Args} from '@nestjs/graphql';
+import {Logger, UseGuards} from '@nestjs/common';
 //
 import {
   CreateSubscriptionInput,
@@ -10,20 +10,23 @@ import {
   AuthenticatedUser,
   ResponseObjectUser,
 } from '../common/decorators/user.decorator';
-import { PrismaService } from '../prisma/prisma.service';
-import { SubscriptionService } from './subscription.service';
-import { StripeConfigService } from '../config/services/stripe.config';
-import { AuthenticatedGuard } from '../common/guards/authenticated.guard';
+import {PrismaService} from '../prisma/prisma.service';
+import {SubscriptionService} from './subscription.service';
+import {StripeConfigService} from '../config/services/stripe.config';
+import {AuthenticatedGuard} from '../common/guards/authenticated.guard';
+import {JwtAuthGuard} from '../common/guards/jwt.guard';
 
 @Resolver('Subscription')
 export class SubscriptionResolver {
+  private readonly logger = new Logger(SubscriptionResolver.name);
+
   constructor(
     private prisma: PrismaService,
     private subscriptionService: SubscriptionService,
     private stripeConfigService: StripeConfigService
   ) {}
 
-  price_id = (frequency: PremiumPlanType): string => {
+  getPriceIdForPlan = (frequency: PremiumPlanType): string => {
     if (frequency === 'PREMIUM_MONTHLY') {
       return this.stripeConfigService.monthlySubscriptionPriceId;
     } else if (frequency === 'PREMIUM_ANNUAL') {
@@ -31,20 +34,42 @@ export class SubscriptionResolver {
     }
   };
 
-  @UseGuards(AuthenticatedGuard)
-  @Query(_returns => String)
-  async getBillingPortalSessionURL(
-    @AuthenticatedUser() user: ResponseObjectUser
-  ) {
+  @UseGuards(JwtAuthGuard)
+  @Query(_returns => String, {nullable: true})
+  async stripePortalSession(@AuthenticatedUser() user: ResponseObjectUser) {
     const stripeRecord = await this.prisma.stripeSync.findFirst({
-      where: { relatedUser: { id: user.id } },
+      where: {relatedUser: {id: user.id}},
     });
-    
+
+    if (!stripeRecord) {
+      this.logger.warn(
+        `Attempted to create a stripe portal session with no StripeSync record.`,
+        this.stripePortalSession.name
+      );
+      return null;
+    }
+
     const url = await this.subscriptionService.createBillingPortalSession({
       customer_id: stripeRecord.stripeCustomerId,
     });
 
+    if (!url) {
+      return null;
+    }
+
     return url;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query(_returns => CreateSubscriptionResponse, {nullable: true})
+  async subscription(@AuthenticatedUser() user: ResponseObjectUser) {
+    const subscription = await this.subscriptionService.getViewerSubscription(
+      user
+    );
+
+    return {
+      id: subscription.id,
+    };
   }
 
   @UseGuards(AuthenticatedGuard)
@@ -54,8 +79,8 @@ export class SubscriptionResolver {
     @AuthenticatedUser() user: ResponseObjectUser
   ) {
     const session = await this.subscriptionService.createCheckoutSession({
-      customer_id: user.stripe_customer_id,
-      price_id: this.price_id(input.plan),
+      user,
+      priceId: this.getPriceIdForPlan(input.plan),
     });
     return {
       id: session.id,
