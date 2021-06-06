@@ -1,91 +1,19 @@
 import React from 'react';
 import {getSession} from 'next-auth/client';
-import {gql, useLazyQuery} from '@apollo/client';
-import {Transition} from '@headlessui/react';
 // import { Transition } from '@headlessui/react';
 //
-import {Button, Card, Form, FormButton, FormRadioGroup} from '@monorepo-starter/ui';
+import {Card, Form, FormButton, FormRadioGroup} from '@monorepo-starter/ui';
 //
 import {TopNavigationLayout} from 'apps/next-starter/components/layouts/top-nav';
 import {ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS} from 'apps/next-starter/util/routes/nav';
 import {VerticalNavigationLayout} from 'apps/next-starter/components/layouts/vertical-nav';
-import {Anchor} from 'apps/next-starter/components/shared/anchor';
+import {MySubscriptionCard} from 'apps/next-starter/containers/account/subscription/my-subscription';
 
-const BillingDetailCard = props => {
-  return (
-    <div
-      className={`${props.backgroundClass} px-6 py-4 rounded-lg w-1/2 mb-2 hmme`}
-    >
-      <h3
-        className={`${
-          props.textVariant === 'dark' ? 'text-gray-600' : 'text-white'
-        } mb-2`}
-      >
-        {props.topLine}
-      </h3>
-      <p
-        className={`${
-          props.textVariant === 'dark' ? 'text-gray-700' : 'text-white'
-        } text-3xl font-bold`}
-      >
-        ${props.amount / 100}
-        <span className="text-xs">.00</span>
-      </p>
-      <p
-        className={`${
-          props.textVariant === 'dark' ? 'text-gray-500' : 'text-white'
-        } mb-3 mt-1 text-lg`}
-      >
-        {props.bottomLine}
-      </p>
-      {props.callToAction}
-    </div>
-  );
-};
 
 export default function AccountSubscriptionPage() {
-  const [commit, {data, loading}] = useLazyQuery(gql`query { stripePortalSession }`);
-  
-  React.useEffect(() => {
-    if (data?.stripePortalSession) {
-      window.location.replace(data.stripePortalSession)
-    }
-  }, [data])
-
   return (
     <div className="space-y-6">
-      <Card
-        title="Subscription Information"
-        description="Information about your subscription and any associated charges."
-      >
-        <div className="flex space-x-6">
-          <BillingDetailCard
-            backgroundClass="bg-gradient-to-br from-primary via-green-500 to-yellow-200"
-            topLine="Current Subscription Plan"
-            amount={2500}
-            bottomLine="Company Plus"
-            callToAction={
-              <Button
-                loading={loading}
-                onClick={() => commit()}
-                buttonStyle="secondary"
-              >
-                Change Plan
-              </Button>
-            }
-          />
-          <BillingDetailCard
-            backgroundClass="bg-gradient-to-tr from-gray-200 to-gray-100"
-            textVariant="dark"
-            topLine="Next Payment"
-            amount={5000}
-            bottomLine="on May 15, 2020"
-            callToAction={
-              <Anchor href="/test" variant="button" label="Manage Payments" />
-            }
-          />
-        </div>
-      </Card>
+      <MySubscriptionCard />
       <Card
         title="Payment History"
         description="Information about your subscription and any associated charges."

@@ -67,9 +67,7 @@ export class SubscriptionResolver {
       user
     );
 
-    return {
-      id: subscription.id,
-    };
+    return subscription;
   }
 
   @UseGuards(AuthenticatedGuard)

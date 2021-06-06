@@ -35,6 +35,10 @@ export class SubscriptionService {
   ): Promise<Stripe.Subscription | null> {
     const stripeSync = await this.getStripeSyncForViewer(user);
 
+    if (!stripeSync) { 
+      return null;
+    }
+    
     const subscriptions = await this.stripeClient.subscriptions.list({
       customer: stripeSync.stripeCustomerId,
     });
@@ -44,6 +48,10 @@ export class SubscriptionService {
 
   async createCheckoutSession({user, priceId}: CreateCheckoutSession) {
     const stripeSync = await this.getStripeSyncForViewer(user);
+
+    if (!stripeSync) { 
+      return null;
+    }
 
     const session = this.stripeClient.checkout.sessions.create({
       success_url: this.stripeConfigService.checkoutSuccessRedirectURL,
