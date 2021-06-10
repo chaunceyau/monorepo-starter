@@ -32,6 +32,7 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "prepare": "husky install",
+    "prisma:seed": "prisma db seed --preview-feature --schema=./apps/api-starter/prisma/schema.prisma",
     "prisma:migrate": "prisma migrate dev --schema=./apps/api-starter/prisma/schema.prisma",
     "prisma:gen": "prisma generate --schema=./apps/api-starter/prisma/schema.prisma",
     "tailwind:gen": "tailwindcss-cli build ./apps/next-starter/styles/tailwind.css -o ./apps/next-starter/styles/tailwind.generated.css"
@@ -60,6 +61,7 @@
     "@ntegral/nestjs-sentry": "^2.0.6",
     "@prisma/client": "^2.22.1",
     "@sentry/node": "^6.3.1",
+    "@tailwindcss/aspect-ratio": "^0.2.1",
     "@tailwindcss/forms": "^0.3.2",
     "apollo-server-express": "^2.23.0",
     "bcrypt": "^5.0.1",

@@ -1,13 +1,13 @@
-import { PrismaClient } from '@prisma/client';
+import {PrismaClient} from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  const alice = await prisma.user.create({
+  const demo = await prisma.user.create({
     data: {
       id: '1',
       salt: '0',
       password: 'pass',
-      email: 'alice',
+      email: 'demo@gmail.com',
     },
   });
 
@@ -15,7 +15,7 @@ async function main() {
 }
 
 main()
-  .catch((e) => {
+  .catch(e => {
     console.error(e);
     process.exit(1);
   })
