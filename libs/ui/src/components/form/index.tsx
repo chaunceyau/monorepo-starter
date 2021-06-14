@@ -174,7 +174,7 @@ export function Form({
                     <div
                       className={
                         styled
-                          ? 'bg-gray-100 py-4 px-8 rounded-b-lg shadow-t flex justify-end absolute bottom-0 left-0 w-full'
+                          ? 'bg-gray-50 py-4 px-8 rounded-b-lg shadow-t flex justify-end absolute bottom-0 left-0 w-full'
                           : 'pt-2'
                       }
                     >

@@ -17,7 +17,8 @@
     "paths": {
       "@monorepo-starter/casl": ["libs/casl/src/index.ts"],
       "@monorepo-starter/api-upload": ["libs/api-upload/src/index.ts"],
-      "@monorepo-starter/ui": ["libs/ui/src/index.ts"]
+      "@monorepo-starter/ui": ["libs/ui/src/index.ts"],
+      "@monorepo-starter/utils": ["libs/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

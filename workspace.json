@@ -1,21 +1,10 @@
 {
   "version": 2,
-  "cli": {
-    "defaultCollection": "@nrwl/next"
-  },
+  "cli": {"defaultCollection": "@nrwl/next"},
   "defaultProject": "next-starter",
   "generators": {
-    "@nrwl/react": {
-      "application": {
-        "babel": true
-      }
-    },
-    "@nrwl/next": {
-      "application": {
-        "style": "css",
-        "linter": "eslint"
-      }
-    }
+    "@nrwl/react": {"application": {"babel": true}},
+    "@nrwl/next": {"application": {"style": "css", "linter": "eslint"}}
   },
   "projects": {
     "next-starter": {
@@ -30,9 +19,7 @@
             "root": "apps/next-starter",
             "outputPath": "dist/apps/next-starter"
           },
-          "configurations": {
-            "production": {}
-          }
+          "configurations": {"production": {}}
         },
         "serve": {
           "executor": "@nrwl/next:server",
@@ -50,9 +37,7 @@
         },
         "export": {
           "executor": "@nrwl/next:export",
-          "options": {
-            "buildTarget": "next-starter:build:production"
-          }
+          "options": {"buildTarget": "next-starter:build:production"}
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -83,9 +68,7 @@
             "devServerTarget": "next-starter:serve"
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "next-starter:serve:production"
-            }
+            "production": {"devServerTarget": "next-starter:serve:production"}
           }
         },
         "lint": {
@@ -126,15 +109,11 @@
         },
         "serve": {
           "executor": "@nrwl/node:execute",
-          "options": {
-            "buildTarget": "api-starter:build"
-          }
+          "options": {"buildTarget": "api-starter:build"}
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["apps/api-starter/**/*.ts"]
-          }
+          "options": {"lintFilePatterns": ["apps/api-starter/**/*.ts"]}
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -153,9 +132,7 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/casl/**/*.ts"]
-          }
+          "options": {"lintFilePatterns": ["libs/casl/**/*.ts"]}
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -174,9 +151,7 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/api-upload/**/*.ts"]
-          }
+          "options": {"lintFilePatterns": ["libs/api-upload/**/*.ts"]}
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -195,9 +170,7 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/ui/**/*.{ts,tsx,js,jsx}"]
-          }
+          "options": {"lintFilePatterns": ["libs/ui/**/*.{ts,tsx,js,jsx}"]}
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -221,16 +194,11 @@
             "root": "apps/marketing-starter",
             "outputPath": "dist/apps/marketing-starter"
           },
-          "configurations": {
-            "production": {}
-          }
+          "configurations": {"production": {}}
         },
         "serve": {
           "executor": "@nrwl/next:server",
-          "options": {
-            "buildTarget": "marketing-starter:build",
-            "dev": true
-          },
+          "options": {"buildTarget": "marketing-starter:build", "dev": true},
           "configurations": {
             "production": {
               "buildTarget": "marketing-starter:build:production",
@@ -240,9 +208,7 @@
         },
         "export": {
           "executor": "@nrwl/next:export",
-          "options": {
-            "buildTarget": "marketing-starter:build:production"
-          }
+          "options": {"buildTarget": "marketing-starter:build:production"}
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -282,6 +248,25 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/marketing-starter-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "utils": {
+      "root": "libs/utils",
+      "sourceRoot": "libs/utils/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {"lintFilePatterns": ["libs/utils/**/*.ts"]}
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/utils"],
+          "options": {
+            "jestConfig": "libs/utils/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }

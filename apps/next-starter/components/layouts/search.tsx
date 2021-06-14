@@ -1,5 +1,11 @@
 import React from 'react';
-import { renderIfTrue } from '../../util';
+
+function renderIfTrue(component, condition) {
+  if (condition) {
+    return component
+  }
+  return null;
+}
 
 export function LayoutSearchBar() {
   const [searchTerm, setSearchTerm] = React.useState('');

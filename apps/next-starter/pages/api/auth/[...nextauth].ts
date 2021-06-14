@@ -1,15 +1,17 @@
 import jwt from 'jsonwebtoken';
 import NextAuth from 'next-auth';
+import {JWT} from 'next-auth/jwt';
 import Providers from 'next-auth/providers';
 //
-import { env } from 'apps/next-starter/util/config';
-import { prisma } from 'apps/next-starter/util/prisma';
-import { UserSession } from 'apps/next-starter/util/types';
-import { JWT } from 'next-auth/jwt';
+import {env} from 'apps/next-starter/util/config';
+import {prisma} from 'apps/next-starter/util/prisma';
+import {UserSession} from 'apps/next-starter/util/types';
+// 
+import {routes} from '@monorepo-starter/utils';
 
 export default NextAuth({
   pages: {
-    signIn: '/auth/signin',
+    signIn: routes.client.login,
   },
   session: {
     maxAge: 30 * 24 * 60 * 60,
@@ -18,11 +20,11 @@ export default NextAuth({
   jwt: {
     secret: env.JWT_SIGNING_KEY,
     // signingKey: '',
-    async encode({ secret, token, maxAge }) {
+    async encode({secret, token, maxAge}) {
       const encoded = jwt.sign(token, secret);
       return encoded;
     },
-    async decode({ secret, token, maxAge }) {
+    async decode({secret, token, maxAge}) {
       const decoded = jwt.verify(token, secret);
       return decoded as JWT;
     },
@@ -30,13 +32,13 @@ export default NextAuth({
   callbacks: {
     async jwt(token, user, _account, _profile, _isNewUser) {
       // TODO: might not need this anymore...
-      return { roles: user?.roles || [], ...token };
+      return {roles: user?.roles || [], ...token};
     },
     async session(session: UserSession, token): Promise<UserSession> {
       // convert sub -> id
-      const { iat, ...user } = token;
-      const { sub, ...rest } = user;
-      session.user = { ...rest, id: sub as string };
+      const {iat, ...user} = token;
+      const {sub, ...rest} = user;
+      session.user = {...rest, id: sub as string};
       return session as UserSession;
     },
   },
@@ -48,8 +50,8 @@ export default NextAuth({
       // e.g. domain, email, password, 2FA token, etc.
       credentials: {
         // TODO: type -> email?
-        email: { label: 'Email', type: 'text' },
-        password: { label: 'Password', type: 'password' },
+        email: {label: 'Email', type: 'text'},
+        password: {label: 'Password', type: 'password'},
       },
 
       // TODO: fix this ts ignore
@@ -70,7 +72,7 @@ export default NextAuth({
         }
 
         if (match.password === credentials.password) {
-          const { password, ...rest } = match;
+          const {password, ...rest} = match;
           return Promise.resolve(rest);
         }
         return null;

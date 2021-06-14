@@ -1,41 +1,40 @@
-import { getSession } from 'next-auth/client';
+import { Button, Card } from '@monorepo-starter/ui';
 //
 import { TopNavigationLayout } from 'apps/next-starter/components/layouts/top-nav';
-import { VerticalNavigationLayout } from 'apps/next-starter/components/layouts/vertical-nav';
 import { ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS } from 'apps/next-starter/util/routes/nav';
+import { TabNavigationLayout } from 'apps/next-starter/components/layouts/tab-nav';
+import { requireSessionSSR } from 'apps/next-starter/util/misc';
 
 export default function AccountSettingsPage() {
   return (
-    <h1>Account Settings</h1>
+    <div className="space-y-4">
+      <Card
+        title="Notications"
+        description="Quam voluptas ad et eaque odio rerum impedit rerum dolore nemo. Et similique quo dolorum quis repellat enim nulla voluptatem et, Libero impedit vel ut."
+      >
+      </Card>
+      <Card
+        title="Delete Account"
+        description="Quam voluptas ad et eaque odio rerum impedit rerum dolore nemo. Et similique quo dolorum quis repellat enim nulla voluptatem et, Libero impedit vel ut."
+      >
+        <Button buttonStyle="negative">
+          Delete Account
+        </Button>
+      </Card>
+    </div>
   );
 }
 
 AccountSettingsPage.getLayout = page => {
   return (
     <TopNavigationLayout title="Account Settings" session={page.props.session} router={null}>
-      <VerticalNavigationLayout
+      <TabNavigationLayout
         navLinks={ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS}
       >
         {page}
-      </VerticalNavigationLayout>
+      </TabNavigationLayout>
     </TopNavigationLayout>
   )
 }
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/auth/signin',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      session,
-    },
-  };
-}
+export const getServerSideProps = requireSessionSSR;

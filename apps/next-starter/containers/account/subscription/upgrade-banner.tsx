@@ -1,4 +1,4 @@
-import { ACCOUNT_ROUTES } from 'apps/next-starter/util/routes';
+import { routes } from '@monorepo-starter/utils';
 import Link from 'next/link';
 import React from 'react';
 
@@ -12,9 +12,7 @@ export function UpgradePlanBanner(props: UpgradePlanBannerProps) {
           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
             Ready to upgrade your account?
           </h2>
-          <Link
-            href={ACCOUNT_ROUTES.ACCOUNT_PLANS_PAGE}
-          >
+          <Link href={routes.client.account.plans}>
             <a
               className="mt-8 bg-white border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-primary"
             >

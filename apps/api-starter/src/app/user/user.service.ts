@@ -1,15 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {Injectable, NotFoundException} from '@nestjs/common';
 import {
   findManyCursorConnection,
   ConnectionArguments,
 } from '@devoxa/prisma-relay-cursor-connection';
 //
-import { UserGraphModel } from './models/user.model';
-import { PrismaService } from '../prisma/prisma.service';
-import { getPaginationArgs } from '../common/pagination';
-
+import {UserGraphModel} from './models/user.model';
+import {PrismaService} from '../prisma/prisma.service';
+import {getPaginationArgs} from '../common/pagination';
 @Injectable()
-export class UserService {
+export class UserService  {
   constructor(private prisma: PrismaService) {}
 
   async findAllConnection(input?: ConnectionArguments) {
@@ -33,19 +32,19 @@ export class UserService {
   // potentially dangerous - shows existence of an account...
   async findByEmail(email: string): Promise<UserGraphModel | undefined> {
     const user = await this.prisma.user.findUnique({
-      where: { email },
+      where: {email},
     });
     if (!user) throw new NotFoundException();
-    const { password, salt, ...result } = user;
+    const {password, salt, ...result} = user;
     return result;
   }
 
   async findUniqueById(id: string): Promise<UserGraphModel | undefined> {
     const user = await this.prisma.user.findUnique({
-      where: { id },
+      where: {id},
     });
     if (!user) throw new NotFoundException();
-    const { password, salt, ...result } = user;
+    const {password, salt, ...result} = user;
     return result;
   }
 }

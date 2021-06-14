@@ -4,13 +4,31 @@ import {getSession} from 'next-auth/client';
 import {H1, H2} from '@monorepo-starter/ui';
 //
 import {TopNavigationLayout} from 'apps/next-starter/components/layouts/top-nav';
+import {SubscriptionPlanCard} from 'apps/next-starter/containers/account/subscription/plan-card';
+import { requireSessionSSR } from 'apps/next-starter/util/misc';
 
 export default function SubscriptionPlans() {
   return (
     <div className="space-y-6 w-full">
       <H1></H1>
-      <div className="bg-gray-200">
-        <H2>fdsafds</H2>
+      <div className="w-full flex justify-center space-x-8">
+        <SubscriptionPlanCard
+          name="Basic Subscription"
+          description="fldasmfldmsa"
+          perks={['25GB storage','25GB storage','25GB storage']}
+          price={10}
+          stripePriceId="stripeTodo:ChangeMe"
+          variant="light"
+          />
+        <SubscriptionPlanCard
+          name="Basic Subscription"
+          description="fldasmfldmsa"
+          perks={['25GB storage','25GB storage','25GB storage']}
+          price={25}
+          stripePriceId="stripeTodo:ChangeMe"
+          variant="primary"
+          mostPopular
+        />
       </div>
     </div>
   );
@@ -28,20 +46,4 @@ SubscriptionPlans.getLayout = page => {
   );
 };
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/auth/signin',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      session,
-    },
-  };
-}
+export const getServerSideProps = requireSessionSSR;

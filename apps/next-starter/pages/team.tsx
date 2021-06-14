@@ -1,6 +1,6 @@
 import React from 'react';
-import { getSession } from 'next-auth/client';
 //
+import { requireSessionSSR } from '../util/misc';
 import { TopNavigationLayout } from '../components/layouts/top-nav';
 
 export default function Team({ session, router }) {
@@ -19,20 +19,4 @@ Team.getLayout = page => {
   )
 }
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/auth/signin',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      session,
-    },
-  };
-}
+export const getServerSideProps = requireSessionSSR;

@@ -2,7 +2,7 @@ import { Field, ObjectType, InputType, registerEnumType } from '@nestjs/graphql'
 
 @InputType()
 // TODO: update??
-export class CreateSubscriptionInput {
+export class StripeCheckoutSessionInput {
   @Field(_type => PremiumPlanType)
   plan: PremiumPlanType
   // @Field(_type => String)

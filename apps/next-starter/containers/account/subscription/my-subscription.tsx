@@ -1,6 +1,5 @@
 import React from 'react';
 import {gql, OperationVariables, QueryResult, useLazyQuery, useQuery} from '@apollo/client';
-import {CheckCircleIcon} from '@heroicons/react/solid';
 //
 import {Card, Button} from '@monorepo-starter/ui';
 //

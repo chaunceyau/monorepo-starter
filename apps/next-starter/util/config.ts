@@ -1,7 +1,7 @@
 export const env = {
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   // APPLICATION API URL
-  BACKEND_URL: process.env.BACKEND_URL,
+  API_URL: process.env.API_URL,
   // COOKIES
   COOKIE_SIGNING_SECRET: process.env.COOKIE_SIGNING_SECRET,
   // GOOGLE

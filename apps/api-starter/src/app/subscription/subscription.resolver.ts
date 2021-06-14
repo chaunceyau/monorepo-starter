@@ -2,8 +2,7 @@ import {Resolver, Query, Mutation, Args} from '@nestjs/graphql';
 import {Logger, UseGuards} from '@nestjs/common';
 //
 import {
-  CreateSubscriptionInput,
-  CreateSubscriptionResponse,
+  StripeCheckoutSessionInput,
   PremiumPlanType,
 } from './models/create-subscription.input';
 import {
@@ -15,6 +14,8 @@ import {SubscriptionService} from './subscription.service';
 import {StripeConfigService} from '../config/services/stripe.config';
 import {AuthenticatedGuard} from '../common/guards/authenticated.guard';
 import {JwtAuthGuard} from '../common/guards/jwt.guard';
+import {SubscriptionGraphModel} from './models/subscription.model';
+import {CheckoutSessionGraphModel} from './models/checkout-session.model';
 
 @Resolver('Subscription')
 export class SubscriptionResolver {
@@ -61,7 +62,7 @@ export class SubscriptionResolver {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Query(_returns => CreateSubscriptionResponse, {nullable: true})
+  @Query(_returns => SubscriptionGraphModel, {nullable: true})
   async subscription(@AuthenticatedUser() user: ResponseObjectUser) {
     const subscription = await this.subscriptionService.getViewerSubscription(
       user
@@ -71,15 +72,16 @@ export class SubscriptionResolver {
   }
 
   @UseGuards(AuthenticatedGuard)
-  @Mutation(_returns => CreateSubscriptionResponse)
-  async createCheckoutSession(
-    @Args('input') input: CreateSubscriptionInput,
+  @Mutation(_returns => CheckoutSessionGraphModel)
+  async stripeCheckoutSession(
+    @Args('input') input: StripeCheckoutSessionInput,
     @AuthenticatedUser() user: ResponseObjectUser
   ) {
     const session = await this.subscriptionService.createCheckoutSession({
       user,
       priceId: this.getPriceIdForPlan(input.plan),
     });
+
     return {
       id: session.id,
     };
@@ -88,7 +90,7 @@ export class SubscriptionResolver {
   // @UseGuards(AuthenticatedGuard)
   // @Mutation(_returns => CreateSubscriptionResponse)
   // async upgradeToPremium(
-  //   @Args('input') { plan }: CreateSubscriptionInput,
+  //   @Args('input') { plan }: StripeCheckoutSessionInput,
   //   @AuthenticatedUser() user: ResponseObjectUser
   // ): Promise<CreateSubscriptionResponse> {
   //   const db_user = await this.prisma.user.findUnique({

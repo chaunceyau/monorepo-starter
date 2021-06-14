@@ -1,12 +1,12 @@
 import React from 'react';
-import { getSession } from 'next-auth/client';
 import { gql, useQuery } from '@apollo/client'
 // 
-import { Card, Form, FormButton, FormInput, FormUpload } from '@monorepo-starter/ui';
+import { Form, FormButton, FormInput, FormUpload } from '@monorepo-starter/ui';
 //
 import { TopNavigationLayout } from 'apps/next-starter/components/layouts/top-nav';
-import { VerticalNavigationLayout } from 'apps/next-starter/components/layouts/vertical-nav';
 import { ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS } from 'apps/next-starter/util/routes/nav';
+import { TabNavigationLayout } from 'apps/next-starter/components/layouts/tab-nav';
+import { requireSessionSSR } from 'apps/next-starter/util/misc';
 
 const ViewerGql = gql`
   query Viewer { 
@@ -71,30 +71,13 @@ export default function AccountPage() {
 AccountPage.getLayout = page => {
   return (
     <TopNavigationLayout title="Account Settings" session={page.props.sessions} router={null}>
-      <VerticalNavigationLayout
+      <TabNavigationLayout
         navLinks={ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS}
       >
         {page}
-      </VerticalNavigationLayout>
+      </TabNavigationLayout>
     </TopNavigationLayout>
   )
 }
 
-
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/auth/signin',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      session,
-    },
-  };
-}
+export const getServerSideProps = requireSessionSSR;

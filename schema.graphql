@@ -50,8 +50,8 @@ type PaginationPageInfo {
   endCursor: String!
 }
 
-type CreateSubscriptionResponse {
-  id: String!
+type CheckoutSession {
+  id: ID!
 }
 
 type Query {
@@ -61,7 +61,7 @@ type Query {
   presignedImageAccess(input: AccessImageByKeyInput!): PresignedImageAssetPayload!
   presignedUpload(input: AwsS3UploadOptions!): PresignedUploadPayload!
   stripePortalSession: String
-  subscription: CreateSubscriptionResponse
+  subscription: Subscription
 }
 
 input ConnectionArguments {
@@ -84,7 +84,7 @@ input AwsS3UploadOptions {
 
 type Mutation {
   changePassword(input: UpdatePasswordInput!): ChangePasswordResult!
-  createCheckoutSession(input: CreateSubscriptionInput!): CreateSubscriptionResponse!
+  stripeCheckoutSession(input: StripeCheckoutSessionInput!): CheckoutSession!
 }
 
 union ChangePasswordResult = UpdatePasswordSuccess | UpdatePasswordFailed
@@ -102,7 +102,7 @@ input UpdatePasswordInput {
   newPassword: String!
 }
 
-input CreateSubscriptionInput {
+input StripeCheckoutSessionInput {
   plan: SubscriptionPlan!
 }
 

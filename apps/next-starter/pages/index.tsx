@@ -1,9 +1,10 @@
 import React from 'react';
-import { signIn, getSession } from 'next-auth/client';
+import {signIn} from 'next-auth/client';
 //
-import { TopNavigationLayout } from '../components/layouts/top-nav';
+import {requireSessionSSR} from '../util/misc';
+import {TopNavigationLayout} from '../components/layouts/top-nav';
 
-export default function Dashboard({ session, router }) {
+export default function Dashboard({session}) {
   return (
     <>
       {!session && (
@@ -25,26 +26,14 @@ export default function Dashboard({ session, router }) {
 
 Dashboard.getLayout = page => {
   return (
-    <TopNavigationLayout session={page.props.session} router={null} title="Dashboard">
+    <TopNavigationLayout
+      session={page.props.session}
+      router={null}
+      title="Dashboard"
+    >
       {page}
     </TopNavigationLayout>
-  )
-}
+  );
+};
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/auth/signin',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      session,
-    },
-  };
-}
+export const getServerSideProps = requireSessionSSR;

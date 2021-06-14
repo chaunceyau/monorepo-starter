@@ -29,7 +29,7 @@ export function TopNavigationLayout({
   title: string;
 }) {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       <Disclosure as="nav" className="bg-primary">
         {({ open: menuOpen }) => (
           <>

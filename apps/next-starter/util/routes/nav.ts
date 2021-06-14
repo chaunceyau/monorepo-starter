@@ -1,30 +1,31 @@
-import { CashIcon, CogIcon, UserCircleIcon } from '@heroicons/react/outline';
+import {CashIcon, CogIcon, UserCircleIcon} from '@heroicons/react/outline';
 //
-import { ACCOUNT_ROUTES } from './';
+import {routes} from '@monorepo-starter/utils';
 
 export const PRIMARY_NAVIGATION_LINKS = [
-  { to: `/`, label: `Dashboard` },
-  { to: `/team`, label: `Team` },
+  {to: `/`, label: `Dashboard`},
+  {to: `/team`, label: `Team`},
 ];
 
 export const PROFILE_DROPDOWN_LINKS = [
-  { to: `/account`, label: `Your Profile` },
+  {to: routes.client.account.default, label: `Your Profile`},
+  {to: routes.client.logout, label: `Logout`},
 ];
 
 export const ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS = [
   {
     label: 'Profile',
-    href: ACCOUNT_ROUTES.ACCOUNT_PROFILE_PAGE,
+    href: routes.client.account.default,
     icon: UserCircleIcon,
   },
   {
     label: 'Subscription',
-    href: ACCOUNT_ROUTES.ACCOUNT_SUBSCRIPTION_PAGE,
+    href: routes.client.account.billing,
     icon: CashIcon,
   },
   {
     label: 'Settings',
-    href: ACCOUNT_ROUTES.ACCOUNT_SETTINGS_PAGE,
+    href: routes.client.account.settings,
     icon: CogIcon,
   },
 ];

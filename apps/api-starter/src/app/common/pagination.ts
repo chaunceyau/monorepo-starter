@@ -40,6 +40,7 @@ export function Paginated<T>(classRef: Type<T>): any {
   }
   return PaginatedType;
 }
+
 @InputType({ isAbstract: true })
 export class ConnectionArguments implements ConnectionArguments {
   @Field(_type => Int, { nullable: true })

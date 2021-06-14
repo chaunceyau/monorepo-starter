@@ -1,14 +1,20 @@
 import React from 'react';
 import {Button} from '@monorepo-starter/ui';
 import {gql, useMutation} from '@apollo/client';
-import {CheckCircleIcon} from '@heroicons/react/solid';
+import {CheckCircleIcon, CheckIcon} from '@heroicons/react/solid';
 
 interface SubscriptionPlanCardProps {
   name: string;
   perks: string[];
   price: number;
+  mostPopular?: boolean;
+  description: string;
   stripePriceId: string;
   variant: 'light' | 'primary';
+}
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
 }
 
 export function SubscriptionPlanCard(props: SubscriptionPlanCardProps) {
@@ -27,34 +33,46 @@ export function SubscriptionPlanCard(props: SubscriptionPlanCardProps) {
     }
   `);
 
+
   return (
-    <div className="bg-primary rounded-lg shadow-xl overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4">
-      <div className="pt-10 pb-12 px-8 sm:pt-16 sm:px-16 md:pt-10 lg:py-10 lg:pr-0 xl:py-10 xl:pl-16">
-        <div className="lg:self-center">
-          <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-            <span className="block">Ready to upgrade your account?</span>
-            {/* <span className="block">Start your free trial today.</span> */}
-          </h2>
-          {/* <p className="mt-4 text-lg leading-6 text-indigo-200">
-                Ac euismod vel sit maecenas id pellentesque eu sed consectetur.
-                Malesuada adipiscing sagittis vel nulla nec.
-              </p> */}
-          <a
-            href="#"
-            className="mt-8 bg-white border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-primary"
-          >
-            Click to view plans
-          </a>
+   
+      <div
+        key={props.name}
+        className="relative p-8 bg-white border border-gray-200 rounded-2xl shadow-sm flex flex-col flex-1 max-w-xl"
+      >
+        <div className="flex-1">
+          <h3 className="text-xl font-semibold text-gray-900">{props.name}</h3>
+          {props.mostPopular ? (
+            <p className="absolute top-0 py-1.5 px-4 bg-primary rounded-full text-xs font-semibold uppercase tracking-wide text-white transform -translate-y-1/2">
+              Most popular
+            </p>
+          ) : null}
+          <p className="mt-4 flex items-baseline text-gray-900">
+            <span className="text-5xl font-extrabold tracking-tight">${props.price}</span>
+            <span className="ml-1 text-xl font-semibold">per month</span>
+          </p>
+          <p className="mt-6 text-gray-500">{props.description}</p>
+
+          {/* Feature list */}
+          <ul role="list" className="mt-6 mb-4 space-y-5">
+            {props.perks.map((feature) => (
+              <li key={feature} className="flex">
+                <CheckIcon className="flex-shrink-0 w-6 h-6 text-primary" aria-hidden="true" />
+                <span className="ml-3 text-gray-500">{feature}</span>
+              </li>
+            ))}
+          </ul>
         </div>
+        <Button
+           fluid
+           loading={false}
+           onClick={() => getStripeSession({ variables: { input: { plan: 'PREMIUM_MONTHLY'  } } })}
+           buttonStyle={props.variant === 'light' ? 'secondary' : 'primary'}
+           className={buttonClass}
+          >
+           Upgrade Account
+       </Button>
       </div>
-      <div className="-mt-6 aspect-w-5 aspect-h-3 md:aspect-w-2 md:aspect-h-1">
-        <img
-          className="transform translate-x-6 translate-y-6 rounded-md object-cover object-left-top sm:translate-x-16 lg:translate-y-20"
-          src="https://tailwindui.com/img/component-images/full-width-with-sidebar.jpg"
-          alt="App screenshot"
-        />
-      </div>
-    </div>
   );
   // <div className={wrapperClass}>
   //   <h4 className={nameH4Class}>
@@ -94,7 +112,7 @@ function getSubscriptionPlanCardCss(props: SubscriptionPlanCardProps) {
     wrapperClasses.push('bg-gray-200 text-primary');
   } else if (props.variant === 'primary') {
     wrapperClasses.push('bg-primary text-white');
-    buttonClasses.push('text-primary');
+    buttonClasses.push('text-white');
   }
 
   return {
