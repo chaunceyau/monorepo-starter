@@ -11,6 +11,7 @@ export function OAuthProvidersContainer({
     <div className="space-y-4">
       <div>
         <button
+          id="btn-use-google"
           onClick={() => signIn('google')}
           className="w-full inline-flex justify-center py-4 px-4 rounded-md shadow-sm bg-primary text-sm tracking-wide text-gray-500"
         >
@@ -47,7 +48,7 @@ export function OAuthProvidersContainer({
         </button>
       </div>
       <button
-        id="submit-login"
+        id="btn-use-email-pw"
         type="submit"
         className="w-full flex justify-center py-4 px-4 border border-gray-600 rounded-md shadow-sm text-base text-white bg-gray-700 tracking-wide hover:bg- focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
         onClick={onClickEmailPassword}

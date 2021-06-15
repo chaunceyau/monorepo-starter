@@ -16,7 +16,7 @@ provider "aws" {
   secret_key = "secret_key"
 }
 
-resource "aws_s3_bucket" "b" {
+resource "aws_s3_bucket" "my_app_user_storage" {
   bucket = "boilerplate-s3-storage"
   acl    = "private"
 
@@ -31,13 +31,4 @@ resource "aws_s3_bucket" "b" {
     expose_headers  = ["ETag"]
     max_age_seconds = 3000
   }
-}
-
-provider "heroku" {
-  email   = "ops@company.com"
-  api_key = "var.heroku_api_key"
-}
-
-resource "heroku_app" "default" {
-  # ...
 }

@@ -1,4 +1,5 @@
 /* private */ const _relativeClientPaths = {
+  default: `/`,
   login: `/auth/login`,
   logout: `/logout`,
   account: {

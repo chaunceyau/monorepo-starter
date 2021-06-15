@@ -1,20 +1,21 @@
 import * as React from 'react';
 import Link from 'next/link';
-import { Disclosure, Menu, Transition } from '@headlessui/react';
+import {Disclosure, Menu, Transition} from '@headlessui/react';
 //
-import { MainContent } from './main-content';
-import { TopNavigationPageHeader } from './page-header';
+import {MainContent} from './main-content';
+import {TopNavigationPageHeader} from './page-header';
 //
 import {
-  PRIMARY_NAVIGATION_LINKS, PROFILE_DROPDOWN_LINKS,
+  PRIMARY_NAVIGATION_LINKS,
+  PROFILE_DROPDOWN_LINKS,
 } from 'apps/next-starter/util/routes/nav';
-import { UserSession } from 'apps/next-starter/util/types';
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/solid';
-import { DesktopLink } from './desktop/link';
-import { TopNavigationMobileMenu } from './mobile';
+import {UserSession} from 'apps/next-starter/util/types';
+import {BellIcon, MenuIcon, XIcon} from '@heroicons/react/solid';
+import {DesktopLink} from './desktop/link';
+import {TopNavigationMobileMenu} from './mobile';
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(' ');
 }
 
 export function TopNavigationLayout({
@@ -29,9 +30,12 @@ export function TopNavigationLayout({
   title: string;
 }) {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div
+      id="authenticated-app"
+      className="flex flex-col min-h-screen bg-gray-50"
+    >
       <Disclosure as="nav" className="bg-primary">
-        {({ open: menuOpen }) => (
+        {({open: menuOpen}) => (
           <>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between h-16">
@@ -46,9 +50,13 @@ export function TopNavigationLayout({
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
                       {/* todo update navigation items*/}
-                      {PRIMARY_NAVIGATION_LINKS.map(item =>
-                        <DesktopLink key={item.label} to={item.to} label={item.label} />
-                      )}
+                      {PRIMARY_NAVIGATION_LINKS.map(item => (
+                        <DesktopLink
+                          key={item.label}
+                          to={item.to}
+                          label={item.label}
+                        />
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -60,11 +68,13 @@ export function TopNavigationLayout({
                     </button>
 
                     {/* Profile dropdown */}
-                    <Menu as="div" className="ml-3 relative">
-                      {({ open: profileDropdownOpen }) => (
+                    <Menu as="div" className="ml-3 relative" id="avatar-dropdown">
+                      {({open: profileDropdownOpen}) => (
                         <>
                           <div>
-                            <Menu.Button className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                            <Menu.Button
+                              className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                            >
                               <span className="sr-only">Open user menu</span>
                               <img
                                 className="h-8 w-8 rounded-full"
@@ -74,34 +84,33 @@ export function TopNavigationLayout({
                             </Menu.Button>
                           </div>
                           <Transition
+                            as="div"
+                            id="avatar-dropdown-items"
                             show={profileDropdownOpen}
-                            enter=" ease-out duration-100"
+                            enter="ease-out duration-100"
                             enterFrom="transform opacity-0 scale-50"
                             enterTo="transform opacity-100 scale-100"
-                            leave=" ease-in duration-75"
+                            leave="ease-in duration-75"
                             leaveFrom="transform opacity-100 scale-100"
                             leaveTo="transform opacity-0 scale-95"
-                            as="div"
-                         >
+                          >
                             <Menu.Items
                               static
                               className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                             >
                               {/* todo update */}
-                              {PROFILE_DROPDOWN_LINKS.map((item) => (
+                              {PROFILE_DROPDOWN_LINKS.map(item => (
                                 <Menu.Item key={item.label}>
-                                  {({ active }) => (
-                                  <Link
-                                      href={item.to}
-                                  >
-                                    <a
-                                      className={classNames(
-                                        active ? 'bg-gray-100' : '',
-                                        'block px-4 py-2 text-sm text-gray-700'
-                                      )}
-                                    >
-                                      {item.label}
-                                    </a>
+                                  {({active}) => (
+                                    <Link href={item.to}>
+                                      <a
+                                        className={classNames(
+                                          active ? 'bg-gray-100' : '',
+                                          'block px-4 py-2 text-sm text-gray-700'
+                                        )}
+                                      >
+                                        {item.label}
+                                      </a>
                                     </Link>
                                   )}
                                 </Menu.Item>
@@ -126,15 +135,15 @@ export function TopNavigationLayout({
                 </div>
               </div>
             </div>
-        <TopNavigationMobileMenu/>
-  </>
+            <TopNavigationMobileMenu />
+          </>
         )}
       </Disclosure>
 
       <TopNavigationPageHeader title={title} />
       <MainContent children={children} />
     </div>
-  )
+  );
   // return (
   //   <div className="flex flex-col min-h-screen bg-gray-100">
   //     <Disclosure as="nav" className="bg-primary">

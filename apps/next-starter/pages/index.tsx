@@ -17,7 +17,7 @@ export default function Dashboard({session}) {
       )}
       {session && (
         <div>
-          <h2 className="text-xl font-bold">Welcome, {session.user.email}!</h2>
+          <h2 className="text-xl font-bold" id="welcome-message">Welcome, {session.user.email}!</h2>
         </div>
       )}
     </>
