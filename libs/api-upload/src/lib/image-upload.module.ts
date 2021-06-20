@@ -7,37 +7,13 @@ import {
   IMAGE_UPLOAD_PROVIDER,
 } from './types';
 
-export function createImageUploadProvider(
-  options: ImageUploadModuleOptions
-): any {
-  return {provide: IMAGE_UPLOAD_PROVIDER, useValue: options || {}};
-}
-
 @Global()
-@Module({
-  // imports: [],
-  // providers: [ImageUploadService],
-  // exports: [ImageUploadService],
-})
+@Module({})
 export class ImageUploadModule {
   static forRoot(options: ImageUploadModuleOptions): DynamicModule {
     return {
       module: ImageUploadModule,
-      // providers: createImageUploadProvider(options),
-      //
-      //
-      //
-      providers: [createImageUploadProvider(options), ImageUploadService],
-      //
-      //
-      //
-      // providers: [
-      //   {
-      //     provide: IMAGE_UPLOAD_PROVIDER,
-      //     useValue: options,
-      //   },
-      //   ImageUploadService,
-      // ],
+      providers: [this._createStaticProvider(options), ImageUploadService],
       exports: [ImageUploadService],
     };
   }
@@ -46,30 +22,23 @@ export class ImageUploadModule {
     return {
       module: ImageUploadModule,
       imports: options.imports || [],
-      providers: [...this.createAsyncProviders(options), ImageUploadService],
+      providers: [...this._createAsyncProviders(options), ImageUploadService],
       exports: [ImageUploadService],
     };
-    // return {
-    //   module: ImageUploadModule,
-    //   providers: [
-    //     {
-    //       provide: IMAGE_UPLOAD_PROVIDER,
-    //       useFactory: () =>,
-    //     },
-    //     ImageUploadService,
-    //   ],
-    //   exports: [ImageUploadService],
-    // };
   }
 
-  private static createAsyncProviders(
+  private static _createStaticProvider(options: ImageUploadModuleOptions) {
+    return {provide: IMAGE_UPLOAD_PROVIDER, useValue: options || {}};
+  }
+
+  private static _createAsyncProviders(
     options: ImageUploadModuleOptionsAsync
   ): Provider[] {
     if (options.useExisting || options.useFactory) {
-      return [this.createAsyncOptionsProvider(options)];
+      return [this._createAsyncOptionsProvider(options)];
     }
     return [
-      this.createAsyncOptionsProvider(options),
+      this._createAsyncOptionsProvider(options),
       {
         provide: options.useClass,
         useClass: options.useClass,
@@ -77,7 +46,7 @@ export class ImageUploadModule {
     ];
   }
 
-  private static createAsyncOptionsProvider(
+  private static _createAsyncOptionsProvider(
     options: ImageUploadModuleOptionsAsync
   ): Provider {
     if (options.useFactory) {
