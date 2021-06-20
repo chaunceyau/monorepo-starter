@@ -49,19 +49,31 @@ export default function AccountPage() {
               setTimeout(() => resolve(), 5000)
             );
           }}
-          defaultValues={{email: data.viewer.email}}
           title="Personal Information"
           description="Culpa possimus qui laboriosam voluptatem. Iusto tenetur et saepe
             et. Perferendis illo omnis ut voluptates rerum ea. Nulla quas
             corrupti quo id atque aspernatur. Ad est mollitia id est quisquam.
             Omnis magnam cum veniam facere."
         >
-          <FormInput name="email" label="Email Address" disabled/>
+          <FormInput
+            name="email"
+            label="Email Address"
+            defaultValue={data.viewer.email}
+            disabled
+          />
           <FormUpload
             name="avatar"
             label="Profile Image"
             required={false}
             onDeleteMutation={() => {}}
+            defaultValue={[
+              {
+                id: '123',
+                fileName: 'file.name',
+                status: 'IDLE',
+                progress: 0,
+              },
+            ]}
             presignedUpload={file =>
               client.query({
                 query: PresignedUploadQuery,

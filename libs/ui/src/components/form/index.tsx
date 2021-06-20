@@ -97,12 +97,11 @@ export function Form({
   description,
   styled,
   clearValuesOnSubmit,
-  defaultValues
 }: FormProps) {
   //
-  validateChildrenAndInitializeOptionForm(children, defaultValues)
+  validateChildrenAndInitializeOptionForm(children, )
 
-  const methods = RHForm.useForm({ defaultValues })
+  const methods = RHForm.useForm({  })
   const { handleSubmit, reset, setValue } = methods
 
   const onSubmit = async (data: any) => {
@@ -110,6 +109,9 @@ export function Form({
 
     const deleteFiles: { [key: string]: string[] } = {}
 
+    /**
+     * Create an internal array of files that need to be removed if saved
+     */
     React.Children.forEach(children, async (child) => {
       if (child.type === FormUpload) {
         deleteFiles[child.props.name] = data[child.props.name].reduce(

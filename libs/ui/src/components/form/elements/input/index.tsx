@@ -1,8 +1,9 @@
-import React from 'react';
+import * as React from 'react';
 import * as RHForm from 'react-hook-form';
+
 import {FormLabel} from '../misc/label';
+import {getFormInputStyles} from './helpers';
 import {FormInputErrorMessage} from './error-message';
-import { getFormInputStyles } from './helpers';
 
 export interface FormInputProps {
   name: string;
@@ -11,6 +12,7 @@ export interface FormInputProps {
   placeholder?: string;
   disabled?: boolean;
   registerOptions?: RHForm.RegisterOptions;
+  defaultValue?: string;
 }
 
 export const FormInput = (props: FormInputProps) => {
@@ -45,6 +47,7 @@ export const FormInput = (props: FormInputProps) => {
           aria-describedby={
             ctx.formState.errors ? props.name + '-error' : props.name
           }
+          defaultValue={props.defaultValue}
           aria-invalid={!!ctx.errors[props.name]}
         />
       </div>
