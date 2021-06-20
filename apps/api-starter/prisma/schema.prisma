@@ -36,6 +36,12 @@ enum GlobalRole {
   STANDARD
 }
 
+model S3Sync {
+  remoteFileKey String @id @map("remote_file_key")
+  fileName      String @map("file_name")
+  fileType      String @map("file_type")
+}
+
 model StripeSync {
   id                   String            @id
   subscriptionType     SubscriptionType? @map("subscription_type")
@@ -43,7 +49,7 @@ model StripeSync {
   stripeSubscriptionId String?           @unique @map("stripe_subscription_id")
   currentPeriodEnd     DateTime?         @map("current_period_end")
   relatedUser          User?
-  relatedUserId        String?            @unique @map("related_user_id")
+  relatedUserId        String?           @unique @map("related_user_id")
 }
 
 enum SubscriptionType {

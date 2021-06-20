@@ -1,5 +1,11 @@
-import { PrismaAbility, Subjects } from '@casl/prisma';
-import { User, Prisma, UserNotification, StripeSync } from '@prisma/client';
+import {PrismaAbility, Subjects} from '@casl/prisma';
+import {
+  User,
+  Prisma,
+  UserNotification,
+  StripeSync,
+  S3Sync,
+} from '@prisma/client';
 
 export enum DatabaseAction {
   // ReadOwn = 'read_own',
@@ -12,6 +18,7 @@ export enum DatabaseAction {
 
 export type PrismaDatabaseSubject = Subjects<{
   User: User;
+  S3Sync: S3Sync;
   StripeSync: StripeSync;
   UserNotification: UserNotification;
 }>;

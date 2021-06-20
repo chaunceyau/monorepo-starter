@@ -1,5 +1,5 @@
-import { Resolver, Query, Args } from '@nestjs/graphql';
-import { ImageUploadService } from './image-upload.service';
+import {Resolver, Query, Args} from '@nestjs/graphql';
+import {ImageUploadService} from '@monorepo-starter/api-upload';
 import {
   AccessImageByKeyInput,
   AwsS3UploadOptions,
@@ -8,15 +8,15 @@ import {
 } from './image.model';
 
 @Resolver()
-export class ImageUploadResolver {
+export class UploadResolver {
   constructor(private readonly imageUploadService: ImageUploadService) {}
 
-  @Query((_returns) => PresignedImageAssetPayload)
+  @Query(_returns => PresignedImageAssetPayload)
   presignedImageAccess(@Args('input') input: AccessImageByKeyInput) {
     return this.imageUploadService.getSignedImageAccessUrl(input.key, {});
   }
 
-  @Query((_returns) => PresignedUploadPayload)
+  @Query(_returns => PresignedUploadPayload)
   presignedUpload(@Args('input') input: AwsS3UploadOptions) {
     return this.imageUploadService.generateSignedUploadUrl(input);
   }

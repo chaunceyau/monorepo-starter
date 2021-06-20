@@ -2,21 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type PresignedUploadPayload {
-  fileId: String!
-  url: String!
-  fields: [AwsS3UploadDataField!]!
-}
-
-type AwsS3UploadDataField {
-  key: String!
-  value: String!
-}
-
-type PresignedImageAssetPayload {
-  url: String!
-}
-
 type Subscription {
   id: ID!
   planTitle: String!
@@ -54,10 +39,25 @@ type CheckoutSession {
   id: ID!
 }
 
+type PresignedUploadPayload {
+  fileId: String!
+  url: String!
+  fields: [AwsS3UploadDataField!]!
+}
+
+type AwsS3UploadDataField {
+  key: String!
+  value: String!
+}
+
+type PresignedImageAssetPayload {
+  url: String!
+}
+
 type Query {
-  user(id: String!): User!
-  allUsers(input: ConnectionArguments = {first: 5}): UserConnection!
   viewer: User!
+  user(id: String!): User!
+  users(input: ConnectionArguments = {first: 5}): UserConnection!
   presignedImageAccess(input: AccessImageByKeyInput!): PresignedImageAssetPayload!
   presignedUpload(input: AwsS3UploadOptions!): PresignedUploadPayload!
   stripePortalSession: String

@@ -1,19 +1,20 @@
-import { Module } from '@nestjs/common';
-import { StripeModule } from 'nestjs-stripe';
-import { GraphQLModule } from '@nestjs/graphql';
-import { SentryModule } from '@ntegral/nestjs-sentry';
+import {Module} from '@nestjs/common';
+import {StripeModule} from 'nestjs-stripe';
+import {GraphQLModule} from '@nestjs/graphql';
+import {SentryModule} from '@ntegral/nestjs-sentry';
 //
-import { ImageUploadModule } from '@monorepo-starter/api-upload';
+import {ImageUploadModule} from '@monorepo-starter/api-upload';
 //
-import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
-import { PrismaModule } from './prisma/prisma.module';
-import { AccountModule } from './account/account.module';
-import { LocalConfigModule } from './config/config.module';
-import { GlobalConfigService } from './config/services/global.config';
-import { StripeConfigService } from './config/services/stripe.config';
-import { SentryConfigService } from './config/services/sentry.config';
-import { SubscriptionModule } from './subscription/subscription.module';
+import {UserModule} from './user/user.module';
+import {AuthModule} from './auth/auth.module';
+import {PrismaModule} from './prisma/prisma.module';
+import {AccountModule} from './account/account.module';
+import {LocalConfigModule} from './config/config.module';
+import {GlobalConfigService} from './config/services/global.config';
+import {StripeConfigService} from './config/services/stripe.config';
+import {SentryConfigService} from './config/services/sentry.config';
+import {SubscriptionModule} from './subscription/subscription.module';
+import {UploadModule} from './common/upload/upload.module';
 
 @Module({
   imports: [
@@ -21,15 +22,26 @@ import { SubscriptionModule } from './subscription/subscription.module';
     AuthModule,
     UserModule,
     PrismaModule,
+    UploadModule,
     AccountModule,
-    ImageUploadModule,
     LocalConfigModule,
     SubscriptionModule,
+    ImageUploadModule.forRoot({
+      s3: {
+        region: 'us-west-1',
+        accessKeyId: 'AKIA4UL6OVKXVTQYMPUZ',
+        secretAccessKey: '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',
+      },
+      imgix: {
+        domain: 'boilerplateaus.imgix.net',
+        secureURLToken: '6EEryFKDv75TYpXX',
+      },
+    }),
     SentryModule.forRootAsync({
       imports: [LocalConfigModule],
       useFactory: async (
         config: SentryConfigService,
-        { environmentName, releaseVersion }: GlobalConfigService
+        {environmentName, releaseVersion}: GlobalConfigService
       ) => ({
         dsn: config.dsn,
         debug: config.debug,
