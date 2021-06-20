@@ -1,5 +1,5 @@
 -- AlterTable
-ALTER TABLE "User" ADD COLUMN     "profilePhotoRemoteKey" TEXT;
+ALTER TABLE "User" ADD COLUMN     "avatarRemoteKey" TEXT;
 
 -- CreateTable
 CREATE TABLE "S3Sync" (
@@ -11,4 +11,4 @@ CREATE TABLE "S3Sync" (
 );
 
 -- AddForeignKey
-ALTER TABLE "User" ADD FOREIGN KEY ("profilePhotoRemoteKey") REFERENCES "S3Sync"("remote_file_key") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "User" ADD FOREIGN KEY ("avatarRemoteKey") REFERENCES "S3Sync"("remote_file_key") ON DELETE SET NULL ON UPDATE CASCADE;

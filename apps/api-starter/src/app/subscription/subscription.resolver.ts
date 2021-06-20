@@ -7,7 +7,7 @@ import {
 } from './models/create-subscription.input';
 import {
   AuthenticatedUser,
-  ResponseObjectUser,
+  AuthenticatedUserContext,
 } from '../common/decorators/user.decorator';
 import {PrismaService} from '../prisma/prisma.service';
 import {SubscriptionService} from './subscription.service';
@@ -37,7 +37,7 @@ export class SubscriptionResolver {
 
   @UseGuards(JwtAuthGuard)
   @Query(_returns => String, {nullable: true})
-  async stripePortalSession(@AuthenticatedUser() user: ResponseObjectUser) {
+  async stripePortalSession(@AuthenticatedUser() user: AuthenticatedUserContext) {
     const stripeRecord = await this.prisma.stripeSync.findFirst({
       where: {relatedUser: {id: user.id}},
     });
@@ -63,7 +63,7 @@ export class SubscriptionResolver {
 
   @UseGuards(JwtAuthGuard)
   @Query(_returns => SubscriptionGraphModel, {nullable: true})
-  async subscription(@AuthenticatedUser() user: ResponseObjectUser) {
+  async subscription(@AuthenticatedUser() user: AuthenticatedUserContext) {
     const subscription = await this.subscriptionService.getViewerSubscription(
       user
     );
@@ -75,7 +75,7 @@ export class SubscriptionResolver {
   @Mutation(_returns => CheckoutSessionGraphModel)
   async stripeCheckoutSession(
     @Args('input') input: StripeCheckoutSessionInput,
-    @AuthenticatedUser() user: ResponseObjectUser
+    @AuthenticatedUser() user: AuthenticatedUserContext
   ) {
     const session = await this.subscriptionService.createCheckoutSession({
       user,
@@ -91,7 +91,7 @@ export class SubscriptionResolver {
   // @Mutation(_returns => CreateSubscriptionResponse)
   // async upgradeToPremium(
   //   @Args('input') { plan }: StripeCheckoutSessionInput,
-  //   @AuthenticatedUser() user: ResponseObjectUser
+  //   @AuthenticatedUser() user: AuthenticatedUserContext
   // ): Promise<CreateSubscriptionResponse> {
   //   const db_user = await this.prisma.user.findUnique({
   //     where: { id: user.id },

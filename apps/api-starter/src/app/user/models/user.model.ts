@@ -1,7 +1,15 @@
-import { ObjectType, Field, registerEnumType } from '@nestjs/graphql';
-import { Paginated } from '../../common/pagination';
-import { SubscriptionGraphModel } from '../../subscription/models/subscription.model';
+import {ObjectType, Field, registerEnumType} from '@nestjs/graphql';
+import {Paginated} from '../../common/pagination';
+import {SubscriptionGraphModel} from '../../subscription/models/subscription.model';
 // import { SubscriptionType } from '@prisma/client'
+
+@ObjectType('UserAvatar')
+export class UserAvatarGraphModel {
+  @Field(_type => String)
+  url: string;
+  // @Field(_type => String)
+  // awsFileKey: string;
+}
 
 @ObjectType('User')
 export class UserGraphModel {

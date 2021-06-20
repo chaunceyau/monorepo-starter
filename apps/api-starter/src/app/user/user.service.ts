@@ -8,7 +8,7 @@ import {UserGraphModel} from './models/user.model';
 import {PrismaService} from '../prisma/prisma.service';
 import {getPaginationArgs} from '../common/pagination';
 @Injectable()
-export class UserService  {
+export class UserService {
   constructor(private prisma: PrismaService) {}
 
   async findAllConnection(input?: ConnectionArguments) {
@@ -46,5 +46,12 @@ export class UserService  {
     if (!user) throw new NotFoundException();
     const {password, salt, ...result} = user;
     return result;
+  }
+
+  async findUserAvatar(userId: string) {
+    const res = await this.prisma.user
+      .findUnique({where: {id: userId}})
+      .avatar();
+    return res;
   }
 }

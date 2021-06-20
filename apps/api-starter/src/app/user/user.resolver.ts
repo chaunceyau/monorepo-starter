@@ -4,6 +4,7 @@ import {UseGuards} from '@nestjs/common';
 import {InjectStripe} from 'nestjs-stripe';
 import {Resolver, Query, Args, ResolveField} from '@nestjs/graphql';
 //
+import {ImageUploadService} from '@monorepo-starter/api-upload';
 import {DatabaseAction, RbacAbility} from '@monorepo-starter/casl';
 //
 // import {CreatePaymentInput} from './models/create-payment.input'
@@ -12,14 +13,22 @@ import {CheckPolicies} from '../casl/types';
 import {JwtAuthGuard} from '../common/guards/jwt.guard';
 import {ConnectionArguments} from '../common/pagination';
 import {PoliciesGuard} from '../common/guards/policy-guard';
-import {AuthenticatedUser} from '../common/decorators/user.decorator';
-import {UserConnectionGraphModel, UserGraphModel} from './models/user.model';
+import {
+  AuthenticatedUser,
+  AuthenticatedUserContext,
+} from '../common/decorators/user.decorator';
+import {
+  UserConnectionGraphModel,
+  UserGraphModel,
+  UserAvatarGraphModel,
+} from './models/user.model';
 import {SubscriptionGraphModel} from '../subscription/models/subscription.model';
 
 @Resolver(_of => UserGraphModel)
 export class UserResolver {
   constructor(
     private readonly userService: UserService,
+    private readonly uploadService: ImageUploadService,
     @InjectStripe() private readonly stripeClient: Stripe
   ) {}
 
@@ -33,7 +42,7 @@ export class UserResolver {
   }
 
   @UseGuards(JwtAuthGuard, PoliciesGuard)
-  @Query(_returns => UserGraphModel, {name: 'user'})
+  @Query(_returns => UserGraphModel, {name: 'userById'})
   @CheckPolicies((ability: RbacAbility, args: Record<string, any>) =>
     // @ts-ignore
     ability.can(DatabaseAction.Read, subject('User', {id: args.id}))
@@ -48,6 +57,15 @@ export class UserResolver {
     input?: ConnectionArguments
   ) {
     return this.userService.findAllConnection(input);
+  }
+
+  @ResolveField(_type => UserAvatarGraphModel, {
+    name: 'avatar',
+    nullable: true,
+  })
+  async getUserAvatar(@AuthenticatedUser() user: AuthenticatedUserContext) {
+    const res = await this.userService.findUserAvatar(user.id);
+    return this.uploadService.getSignedImageAccessUrl(res.remoteFileKey);
   }
 
   @ResolveField(_type => SubscriptionGraphModel, {nullable: true})

@@ -9,7 +9,7 @@ import {
 } from './models/update-password.input';
 import {
   AuthenticatedUser,
-  ResponseObjectUser,
+  AuthenticatedUserContext,
 } from '../common/decorators/user.decorator';
 import { AccountService } from './account.service';
 import { CheckPolicies } from '../casl/types';
@@ -28,7 +28,7 @@ export class AccountResolver {
   )
   async changePassword(
     @Args('input') input: UpdatePasswordInput,
-    @AuthenticatedUser() user: ResponseObjectUser
+    @AuthenticatedUser() user: AuthenticatedUserContext
   ) {
     return this.accountService.changePassword(
       user.id,

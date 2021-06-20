@@ -5,7 +5,7 @@ import {Injectable, Logger} from '@nestjs/common';
 //
 import {PremiumPlanType} from './models/create-subscription.input';
 import {StripeConfigService} from '../config/services/stripe.config';
-import {ResponseObjectUser} from '../common/decorators/user.decorator';
+import {AuthenticatedUserContext} from '../common/decorators/user.decorator';
 import {PrismaService} from '../prisma/prisma.service';
 
 @Injectable()
@@ -31,7 +31,7 @@ export class SubscriptionService {
   }
 
   async getViewerSubscription(
-    user: ResponseObjectUser
+    user: AuthenticatedUserContext
   ): Promise<Stripe.Subscription | null> {
     const stripeSync = await this.getStripeSyncForViewer(user);
 

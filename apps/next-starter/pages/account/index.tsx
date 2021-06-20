@@ -13,6 +13,9 @@ const ViewerGql = gql`
     viewer {
       id
       email
+      avatar {
+        url
+      }
     }
   }
 `;
@@ -55,7 +58,7 @@ export default function AccountPage() {
         >
           <FormInput name="email" label="Email Address" disabled/>
           <FormUpload
-            name="profilePhoto"
+            name="avatar"
             label="Profile Image"
             required={false}
             onDeleteMutation={() => {}}

@@ -67,10 +67,15 @@ export interface GenerateSignedUploadUrl {
 
 export interface GetSignedImageAccessUrlOptions {
   queryParameters?: {[key: string]: any};
-  // transformation?: Array<{[key: string]: any}>;
-  transformation?: WidthTransformation | HeightTransformation;
+  transformation?: ImageTransformationOptions;
   expireSeconds?: number;
 }
 
-type WidthTransformation = Record<'width', number | string>;
-type HeightTransformation = Record<'height', number | string>;
+type ImageTransformationOptions = WidthTransformation & HeightTransformation;
+
+interface WidthTransformation {
+  ['width']?: string;
+}
+interface HeightTransformation {
+  ['height']?: string;
+}

@@ -3,7 +3,7 @@ import { GqlExecutionContext, GqlContextType } from '@nestjs/graphql';
 import { User } from '@prisma/client';
 
 // note: decorators not enforcing type safety on decorators...
-export interface ResponseObjectUser extends User {}
+export interface AuthenticatedUserContext extends User {}
 
 // TODO: convert to prisma enum
 enum SubscriptionType {
@@ -12,7 +12,7 @@ enum SubscriptionType {
   ENTERPRISE_SUBSCRIBER = 'ENTERPRISE_SUBSCRIBER',
 }
 
-export const AuthenticatedUser = createParamDecorator<ResponseObjectUser>(
+export const AuthenticatedUser = createParamDecorator<AuthenticatedUserContext>(
   (data: unknown, context: ExecutionContext) => {
     if (context.getType() === 'http') {
       const ctx = context.switchToHttp().getRequest();

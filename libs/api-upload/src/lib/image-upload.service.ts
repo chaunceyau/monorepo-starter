@@ -43,7 +43,7 @@ export class ImageUploadService {
   };
 
   private _getAccessLinkExpiryTimeSeconds = () => {
-    const expiresInSeconds = this.options.accessLinkExpiresIn || 60 * 30;
+    const expiresInSeconds = this.options.accessLinkExpiresIn || 60 * 60 * 24;
     return Date.now() / 1000 + expiresInSeconds;
   };
 
@@ -52,12 +52,11 @@ export class ImageUploadService {
     options?: GetSignedImageAccessUrlOptions
   ) {
     // TODO: enum of types of accepted uploads
+    this.logger.debug(`Generating signed image access url.`);
+    this.logger.debug({options});
     const urlOptions = {
-      w: 'width' in options.transformation ? options.transformation.width : 600,
-      h:
-        'height' in options.transformation
-          ? options.transformation.height
-          : 500,
+      w: options?.transformation?.width || 600,
+      h: options?.transformation?.height || 500,
       expires: this._getAccessLinkExpiryTimeSeconds(),
     };
     this.logger.debug(`Generated a signed asset access url.`);
@@ -119,9 +118,9 @@ export class ImageUploadService {
   }
 
   /**
-   * 
+   *
    * @param mimeType: 'image' | 'image/png' | 'image/jpeg'
-   * @returns 
+   * @returns
    */
   private getContentTypeConditionString(mimeType: string) {
     return ['starts-with', '$Content-Type', mimeType];

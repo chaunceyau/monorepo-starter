@@ -10,20 +10,20 @@ datasource db {
 }
 
 model User {
-  id                    String             @id
-  email                 String             @unique
-  password              String
-  salt                  String
+  id              String             @id
+  email           String             @unique
+  password        String
+  salt            String
   // Roles relationship
-  roles                 GlobalRole[]
+  roles           GlobalRole[]
   // Notification relationship
-  notifications         UserNotification[]
+  notifications   UserNotification[]
   // Stripe relationship
-  stripeSync            StripeSync?        @relation(fields: stripeSyncId, references: id)
-  stripeSyncId          String?            @map("stripe_sync_id")
+  stripeSync      StripeSync?        @relation(fields: stripeSyncId, references: id)
+  stripeSyncId    String?            @map("stripe_sync_id")
   // Profile photo
-  profilePhoto          S3Sync?            @relation(fields: [profilePhotoRemoteKey], references: [remoteFileKey])
-  profilePhotoRemoteKey String?
+  avatar          S3Sync?            @relation(fields: [avatarRemoteKey], references: [remoteFileKey])
+  avatarRemoteKey String?
 }
 
 model UserNotification {
