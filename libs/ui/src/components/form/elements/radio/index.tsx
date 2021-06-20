@@ -24,7 +24,7 @@ export function FormRadioGroup(props: FormRadioGroupProps) {
           <FormRadioOption
             {...option}
             key={option.id}
-            variableName={props.name}
+            name={props.name}
           />
         ))}
       </ul>

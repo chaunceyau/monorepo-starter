@@ -23,7 +23,7 @@ export const FormInput = (props: FormInputProps) => {
 
   const styles = getFormInputStyles({
     loading: ctx.formState.isSubmitting,
-    error: ctx.errors[props.name],
+    error: ctx.formState.errors[props.name],
     disabled: props.disabled,
   });
 
@@ -32,15 +32,13 @@ export const FormInput = (props: FormInputProps) => {
       <FormLabel
         name={props.name}
         label={props.label}
-        error={!!ctx.errors[props.name]}
+        error={!!ctx.formState.errors[props.name]}
         required={Boolean(props.registerOptions?.required)}
       />
       <div className="relative rounded-md shadow-sm">
         <input
-          type={props.type || 'text'}
           id={props.name}
-          name={props.name}
-          ref={ctx.register(props.registerOptions)}
+          type={props.type || 'text'}
           disabled={ctx.formState.isSubmitting || props.disabled}
           placeholder={props.placeholder}
           className={styles.inputBaseClasses.join(' ')}
@@ -48,15 +46,16 @@ export const FormInput = (props: FormInputProps) => {
             ctx.formState.errors ? props.name + '-error' : props.name
           }
           defaultValue={props.defaultValue}
-          aria-invalid={!!ctx.errors[props.name]}
+          aria-invalid={!!ctx.formState.errors[props.name]}
+          {...ctx.register(props.name, props.registerOptions)}
         />
       </div>
-      {ctx.errors[props.name] ? (
+      {ctx.formState.errors[props.name] ? (
         <FormInputErrorMessage
           name={props.name}
           message={
-            ctx.errors[props.name]?.message ||
-            ctx.errors[props.name]?.type === 'required'
+            ctx.formState.errors[props.name]?.message ||
+            ctx.formState.errors[props.name]?.type === 'required'
               ? 'You must provide a value for this field'
               : ''
           }

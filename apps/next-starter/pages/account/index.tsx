@@ -66,14 +66,6 @@ export default function AccountPage() {
             label="Profile Image"
             required={false}
             onDeleteMutation={() => {}}
-            defaultValue={[
-              {
-                id: '123',
-                fileName: 'file.name',
-                status: 'IDLE',
-                progress: 0,
-              },
-            ]}
             presignedUpload={file =>
               client.query({
                 query: PresignedUploadQuery,

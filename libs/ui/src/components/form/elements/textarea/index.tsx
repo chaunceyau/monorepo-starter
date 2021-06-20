@@ -23,9 +23,8 @@ export function FormTextarea(props: FormTextAreaProps) {
       <FormLabel name={props.name} label={props.label} error={false} />
       <textarea
         id={props.name}
-        name={props.name}
         className={textAreaClasses.join(' ')}
-        ref={ctx.register(props.registerOptions)}
+        {...ctx.register(props.name, props.registerOptions)}
       />
     </div>
   )

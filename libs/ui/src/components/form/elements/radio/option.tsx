@@ -9,7 +9,7 @@ export interface FormOption {
 
 export function FormRadioOption(
   props: FormOption & {
-    variableName: string
+    name: string
   }
 ) {
   const ctx = useFormContext()
@@ -54,12 +54,12 @@ export function FormRadioOption(
         <input
           type='radio'
           id={props.id}
+          // TODO: should we update this
           value={props.id}
-          name={props.variableName}
           disabled={ctx.formState.isSubmitting}
-          ref={ctx.register({ required: true })}
           className={inputClasses.join(' ')}
           aria-describedby='plan-option-pricing-0 plan-option-limit-0'
+          {...ctx.register(props.name, { required: true })}
         />
         <div className='flex justify-between pl-2 -mt-px w-full'>
           <span className='font-medium'>{props.value}</span>
