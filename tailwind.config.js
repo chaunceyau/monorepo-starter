@@ -3,6 +3,7 @@ module.exports = {
     './apps/next-starter/public/**/*.html',
     './libs/ui/src/**/*.{js,ts,jsx,tsx}',
     './apps/next-starter/pages/**/*.{js,ts,jsx,tsx}',
+    './apps/next-starter/containers/**/*.{js,ts,jsx,tsx}',
     './apps/next-starter/components/**/*.{js,ts,jsx,tsx}',
   ],
   darkMode: false, // or 'media' or 'class'
