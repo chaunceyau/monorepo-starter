@@ -15,6 +15,8 @@ import {StripeConfigService} from './config/services/stripe.config';
 import {SentryConfigService} from './config/services/sentry.config';
 import {SubscriptionModule} from './subscription/subscription.module';
 import {UploadModule} from './common/upload/upload.module';
+import {AWSConfigService} from './config/services/aws.config';
+import {ImgixConfigService} from './config/services/imgix.config';
 
 @Module({
   imports: [
@@ -26,16 +28,24 @@ import {UploadModule} from './common/upload/upload.module';
     AccountModule,
     LocalConfigModule,
     SubscriptionModule,
-    ImageUploadModule.forRoot({
-      s3: {
-        region: 'us-west-1',
-        accessKeyId: 'AKIA4UL6OVKXVTQYMPUZ',
-        secretAccessKey: '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',
-      },
-      imgix: {
-        domain: 'boilerplateaus.imgix.net',
-        secureURLToken: '6EEryFKDv75TYpXX',
-      },
+    ImageUploadModule.forRootAsync({
+      imports: [LocalConfigModule],
+      useFactory: (
+        awsConfig: AWSConfigService,
+        imgixConfig: ImgixConfigService
+      ) => ({
+        s3: {
+          bucket: awsConfig.s3_bucket,
+          region: awsConfig.s3_region,
+          accessKeyId: awsConfig.s3_accessKeyId,
+          secretAccessKey: awsConfig.s3_secretAccessKey,
+        },
+        imgix: {
+          domain: imgixConfig.domain,
+          secureURLToken: imgixConfig.secureURLToken,
+        },
+      }),
+      inject: [AWSConfigService, ImgixConfigService],
     }),
     SentryModule.forRootAsync({
       imports: [LocalConfigModule],

@@ -9,26 +9,16 @@ import {
 } from './types';
 const ImgixClient = require('@imgix/js-core');
 
-// const client = new S3Client({
-//   region: 'us-east-1',
-//   credentials: {
-//     accessKeyId: 'AKIA4UL6OVKXVTQYMPUZ',
-//     secretAccessKey: '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',
-//   },
-// });
-
-// const imgixClient = new ImgixClient({
-//   domain: 'boilerplateaus.imgix.net',
-//   secureURLToken: '6EEryFKDv75TYpXX',
-// });
-
+/**
+ *
+ * [note]: all times in image upload are in seconds,
+ * aws and imgix both expect seconds for expiry
+ */
 @Injectable()
 export class ImageUploadService {
   private logger = new Logger(ImageUploadService.name);
-  private imageExpiryTime = () => new Date().getTime() / 1000 + 60 * 10;
-  private bucket = 'boilerplate-demo-bucket';
-  // 
-  private s3Client;
+  //
+  private s3Client: S3Client;
   private imgixClient;
 
   constructor(
@@ -47,23 +37,39 @@ export class ImageUploadService {
     });
   }
 
+  private _getUploadLinkExpiryTimeSeconds = () => {
+    const expiresInSeconds = this.options.uploadLinkExpiresIn || 60 * 10;
+    return Date.now() / 1000 + expiresInSeconds;
+  };
+
+  private _getAccessLinkExpiryTimeSeconds = () => {
+    const expiresInSeconds = this.options.accessLinkExpiresIn || 60 * 30;
+    return Date.now() / 1000 + expiresInSeconds;
+  };
+
   public getSignedImageAccessUrl(
     fileKey: string,
     options?: GetSignedImageAccessUrlOptions
   ) {
-    const expires = this.imageExpiryTime();
+    // TODO: enum of types of accepted uploads
+    const urlOptions = {
+      w: 'width' in options.transformation ? options.transformation.width : 600,
+      h:
+        'height' in options.transformation
+          ? options.transformation.height
+          : 500,
+      expires: this._getAccessLinkExpiryTimeSeconds(),
+    };
+    this.logger.debug(`Generated a signed asset access url.`);
     return {
-      url: this.imgixClient.buildURL(fileKey, {
-        w: 600,
-        h: 500,
-        expires,
-      }),
+      url: this.imgixClient.buildURL(fileKey, urlOptions),
     };
   }
 
   public async generateSignedUploadUrl(options: GenerateSignedUploadUrl) {
     this.logger.debug(`Attempting to generate a signed upload url.`);
-    const Conditions: any[] = [{acl: 'public-read'}, {bucket: this.bucket}];
+    const Conditions: any[] = [{bucket: this.options.s3.bucket}];
+    // {acl: 'public-read'},
     // if (options.maxSizeBytes) {
     //   const sizeCondition = this.getSizeConditionString(options.size, options.maxSizeBytes)
     //   Conditions.push(sizeCondition)
@@ -75,14 +81,14 @@ export class ImageUploadService {
     // }
 
     const {url, fields} = await createPresignedPost(this.s3Client, {
-      Bucket: this.bucket,
+      Bucket: this.options.s3.bucket,
       Key: options.fileId + '/' + options.fileName,
       Conditions,
       Fields: {
-        acl: 'public-read',
+        // acl: 'public-read',
         ...options.meta,
       },
-      Expires: 1200,
+      Expires: this._getUploadLinkExpiryTimeSeconds(),
     });
     this.logger.debug(`Successfully generated signed upload url.`);
 
@@ -112,7 +118,11 @@ export class ImageUploadService {
     return sizeCondition;
   }
 
-  // mimeType: 'image' | 'image/png' | 'image/jpeg'
+  /**
+   * 
+   * @param mimeType: 'image' | 'image/png' | 'image/jpeg'
+   * @returns 
+   */
   private getContentTypeConditionString(mimeType: string) {
     return ['starts-with', '$Content-Type', mimeType];
   }
