@@ -12,6 +12,9 @@ export class SubscriptionController {
     private readonly subscriptionService: SubscriptionService
   ) {}
 
+  /**
+   * investigate if this always works right
+   */
   @UseGuards(AuthenticatedGuard)
   @Get()
   async redirectToBillingPortalSession(
