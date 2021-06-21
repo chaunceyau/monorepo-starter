@@ -37,56 +37,53 @@ export default function AccountPage() {
   // const [quer,{ data: upload }] = useLazyQuery(PresignedUploadQuery);
   const client = useApolloClient();
 
-  if (data) {
-    return (
-      <div>
-        <Form
-          id="account-settings"
-          styled
-          onSubmit={async () => {
-            console.log('FLDSAMFLDSMALFDS');
-            return new Promise((resolve, _reject) =>
-              setTimeout(() => resolve(), 5000)
-            );
-          }}
-          title="Personal Information"
-          description="Culpa possimus qui laboriosam voluptatem. Iusto tenetur et saepe
+  return (
+    <div>
+      <Form
+        id="account-settings"
+        styled
+        onSubmit={async () => {
+          console.log('FLDSAMFLDSMALFDS');
+          return new Promise((resolve, _reject) =>
+            setTimeout(() => resolve(), 5000)
+          );
+        }}
+        title="Personal Information"
+        description="Culpa possimus qui laboriosam voluptatem. Iusto tenetur et saepe
             et. Perferendis illo omnis ut voluptates rerum ea. Nulla quas
             corrupti quo id atque aspernatur. Ad est mollitia id est quisquam.
             Omnis magnam cum veniam facere."
-        >
-          <FormInput
-            name="email"
-            label="Email Address"
-            defaultValue={data.viewer.email}
-            disabled
-          />
-          <FormUpload
-            name="avatar"
-            label="Profile Image"
-            required={false}
-            onDeleteMutation={() => {}}
-            presignedUpload={file =>
-              client.query({
-                query: PresignedUploadQuery,
-                variables: {
-                  input: {
-                    type: file.file.type,
-                    size: file.file.size,
-                    fileName: file.file.name,
-                    fileId: file.id,
-                  },
+      >
+        <FormInput
+          name="email"
+          label="Email Address"
+          defaultValue={data?.viewer.email}
+          disabled
+        />
+        <FormUpload
+          name="avatar"
+          label="Profile Image"
+          required={false}
+          onDeleteMutation={() => {}}
+          presignedUpload={file =>
+            client.query({
+              query: PresignedUploadQuery,
+              variables: {
+                input: {
+                  type: file.file.type,
+                  size: file.file.size,
+                  fileName: file.file.name,
+                  fileId: file.id,
                 },
-              })
-            }
-            onUploadComplete={async () => {}}
-          />
-          <FormButton buttonStyle="primary">Save</FormButton>
-        </Form>
-      </div>
-    );
-  }
-  return <span>loading</span>;
+              },
+            })
+          }
+          onUploadComplete={async () => {}}
+        />
+        <FormButton buttonStyle="primary">Save</FormButton>
+      </Form>
+    </div>
+  );
 }
 
 AccountPage.getLayout = page => {
