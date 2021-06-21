@@ -16,7 +16,7 @@ import {FileStateObject, PresignedUpload} from './types';
 export type FormUploadProps = {
   name: string;
   label: string;
-  required: boolean;
+  required?: boolean;
   maxFiles?: number;
   allowedFileTypes?: string[];
   defaultValue?: FileStateObject[];

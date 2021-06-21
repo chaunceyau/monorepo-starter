@@ -17,7 +17,7 @@ export interface FormInputProps {
 
 export const FormInput = (props: FormInputProps) => {
   const ctx = RHForm.useFormContext();
-  if (ctx === undefined) {
+  if (typeof ctx === 'undefined') {
     throw new Error('FormInput must be rendered inside a Form component');
   }
 
@@ -46,6 +46,7 @@ export const FormInput = (props: FormInputProps) => {
             ctx.formState.errors ? props.name + '-error' : props.name
           }
           defaultValue={props.defaultValue}
+          onChange={()=>{console.log("dflmaslmfdslmfldmslfmdslfmdslml")}}
           aria-invalid={!!ctx.formState.errors[props.name]}
           {...ctx.register(props.name, props.registerOptions)}
         />

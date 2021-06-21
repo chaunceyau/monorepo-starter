@@ -16,8 +16,8 @@ export function FormLabel({ name, label, error, required }: FormLabelProps) {
     <div className='mb-2'>
       <label htmlFor={name} className={classes.join(' ')}>
         {label}
-        {required ? <span className='text-red-500 ml-px'>*</span> : null}
       </label>
+      {required ? <span className='text-red-500 ml-px'>*</span> : null}
     </div>
   )
 }
