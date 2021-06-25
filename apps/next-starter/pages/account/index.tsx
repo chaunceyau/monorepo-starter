@@ -79,6 +79,21 @@ export default function AccountPage() {
             })
           }
           onUploadComplete={async () => {}}
+          multiple
+          defaultValue={[
+            {
+              fileName: 'fake-file.png',
+              status: 'COMPLETE',
+              progress: 100,
+              id: 'mock_random_id',
+            },
+            {
+              fileName: 'another-example-file.png',
+              status: 'COMPLETE',
+              progress: 100,
+              id: 'mock_random_id_2',
+            },
+          ]}
         />
         <FormButton buttonStyle="primary">Save</FormButton>
       </Form>

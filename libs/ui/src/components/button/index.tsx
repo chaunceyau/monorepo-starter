@@ -176,10 +176,10 @@ export function Button(props: ButtonProps) {
           leave="duration-100"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
-      >
-        <CheckCircleIcon height={20} width={20} />
-      </Transition>
-      <Transition 
+        >
+          <CheckCircleIcon height={20} width={20} />
+        </Transition>
+        <Transition 
           show={buttonState === 'idle'}
           enter="delay-150 duration-100"
           enterFrom="opacity-0"
@@ -187,9 +187,9 @@ export function Button(props: ButtonProps) {
           leave=""
           leaveFrom=""
           leaveTo=""
-      >
+        >
           {props.children}
-      </Transition>
+        </Transition>
       </div>
       <span className="opacity-0">{props.children}</span>
     </button>

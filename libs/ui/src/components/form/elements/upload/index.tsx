@@ -55,7 +55,7 @@ export function FormUpload(props: FormUploadProps) {
     name,
     label,
     onUploadComplete,
-    onDeleteMutation,
+    // onDeleteMutation,
     presignedUpload,
   } = props;
 
@@ -77,7 +77,6 @@ export function FormUpload(props: FormUploadProps) {
         value={inputProps.value}
         uploadInputRef={inputRef}
         presignedUpload={presignedUpload}
-        onDeleteMutation={onDeleteMutation}
         onUploadComplete={onUploadComplete}
         allowMultipleFiles={!!props.multiple}
       />

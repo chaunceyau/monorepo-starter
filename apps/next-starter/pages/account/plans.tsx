@@ -19,7 +19,7 @@ export default function SubscriptionPlans() {
           price={10}
           stripePriceId="stripeTodo:ChangeMe"
           variant="light"
-          />
+        />
         <SubscriptionPlanCard
           name="Basic Subscription"
           description="fldasmfldmsa"

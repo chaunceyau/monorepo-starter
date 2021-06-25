@@ -4,16 +4,16 @@ import * as RHForm from 'react-hook-form';
 
 //
 import {Toasts} from '../misc/toasts';
+import {FormInput} from './elements/input';
 import {FormButton} from './elements/button';
 import {FormUpload} from './elements/upload';
-import {FormInput} from './elements/input';
 import {FormToggle} from './elements/toggle';
 import {FormSelect} from './elements/select';
-import {FormDivider} from './elements/divider';
-import {FormRadioGroup, FormRadioGroupProps} from './elements/radio';
-import {FormTextarea} from './elements/textarea';
 import {FormDateInput} from './elements/date';
-import {CardHeader} from '../card/header';
+import {FormDivider} from './elements/divider';
+import {FormTextarea} from './elements/textarea';
+import {FormRadioGroup, FormRadioGroupProps} from './elements/radio';
+
 import {Card} from '@monorepo-starter/ui';
 
 export interface FormProps {
@@ -107,31 +107,35 @@ export function Form({
   const onSubmit = async (data: any) => {
     const isFunctionAsync = _onSubmit.constructor.name === 'AsyncFunction';
 
-    const deleteFiles: {[key: string]: string[]} = {};
+    const deleteFiles: {[key: string]: {
+      files: Array<string>, 
+      onDeleteFunction: (fileIds: string[]) => void
+    }} = {};
 
     /**
      * Create an internal array of files that need to be removed if saved
      */
     React.Children.forEach(children, async child => {
       if (child.type === FormUpload) {
-        deleteFiles[child.props.name] = data[child.props.name].reduce(
+        deleteFiles[child.props.name] = {
+          onDeleteFunction: child.props.onDeleteMutation,
+          files: data[child.props.name].reduce(
           (acc: any, val: any) => {
             return val.status === 'PENDING_REMOVAL' ? acc.concat(val.id) : acc;
           },
-          []
-        );
+          [])
+        };
       }
     });
 
     try {
-      for (const [, value] of Object.entries(deleteFiles)) {
-        await new Promise(resolve =>
-          setTimeout(() => {
-            resolve(value);
-          }, 500)
-        );
+      for await (const [key, value] of Object.entries(deleteFiles)) {
+         new Promise(function(resolve, reject) {
+          setTimeout(() => resolve("done"), 1000);
+        });
+        deleteFiles[key].onDeleteFunction(deleteFiles[key].files)
       }
-
+      
       await _onSubmit(data);
 
       for (const [key, deletes] of Object.entries<any>(deleteFiles)) {
