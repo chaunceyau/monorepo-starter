@@ -143,11 +143,12 @@ describe('<FormUpload/> - WITH default value provided', () => {
 
 describe('<FormUpload/> - with queried default value', () => {
   const mockOnSubmit = jest.fn();
+  const mockPresignedUpload = createMockPresignedUpload();
   let wrapper;
   beforeEach(() => {
     wrapper = render(
       <MockedProvider mocks={queryMocks} addTypename={false}>
-        <FakeQueriedDefaultValueForm onSubmit={mockOnSubmit} />
+        <FakeQueriedDefaultValueForm onSubmit={mockOnSubmit} presignedUpload={mockPresignedUpload} />
       </MockedProvider>
     );
   });

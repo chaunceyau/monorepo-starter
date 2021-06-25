@@ -39,7 +39,7 @@ export const FakeQueriedDefaultValueFormQuery = gql`
   }
 `;
 
-export const FakeQueriedDefaultValueForm = ({onSubmit}) => {
+export const FakeQueriedDefaultValueForm = ({onSubmit, presignedUpload}) => {
   const {data} = useQuery(FakeQueriedDefaultValueFormQuery);
   if (data) {
     return (
@@ -56,9 +56,7 @@ export const FakeQueriedDefaultValueForm = ({onSubmit}) => {
           }))}
           onDeleteMutation={() => {}}
           onUploadComplete={async () => {}}
-          presignedUpload={async () => ({
-            data: {presignedUpload: {url: '', fileId: '', fields: []}},
-          })}
+          presignedUpload={presignedUpload}
           // registerOptions={{required: 'this value is required'}}
         />
         <FormButton buttonStyle="primary">submit</FormButton>
