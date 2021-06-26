@@ -82,3 +82,13 @@ export const queryMocks = [
     },
   },
 ];
+
+export function createMockPresignedUpload() {
+  return jest.fn().mockImplementation(() => new Promise(resolve => {
+    setTimeout(() => {
+      resolve({
+        data: {presignedUpload: {url: '', fileId: '', fields: []}},
+      })
+    }, 10000)
+  }));
+}

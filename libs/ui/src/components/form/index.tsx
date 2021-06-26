@@ -131,11 +131,11 @@ export function Form({
     try {
       for await (const [key, value] of Object.entries(deleteFiles)) {
          new Promise(function(resolve, reject) {
+          deleteFiles[key].onDeleteFunction(deleteFiles[key].files)
           setTimeout(() => resolve("done"), 1000);
         });
-        deleteFiles[key].onDeleteFunction(deleteFiles[key].files)
       }
-      
+
       await _onSubmit(data);
 
       for (const [key, deletes] of Object.entries<any>(deleteFiles)) {
