@@ -1,11 +1,10 @@
 import React from 'react';
-import {getSession} from 'next-auth/client';
 //
-import {H1, H2} from '@monorepo-starter/ui';
+import {H1} from '@monorepo-starter/ui';
 //
 import {TopNavigationLayout} from 'apps/next-starter/components/layouts/top-nav';
 import {SubscriptionPlanCard} from 'apps/next-starter/containers/account/subscription/plan-card';
-import { requireSessionSSR } from 'apps/next-starter/util/misc';
+import {requireSessionSSR} from 'apps/next-starter/util/misc';
 
 export default function SubscriptionPlans() {
   return (

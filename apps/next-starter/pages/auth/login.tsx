@@ -1,11 +1,10 @@
 import React from 'react';
+import {getCsrfToken, getSession} from 'next-auth/client';
 //
 import {config} from '@monorepo-starter/utils';
 //
 import {ApplicationLogo} from 'apps/next-starter/components/icons/logo';
-import {requireNoSessionSSR} from 'apps/next-starter/util/misc';
 import {LoginContainer} from 'apps/next-starter/containers/account/login';
-import {getCsrfToken, getSession} from 'next-auth/client';
 
 interface LoginPageProps {
   csrfToken: string;

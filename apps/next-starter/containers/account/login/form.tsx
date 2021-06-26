@@ -1,5 +1,5 @@
-import { getCsrfToken } from "next-auth/client";
-import React from "react";
+import React from 'react';
+import {getCsrfToken} from 'next-auth/client';
 
 interface LoginFormContainerProps {
   csrfToken: string;
@@ -14,7 +14,6 @@ export function LoginFormContainer({csrfToken}: LoginFormContainerProps) {
       className="space-y-6 bg-gray-100 pt-2 pb-8 px-4 shadow sm:rounded-lg sm:px-10"
     >
       <input name="csrfToken" type="hidden" value={csrf} />
-
       <div>
         <h3 className="text-2xl font-bold tracking-wide text-primary mt-2">
           Login with email
@@ -103,11 +102,11 @@ export function LoginFormContainer({csrfToken}: LoginFormContainerProps) {
 }
 
 function useCsrf() {
-  const [csrf, setCsrf] = React.useState<string | undefined>()
+  const [csrf, setCsrf] = React.useState<string | undefined>();
   React.useEffect(() => {
     getCsrfToken().then(token => {
-      setCsrf(token)
+      setCsrf(token);
     });
-  }, [])
-  return csrf
+  }, []);
+  return csrf;
 }
