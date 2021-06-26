@@ -1,13 +1,12 @@
 import React from 'react';
-import {fireEvent, render, screen, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom';
-import {act} from 'react-dom/test-utils';
-// import { act } from 'react-dom/test-utils'
+import {fireEvent, render, screen, waitFor} from '@testing-library/react';
+//
 import {Form} from '../../../';
 import {FormInput} from '../../../elements/input';
 import {FormButton} from '../../../elements/button';
 
-// const mockOnSubmit = (data: any) => jest.fn(data)
+const mockRequiredMessage = 'this value is required';
 
 describe('Form with text input', () => {
   const mocks = {
@@ -16,31 +15,30 @@ describe('Form with text input', () => {
       name: 'mockFieldName',
       label: 'mock label',
       defaultValue: 'some new default value',
-      value: 'some new mock value',
+      updatedMockValue: 'some new mock value',
     },
   };
 
   const mockOnSubmit = jest.fn();
   let wrapper;
   beforeEach(() => {
+    jest.resetAllMocks();
     wrapper = render(
       <Form id={mocks.formId} onSubmit={mockOnSubmit}>
         <FormInput
           name={mocks.input.name}
           label={mocks.input.label}
           defaultValue={mocks.input.defaultValue}
-          registerOptions={{required: 'this value is required'}}
+          registerOptions={{required: mockRequiredMessage}}
         />
         <FormButton buttonStyle="primary">submit</FormButton>
       </Form>
     );
   });
 
-
   it('<FormInput /> submits with default value', async () => {
-    await act(async () => {
-      fireEvent.submit(wrapper.getByRole('button'));
-    });
+    fireEvent.submit(wrapper.getByRole('button'));
+    await waitFor(() => mockOnSubmit);
 
     expect(mockOnSubmit).toHaveBeenCalledWith({
       [mocks.input.name]: mocks.input.defaultValue,
@@ -48,48 +46,31 @@ describe('Form with text input', () => {
   });
 
   it('<FormInput /> submits with changed value', async () => {
-
-    await act(async () => {
-      fireEvent.input(wrapper.getByLabelText(mocks.input.label), {
-        target: {
-          value: mocks.input.value,
-        },
-      });
-
-      fireEvent.submit(wrapper.getByRole('button'));
+    fireEvent.input(wrapper.getByLabelText(mocks.input.label), {
+      target: {
+        value: mocks.input.updatedMockValue,
+      },
     });
+
+    fireEvent.submit(wrapper.getByRole('button'));
+    await waitFor(() => mockOnSubmit);
 
     expect(mockOnSubmit).toHaveBeenCalledWith({
-      [mocks.input.name]: mocks.input.value,
+      [mocks.input.name]: mocks.input.updatedMockValue,
     });
   });
+
+  it('should display required error when value is empty string', async () => {
+    fireEvent.input(wrapper.getByLabelText(mocks.input.label), {
+      target: {
+        value: '',
+      },
+    });
+
+    fireEvent.submit(screen.getAllByText(/submit/i)[0]);
+    await waitFor(() => mockOnSubmit);
+
+    expect(mockOnSubmit).not.toHaveBeenCalled();
+    expect(screen.getByText(mockRequiredMessage)).toBeInTheDocument();
+  });
 });
-
-// it('should display required error when value is not provided', async () => {
-//   await act(async () => {
-//     fireEvent.submit(screen.getByText(/save/i))
-
-//     await waitFor(() =>
-//       expect(screen.getByText(/this value is required/i)).toBeInTheDocument()
-//     )
-
-//     expect(mockOnSubmit).not.toHaveBeenCalled()
-//   })
-// })
-
-// it('should be called with the correct value', async () => {
-//   await act(async () => {
-//     fireEvent.input(screen.getByLabelText(/example label/i), {
-//       target: {
-//         value: 'test-value'
-//       }
-//     })
-
-//     // test-value
-//     fireEvent.submit(screen.getByText(/save/i))
-
-//     await waitFor(() =>
-//       expect(mockOnSubmit).toHaveBeenCalledWith({ fieldName: 'test-value' })
-//     )
-//   })
-// })

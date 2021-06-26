@@ -85,13 +85,13 @@ describe('<FormUpload/> - WITH default value provided', () => {
   });
 
   it('properly handles deleting 1 file and submitting', async () => {
-    await act(async () => {
-      // Click the delete icon
-      fireEvent.click(
-        wrapper.getByTestId('delete-' + mockDefaultValue[0].fileName)
-      );
-      fireEvent.click(wrapper.getAllByText(/submit/i)[0]);
-    });
+    fireEvent.click(
+      wrapper.getByTestId('delete-' + mockDefaultValue[0].fileName)
+    );
+    fireEvent.click(wrapper.getAllByText(/submit/i)[0]);
+
+    await waitFor(() => mockOnSubmit)
+
     expect(wrapper.getAllByText(/submit/i)[0]).toBeInTheDocument();
     // TODO: update mockOnSubmit assertion
     expect(mockOnSubmit).toHaveBeenCalledWith({
@@ -114,7 +114,7 @@ describe('<FormUpload/> - WITH default value provided', () => {
     );
     expect(deleteFirstIcon).toBeInTheDocument();
     expect(deleteSecondIcon).toBeInTheDocument();
-    
+
     fireEvent.click(deleteFirstIcon);
     fireEvent.click(deleteSecondIcon);
     fireEvent.click(wrapper.getAllByText(/submit/i)[0]);

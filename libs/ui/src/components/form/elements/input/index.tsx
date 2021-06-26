@@ -27,6 +27,13 @@ export const FormInput = (props: FormInputProps) => {
     disabled: props.disabled,
   });
 
+  const getErrorMessage = React.useCallback((error: any) => {
+    if (error?.type === 'required') {
+      return error?.message || 'You must provide a value for this field';
+    }
+    return error?.message || 'There is an issue with this input'
+  }, [ctx.formState.errors[props.name]])
+
   return (
     <div className={styles.textColor}>
       <FormLabel
@@ -46,7 +53,6 @@ export const FormInput = (props: FormInputProps) => {
             ctx.formState.errors ? props.name + '-error' : props.name
           }
           defaultValue={props.defaultValue}
-          onChange={()=>{console.log("dflmaslmfdslmfldmslfmdslfmdslml")}}
           aria-invalid={!!ctx.formState.errors[props.name]}
           {...ctx.register(props.name, props.registerOptions)}
         />
@@ -54,14 +60,11 @@ export const FormInput = (props: FormInputProps) => {
       {ctx.formState.errors[props.name] ? (
         <FormInputErrorMessage
           name={props.name}
-          message={
-            ctx.formState.errors[props.name]?.message ||
-            ctx.formState.errors[props.name]?.type === 'required'
-              ? 'You must provide a value for this field'
-              : ''
-          }
+          message={getErrorMessage(ctx.formState.errors[props.name])}
         />
       ) : null}
     </div>
   );
 };
+
+
