@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import {render} from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
 
 import {Form} from '../../../';
 import {FormUpload} from '../';
@@ -12,10 +12,10 @@ import {createMockPresignedUpload, mocks} from './mocks';
 describe('<FormUpload/> - WITHOUT default value provided', () => {
   const mockOnSubmit = jest.fn();
   const mockPresignedUpload = createMockPresignedUpload();
-  let wrapper;
+
   beforeEach(() => {
     jest.clearAllMocks();
-    wrapper = render(
+    render(
       <Form id={mocks.formId} onSubmit={mockOnSubmit}>
         <FormUpload
           name={mocks.input.name}
@@ -29,18 +29,18 @@ describe('<FormUpload/> - WITHOUT default value provided', () => {
     );
   });
 
-  it('shows upload a file message if no files', async () => {
-    expect(wrapper.getByText(/Upload a file/i)).toBeInTheDocument();
+  it('shows upload a file message if no files', () => {
+    expect(screen.getByText(/Upload a file/i)).toBeInTheDocument();
   });
 });
 
 describe('<FormUpload/> - WITH default value provided & multiple = true', () => {
   const mockOnSubmit = jest.fn();
   const mockPresignedUpload = createMockPresignedUpload();
-  let wrapper;
+
   beforeEach(() => {
     jest.clearAllMocks();
-    wrapper = render(
+    render(
       <Form id={mocks.formId} onSubmit={mockOnSubmit}>
         <FormUpload
           multiple={true}
@@ -56,10 +56,10 @@ describe('<FormUpload/> - WITH default value provided & multiple = true', () => 
     );
   });
 
-  it('<FormUpload/> renders file list with add another file button', async () => {
+  it('<FormUpload/> renders file list with add another file button', () => {
     expect(
-      wrapper.getByText(mocks.input.defaultValue[0].fileName)
+      screen.getByText(mocks.input.defaultValue[0].fileName)
     ).toBeInTheDocument();
-    expect(wrapper.getAllByText('Add another file')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('Add another file')[0]).toBeInTheDocument();
   });
 });

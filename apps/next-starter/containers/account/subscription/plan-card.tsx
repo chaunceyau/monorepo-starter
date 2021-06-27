@@ -13,10 +13,6 @@ interface SubscriptionPlanCardProps {
   variant: 'light' | 'primary';
 }
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
-
 export function SubscriptionPlanCard(props: SubscriptionPlanCardProps) {
   const {
     wrapperClass,
@@ -54,7 +50,7 @@ export function SubscriptionPlanCard(props: SubscriptionPlanCardProps) {
           <p className="mt-6 text-gray-500">{props.description}</p>
 
           {/* Feature list */}
-          <ul role="list" className="mt-6 mb-4 space-y-5">
+          <ul className="mt-6 mb-4 space-y-5">
             {props.perks.map((feature) => (
               <li key={feature} className="flex">
                 <CheckIcon className="flex-shrink-0 w-6 h-6 text-primary" aria-hidden="true" />

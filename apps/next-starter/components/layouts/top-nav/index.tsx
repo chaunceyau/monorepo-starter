@@ -1,22 +1,16 @@
 import * as React from 'react';
 import Link from 'next/link';
 import {Disclosure, Menu, Transition} from '@headlessui/react';
+import {BellIcon, MenuIcon, XIcon} from '@heroicons/react/solid';
+//
+import {conditionallyConcatClassNames} from '@monorepo-starter/utils';
 //
 import {MainContent} from './main-content';
 import {TopNavigationPageHeader} from './page-header';
-//
-import {
-  PRIMARY_NAVIGATION_LINKS,
-  PROFILE_DROPDOWN_LINKS,
-} from 'apps/next-starter/util/routes/nav';
-import {UserSession} from 'apps/next-starter/util/types';
-import {BellIcon, MenuIcon, XIcon} from '@heroicons/react/solid';
 import {DesktopLink} from './desktop/link';
+import {UserSession} from '../../../util/types';
 import {TopNavigationMobileMenu} from './mobile';
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
+import { UI_NAV_COMPONENT_LINKS } from '../../../util/routes/nav';
 
 export function TopNavigationLayout({
   children,
@@ -50,7 +44,7 @@ export function TopNavigationLayout({
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
                       {/* todo update navigation items*/}
-                      {PRIMARY_NAVIGATION_LINKS.map(item => (
+                      {UI_NAV_COMPONENT_LINKS.primaryNavbar.map(item => (
                         <DesktopLink
                           key={item.label}
                           to={item.to}
@@ -68,13 +62,15 @@ export function TopNavigationLayout({
                     </button>
 
                     {/* Profile dropdown */}
-                    <Menu as="div" className="ml-3 relative" id="avatar-dropdown">
+                    <Menu
+                      as="div"
+                      className="ml-3 relative"
+                      id="avatar-dropdown"
+                    >
                       {({open: profileDropdownOpen}) => (
                         <>
                           <div>
-                            <Menu.Button
-                              className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                            >
+                            <Menu.Button className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                               <span className="sr-only">Open user menu</span>
                               <img
                                 className="h-8 w-8 rounded-full"
@@ -99,12 +95,12 @@ export function TopNavigationLayout({
                               className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                             >
                               {/* todo update */}
-                              {PROFILE_DROPDOWN_LINKS.map(item => (
+                              {UI_NAV_COMPONENT_LINKS.profileDropdown.map(item => (
                                 <Menu.Item key={item.label}>
                                   {({active}) => (
                                     <Link href={item.to}>
                                       <a
-                                        className={classNames(
+                                        className={conditionallyConcatClassNames(
                                           active ? 'bg-gray-100' : '',
                                           'block px-4 py-2 text-sm text-gray-700'
                                         )}

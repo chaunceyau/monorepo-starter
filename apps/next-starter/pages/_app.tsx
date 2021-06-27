@@ -19,8 +19,7 @@ Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
 function CustomApp({Component, pageProps}: AppProps) {
-  // @ts-ignore
-  const getLayout = Component.getLayout || (page => page);
+  const getLayout = (Component as any).getLayout || (page => page);
   const apolloClient = useApollo(pageProps.initialApolloState);
   return (
     <>

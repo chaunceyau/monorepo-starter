@@ -1,28 +1,61 @@
 {
   "implicitDependencies": {
-    "package.json": {"dependencies": "*", "devDependencies": "*"},
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
     ".eslintrc.json": "*"
   },
-  "affected": {"defaultBase": "main"},
+  "affected": {
+    "defaultBase": "main"
+  },
   "npmScope": "monorepo-starter",
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
-      "options": {"cacheableOperations": ["build", "lint", "test", "e2e"]}
+      "options": {
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ]
+      }
     }
   },
   "projects": {
-    "next-starter": {"tags": []},
-    "next-starter-e2e": {"tags": [], "implicitDependencies": ["next-starter"]},
-    "api-starter": {"tags": []},
-    "casl": {"tags": []},
-    "api-upload": {"tags": []},
-    "ui": {"tags": []},
-    "marketing-starter": {"tags": []},
+    "api-starter": {
+      "tags": []
+    },
+    "api-upload": {
+      "tags": []
+    },
+    "casl": {
+      "tags": []
+    },
+    "marketing-starter": {
+      "tags": []
+    },
     "marketing-starter-e2e": {
       "tags": [],
-      "implicitDependencies": ["marketing-starter"]
+      "implicitDependencies": [
+        "marketing-starter"
+      ]
     },
-    "utils": {"tags": []}
+    "next-starter": {
+      "tags": []
+    },
+    "next-starter-e2e": {
+      "tags": [],
+      "implicitDependencies": [
+        "next-starter"
+      ]
+    },
+    "ui": {
+      "tags": []
+    },
+    "utils": {
+      "tags": []
+    }
   }
 }

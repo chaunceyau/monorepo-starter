@@ -5,9 +5,7 @@ import { TopNavigationLayout } from '../components/layouts/top-nav';
 
 export default function Team({ session, router }) {
   return (
-    <>
-      <h1>fladsmflmsdalfmsdalmfldsmlm</h1>
-    </>
+    <h1>fladsmflmsdalfmsdalmfldsmlm</h1>
   );
 }
 

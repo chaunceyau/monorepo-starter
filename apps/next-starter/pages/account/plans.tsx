@@ -2,9 +2,9 @@ import React from 'react';
 //
 import {H1} from '@monorepo-starter/ui';
 //
+import {requireSessionSSR} from 'apps/next-starter/util/misc';
 import {TopNavigationLayout} from 'apps/next-starter/components/layouts/top-nav';
 import {SubscriptionPlanCard} from 'apps/next-starter/containers/account/subscription/plan-card';
-import {requireSessionSSR} from 'apps/next-starter/util/misc';
 
 export default function SubscriptionPlans() {
   return (
@@ -14,7 +14,7 @@ export default function SubscriptionPlans() {
         <SubscriptionPlanCard
           name="Basic Subscription"
           description="fldasmfldmsa"
-          perks={['25GB storage','25GB storage','25GB storage']}
+          perks={['25GB storage', '25GB storage', '25GB storage']}
           price={10}
           stripePriceId="stripeTodo:ChangeMe"
           variant="light"
@@ -22,7 +22,7 @@ export default function SubscriptionPlans() {
         <SubscriptionPlanCard
           name="Basic Subscription"
           description="fldasmfldmsa"
-          perks={['25GB storage','25GB storage','25GB storage']}
+          perks={['25GB storage', '25GB storage', '25GB storage']}
           price={25}
           stripePriceId="stripeTodo:ChangeMe"
           variant="primary"
@@ -33,16 +33,14 @@ export default function SubscriptionPlans() {
   );
 }
 
-SubscriptionPlans.getLayout = page => {
-  return (
-    <TopNavigationLayout
-      title="Subscription Plans"
-      session={page.props.session}
-      router={null}
-    >
-      {page}
-    </TopNavigationLayout>
-  );
-};
+SubscriptionPlans.getLayout = page => (
+  <TopNavigationLayout
+    title="Subscription Plans"
+    session={page.props.session}
+    router={null}
+  >
+    {page}
+  </TopNavigationLayout>
+);
 
 export const getServerSideProps = requireSessionSSR;

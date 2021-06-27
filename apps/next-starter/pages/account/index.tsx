@@ -4,9 +4,9 @@ import {gql, useApolloClient, useQuery} from '@apollo/client';
 import {Form, FormButton, FormInput, FormUpload} from '@monorepo-starter/ui';
 //
 import {TopNavigationLayout} from 'apps/next-starter/components/layouts/top-nav';
-import {ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS} from 'apps/next-starter/util/routes/nav';
 import {TabNavigationLayout} from 'apps/next-starter/components/layouts/tab-nav';
 import {requireSessionSSR} from 'apps/next-starter/util/misc';
+import {UI_NAV_COMPONENT_LINKS} from 'apps/next-starter/util/routes/nav';
 
 const ViewerGql = gql`
   query Viewer {
@@ -109,7 +109,7 @@ AccountPage.getLayout = page => {
       session={page.props.sessions}
       router={null}
     >
-      <TabNavigationLayout navLinks={ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS}>
+      <TabNavigationLayout navLinks={UI_NAV_COMPONENT_LINKS.accountPageSubnav}>
         {page}
       </TabNavigationLayout>
     </TopNavigationLayout>

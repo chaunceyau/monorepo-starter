@@ -8,7 +8,7 @@ interface BaseAnchorProps {
   label: string;
 }
 
-interface TextAnchorProps extends BaseAnchorProps {}
+type TextAnchorProps = BaseAnchorProps
 
 interface ButtonAnchorProps extends BaseAnchorProps {
   buttonStyle?: ButtonStyle;

@@ -1,10 +1,8 @@
 import React from 'react';
 import {Button, Card} from '@monorepo-starter/ui';
 //
-import {TopNavigationLayout} from 'apps/next-starter/components/layouts/top-nav';
-import {ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS} from 'apps/next-starter/util/routes/nav';
-import {TabNavigationLayout} from 'apps/next-starter/components/layouts/tab-nav';
 import {requireSessionSSR} from 'apps/next-starter/util/misc';
+import {AccountPagesLayout} from 'apps/next-starter/components/layouts/account-pages';
 
 export default function AccountSettingsPage() {
   return (
@@ -23,18 +21,10 @@ export default function AccountSettingsPage() {
   );
 }
 
-AccountSettingsPage.getLayout = page => {
-  return (
-    <TopNavigationLayout
-      title="Account Settings"
-      session={page.props.session}
-      router={null}
-    >
-      <TabNavigationLayout navLinks={ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS}>
-        {page}
-      </TabNavigationLayout>
-    </TopNavigationLayout>
-  );
-};
+AccountSettingsPage.getLayout = page => (
+  <AccountPagesLayout {...page.props}>
+      {page}
+  </AccountPagesLayout>
+);
 
 export const getServerSideProps = requireSessionSSR;

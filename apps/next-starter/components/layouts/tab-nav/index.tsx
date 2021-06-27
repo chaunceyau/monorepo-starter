@@ -3,17 +3,13 @@ import Link from 'next/link';
 import {useRouter} from 'next/router';
 import { CashIcon, CogIcon, UserCircleIcon } from '@heroicons/react/solid';
 // 
-import { routes } from '@monorepo-starter/utils';
+import { conditionallyConcatClassNames, routes } from '@monorepo-starter/utils';
 
 const tabs = [
   {name: 'My Account', href: routes.client.account.default, icon: UserCircleIcon},
   {name: 'Billing', href: routes.client.account.billing, icon: CashIcon},
   {name: 'Settings', href: routes.client.account.settings, icon: CogIcon},
 ];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
 
 interface SidebarNavLink {
   label: string;
@@ -55,7 +51,7 @@ export function TabNavigationLayout(props: TabNavigationLayoutProps) {
                 return (
                   <Link key={tab.name} href={tab.href}>
                     <a
-                      className={classNames(
+                      className={conditionallyConcatClassNames(
                         active
                           ? 'border-primary text-primary'
                           : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',

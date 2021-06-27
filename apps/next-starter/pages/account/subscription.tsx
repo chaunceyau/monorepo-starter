@@ -1,12 +1,10 @@
 import React from 'react';
 import {gql, useQuery} from '@apollo/client';
 //
-import { requireSessionSSR } from 'apps/next-starter/util/misc';
-import {TopNavigationLayout} from 'apps/next-starter/components/layouts/top-nav';
+import {requireSessionSSR} from 'apps/next-starter/util/misc';
 import {MySubscriptionCard} from 'apps/next-starter/containers/account/subscription/my-subscription';
 import {UpgradePlanBanner} from 'apps/next-starter/containers/account/subscription/upgrade-banner';
-import {TabNavigationLayout} from 'apps/next-starter/components/layouts/tab-nav';
-import {ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS} from 'apps/next-starter/util/routes/nav';
+import {AccountPagesLayout} from 'apps/next-starter/components/layouts/account-pages';
 
 export default function AccountSubscriptionPage() {
   const query = useQuery(
@@ -27,18 +25,10 @@ export default function AccountSubscriptionPage() {
   );
 }
 
-AccountSubscriptionPage.getLayout = page => {
-  return (
-    <TopNavigationLayout
-      title="Account Settings"
-      session={page.props.session}
-      router={null}
-    >
-      <TabNavigationLayout navLinks={ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS}>
-        {page}
-      </TabNavigationLayout>
-    </TopNavigationLayout>
-  );
-};
+AccountSubscriptionPage.getLayout = page => (
+  <AccountPagesLayout title="Account Settings" {...page.props}>
+    {page}
+  </AccountPagesLayout>
+);
 
 export const getServerSideProps = requireSessionSSR;

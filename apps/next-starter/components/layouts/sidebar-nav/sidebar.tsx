@@ -1,12 +1,9 @@
 import React from 'react';
+import {useRouter} from 'next/router';
 import Link, {LinkProps} from 'next/link';
 import {Transition} from '@headlessui/react';
-//
-import {useRouter} from 'next/router';
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
+// 
+import {conditionallyConcatClassNames} from '@monorepo-starter/utils';
 
 interface VerticalNavigationLink extends Pick<LinkProps, 'href'> {
   label: string;
@@ -36,7 +33,7 @@ export function VerticalNavigationSidebar(
           return (
             <Link key={item.label} href={item.href}>
               <a
-                className={classNames(
+                className={conditionallyConcatClassNames(
                   active
                     ? 'bg-gray-700 text-white'
                     : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
@@ -45,7 +42,7 @@ export function VerticalNavigationSidebar(
                 aria-current={item.current ? 'page' : undefined}
               >
                 <item.icon
-                  className={classNames(
+                  className={conditionallyConcatClassNames(
                     active
                       ? 'text-white'
                       : 'text-gray-400 group-hover:text-gray-500',

@@ -1,6 +1,10 @@
 import '@testing-library/jest-dom';
 import {MockedProvider} from '@apollo/client/testing';
-import {render, waitForElementToBeRemoved} from '@testing-library/react';
+import {
+  screen,
+  render,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 
 import {
   createMockPresignedUpload,
@@ -11,10 +15,10 @@ import {
 describe('<FormUpload/> - with gql queried default value', () => {
   const mockOnSubmit = jest.fn();
   const mockPresignedUpload = createMockPresignedUpload();
-  let wrapper;
+
   beforeEach(() => {
     jest.clearAllMocks();
-    wrapper = render(
+    render(
       <MockedProvider mocks={queryMocks} addTypename={false}>
         <FakeQueriedDefaultValueForm
           onSubmit={mockOnSubmit}
@@ -25,12 +29,10 @@ describe('<FormUpload/> - with gql queried default value', () => {
   });
 
   it('renders list after data returns', async () => {
-    await waitForElementToBeRemoved(wrapper.queryByText(/loading/i));
-    // for await (const file of queryMocks[0].result.data.files) {
-    //   expect(wrapper.queryByText(file.fileName)).toBeInTheDocument();
-    // }
+    await waitForElementToBeRemoved(screen.queryByText(/loading/i));
+
     queryMocks[0].result.data.files.forEach(file => {
-      expect(wrapper.getByText(file.fileName)).toBeInTheDocument();
+      expect(screen.getByText(file.fileName)).toBeInTheDocument();
     });
   });
 });

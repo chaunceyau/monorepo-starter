@@ -3,10 +3,7 @@ import Link from 'next/link';
 import {BellIcon} from '@heroicons/react/solid';
 import {Disclosure, Transition} from '@headlessui/react';
 //
-import {
-  PRIMARY_NAVIGATION_LINKS,
-  PROFILE_DROPDOWN_LINKS,
-} from 'apps/next-starter/util/routes/nav';
+import {UI_NAV_COMPONENT_LINKS} from 'apps/next-starter/util/routes/nav';
 
 export function TopNavigationMobileMenu() {
   return (
@@ -25,7 +22,7 @@ export function TopNavigationMobileMenu() {
           >
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {/* todo: fix itemIdx */}
-              {PRIMARY_NAVIGATION_LINKS.map((item, itemIdx) =>
+              {UI_NAV_COMPONENT_LINKS.primaryNavbar.map((item, itemIdx) =>
                 itemIdx === 0 ? (
                   <React.Fragment key={item.label}>
                     {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
@@ -68,7 +65,7 @@ export function TopNavigationMobileMenu() {
               </div>
               <div className="mt-3 px-2 space-y-1">
                 {/* todo: profile items again */}
-                {PROFILE_DROPDOWN_LINKS.map(item => (
+                {UI_NAV_COMPONENT_LINKS.profileDropdown.map(item => (
                   <Link key={item.label} href={item.to}>
                     <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-white hover:bg-gray-700">
                       {item.label}

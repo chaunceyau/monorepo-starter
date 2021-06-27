@@ -13,7 +13,7 @@ export function DesktopLink(props: DesktopLinkProps) {
   const match =
     props.router?.pathname === props.to || router?.pathname === props.to;
 
-  let aClasses = ['px-3 py-2 rounded-md text-sm font-medium text-white']
+  const aClasses = ['px-3 py-2 rounded-md text-sm font-medium text-white']
 
   if (match) {
     aClasses.push("bg-black bg-opacity-50")

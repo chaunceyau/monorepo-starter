@@ -2,17 +2,17 @@ import {CashIcon, CogIcon, UserCircleIcon} from '@heroicons/react/outline';
 //
 import {routes} from '@monorepo-starter/utils';
 
-export const PRIMARY_NAVIGATION_LINKS = [
+const _PRIMARY_NAVIGATION_LINKS = [
   {to: `/`, label: `Dashboard`},
   {to: `/team`, label: `Team`},
 ];
 
-export const PROFILE_DROPDOWN_LINKS = [
+const _PROFILE_DROPDOWN_LINKS = [
   {to: routes.client.account.default, label: `Your Profile`},
   {to: routes.client.logout, label: `Logout`},
 ];
 
-export const ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS = [
+const _ACCOUNT_PAGE_SIDEBAR_NAVIGATION_LINKS = [
   {
     label: 'Profile',
     href: routes.client.account.default,
@@ -29,3 +29,12 @@ export const ACCOUNT_PAGE_VERTICAL_NAVIGATION_LINKS = [
     icon: CogIcon,
   },
 ];
+
+/**
+ * Links in navigation components (e.g. top nav, sidebar nav, etc.)
+ */
+export const UI_NAV_COMPONENT_LINKS = {
+  primaryNavbar: _PRIMARY_NAVIGATION_LINKS,
+  profileDropdown: _PROFILE_DROPDOWN_LINKS,
+  accountPageSubnav: _ACCOUNT_PAGE_SIDEBAR_NAVIGATION_LINKS,
+};
