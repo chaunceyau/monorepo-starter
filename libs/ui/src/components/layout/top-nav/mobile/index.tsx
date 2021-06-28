@@ -3,9 +3,14 @@ import Link from 'next/link';
 import {BellIcon} from '@heroicons/react/solid';
 import {Disclosure, Transition} from '@headlessui/react';
 //
-import {UI_NAV_COMPONENT_LINKS} from 'apps/next-starter/util/routes/nav';
+import {NavigationLink} from '../../types';
 
-export function TopNavigationMobileMenu() {
+interface TopNavigationMobileMenuProps {
+  primaryNavigationLinks: Array<NavigationLink>;
+  profileDropdownNavigationLinks: Array<NavigationLink>;
+}
+
+export function TopNavigationMobileMenu(props: TopNavigationMobileMenuProps) {
   return (
     <Disclosure.Panel className="md:hidden">
       {({open}) => {
@@ -22,18 +27,18 @@ export function TopNavigationMobileMenu() {
           >
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {/* todo: fix itemIdx */}
-              {UI_NAV_COMPONENT_LINKS.primaryNavbar.map((item, itemIdx) =>
+              {props.primaryNavigationLinks.map((item, itemIdx) =>
                 itemIdx === 0 ? (
                   <React.Fragment key={item.label}>
                     {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
-                    <Link href={item.to}>
+                    <Link href={item.href}>
                       <a className="bg-gray-800 bg-opacity-75 text-white block px-3 py-2 rounded-md text-base font-medium">
                         {item.label}
                       </a>
                     </Link>
                   </React.Fragment>
                 ) : (
-                  <Link href={item.to} key={item.label}>
+                  <Link href={item.href} key={item.label}>
                     <a className="text-gray-200 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
                       {item.label}
                     </a>
@@ -65,8 +70,8 @@ export function TopNavigationMobileMenu() {
               </div>
               <div className="mt-3 px-2 space-y-1">
                 {/* todo: profile items again */}
-                {UI_NAV_COMPONENT_LINKS.profileDropdown.map(item => (
-                  <Link key={item.label} href={item.to}>
+                {props.profileDropdownNavigationLinks.map(item => (
+                  <Link key={item.label} href={item.href}>
                     <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-white hover:bg-gray-700">
                       {item.label}
                     </a>

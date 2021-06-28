@@ -1,18 +1,19 @@
 import {CashIcon, CogIcon, UserCircleIcon} from '@heroicons/react/outline';
 //
 import {routes} from '@monorepo-starter/utils';
+import {LayoutContext, NavigationLink} from 'libs/ui/src/components/layout/types';
 
-const _PRIMARY_NAVIGATION_LINKS = [
-  {to: `/`, label: `Dashboard`},
-  {to: `/team`, label: `Team`},
+const _PRIMARY_NAVIGATION_LINKS: Array<NavigationLink> = [
+  {href: `/`, label: `Dashboard`},
+  {href: `/team`, label: `Team`},
 ];
 
-const _PROFILE_DROPDOWN_LINKS = [
-  {to: routes.client.account.default, label: `Your Profile`},
-  {to: routes.client.logout, label: `Logout`},
+const _PROFILE_DROPDOWN_NAVIGATION_LINKS: Array<NavigationLink> = [
+  {href: routes.client.account.default, label: `Your Profile`},
+  {href: routes.client.logout, label: `Logout`},
 ];
 
-const _ACCOUNT_PAGE_SIDEBAR_NAVIGATION_LINKS = [
+const _ACCOUNT_PAGE_NAVIGATION_LINKS: Array<NavigationLink> = [
   {
     label: 'Profile',
     href: routes.client.account.default,
@@ -33,8 +34,8 @@ const _ACCOUNT_PAGE_SIDEBAR_NAVIGATION_LINKS = [
 /**
  * Links in navigation components (e.g. top nav, sidebar nav, etc.)
  */
-export const UI_NAV_COMPONENT_LINKS = {
-  primaryNavbar: _PRIMARY_NAVIGATION_LINKS,
-  profileDropdown: _PROFILE_DROPDOWN_LINKS,
-  accountPageSubnav: _ACCOUNT_PAGE_SIDEBAR_NAVIGATION_LINKS,
+export const UI_APP_NAVIGATION: LayoutContext = {
+  primaryNavigationLinks: _PRIMARY_NAVIGATION_LINKS,
+  accountPageNavigationLinks: _ACCOUNT_PAGE_NAVIGATION_LINKS,
+  profileDropdownNavigationLinks: _PROFILE_DROPDOWN_NAVIGATION_LINKS,
 };

@@ -1,12 +1,11 @@
 import React from 'react';
 import {gql, useApolloClient, useQuery} from '@apollo/client';
 //
-import {Form, FormButton, FormInput, FormUpload} from '@monorepo-starter/ui';
+import {Form, FormButton, FormInput, FormUpload, TabNavigationLayout, TopNavigationLayout} from '@monorepo-starter/ui';
 //
-import {TopNavigationLayout} from 'apps/next-starter/components/layouts/top-nav';
-import {TabNavigationLayout} from 'apps/next-starter/components/layouts/tab-nav';
 import {requireSessionSSR} from 'apps/next-starter/util/misc';
 import {UI_NAV_COMPONENT_LINKS} from 'apps/next-starter/util/routes/nav';
+import { BasicAccountSettingsLayout } from 'apps/next-starter/components/layouts/account-pages';
 
 const ViewerGql = gql`
   query Viewer {
@@ -102,18 +101,21 @@ export default function AccountPage() {
   );
 }
 
-AccountPage.getLayout = page => {
-  return (
-    <TopNavigationLayout
-      title="Account Settings"
-      session={page.props.sessions}
-      router={null}
-    >
-      <TabNavigationLayout navLinks={UI_NAV_COMPONENT_LINKS.accountPageSubnav}>
-        {page}
-      </TabNavigationLayout>
-    </TopNavigationLayout>
-  );
-};
 
 export const getServerSideProps = requireSessionSSR;
+
+// export const BasicAccountSettingsLayout = page => {
+//   return (
+//     <TopNavigationLayout
+//       title="Account Settings"
+//       session={page.props.sessions}
+//       router={null}
+//     >
+//       <TabNavigationLayout tabs={UI_NAV_COMPONENT_LINKS.accountPageSubnav}>
+//         {page}
+//       </TabNavigationLayout>
+//     </TopNavigationLayout>
+//   );
+// };
+
+AccountPage.getLayout = BasicAccountSettingsLayout;

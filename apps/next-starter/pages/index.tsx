@@ -1,8 +1,10 @@
 import React from 'react';
 import {signIn} from 'next-auth/client';
 //
+import {TopNavigationLayout} from '@monorepo-starter/ui';
+//
 import {requireSessionSSR} from '../util/misc';
-import {TopNavigationLayout} from '../components/layouts/top-nav';
+import { UI_NAV_COMPONENT_LINKS } from '../util/routes/nav';
 
 export default function Dashboard({session}) {
   return (
@@ -30,6 +32,8 @@ Dashboard.getLayout = page => {
       session={page.props.session}
       router={null}
       title="Dashboard"
+      primaryLinks={UI_NAV_COMPONENT_LINKS.primaryNavbar}
+      dropdownLinks={UI_NAV_COMPONENT_LINKS.profileDropdown}
     >
       {page}
     </TopNavigationLayout>

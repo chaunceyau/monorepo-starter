@@ -1,21 +1,18 @@
 import React from 'react';
-import { AsyncBoundaryError } from './error';
 //
-import { AsyncBoundaryLoading } from './loading';
+import {AsyncBoundaryError} from './error';
+import {AsyncBoundaryLoading} from './loading';
 
-export function AsyncBoundary({
-  loading,
-  error,
-  children,
-}: {
+interface AsyncBoundaryProps extends React.PropsWithChildren<{}> {
   loading: boolean;
   error: any;
-  children: React.ReactNode;
-}): any {
-  if (error) {
+}
+
+export function AsyncBoundary(props: AsyncBoundaryProps) {
+  if (props.error) {
     return <AsyncBoundaryError />;
-  } else if (loading) {
+  } else if (props.loading) {
     return <AsyncBoundaryLoading />;
   }
-  return children;
+  return props.children;
 }

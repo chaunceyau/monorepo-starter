@@ -1,25 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
-import { CashIcon, CogIcon, UserCircleIcon } from '@heroicons/react/solid';
 // 
-import { conditionallyConcatClassNames, routes } from '@monorepo-starter/utils';
-
-const tabs = [
-  {name: 'My Account', href: routes.client.account.default, icon: UserCircleIcon},
-  {name: 'Billing', href: routes.client.account.billing, icon: CashIcon},
-  {name: 'Settings', href: routes.client.account.settings, icon: CogIcon},
-];
-
-interface SidebarNavLink {
-  label: string;
-  href: string;
-  icon?: React.ReactNode;
-}
+import {conditionallyConcatClassNames} from '@monorepo-starter/utils';
+// 
+import {NavigationLink} from '../types';
 
 interface TabNavigationLayoutProps {
   children?: React.ReactNode | React.ReactNode[];
-  navLinks: Array<SidebarNavLink>;
+  tabs: Array<NavigationLink>;
 }
 
 export function TabNavigationLayout(props: TabNavigationLayoutProps) {
@@ -36,20 +25,19 @@ export function TabNavigationLayout(props: TabNavigationLayoutProps) {
             id="tabs"
             name="tabs"
             className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md"
-            // defaultValue={tabs.find(tab => tab.current).name}
           >
-            {tabs.map(tab => (
-              <option key={tab.name}>{tab.name}</option>
+            {props.tabs.map(tab => (
+              <option key={tab.label}>{tab.label}</option>
             ))}
           </select>
         </div>
         <div className="hidden sm:block">
           <div className="border-b border-gray-200">
             <nav className="-mb-px flex space-x-8" aria-label="Tabs">
-              {tabs.map(tab => {
+              {props.tabs.map(tab => {
                 const active = tab.href === router.pathname;
                 return (
-                  <Link key={tab.name} href={tab.href}>
+                  <Link key={tab.label} href={tab.href}>
                     <a
                       className={conditionallyConcatClassNames(
                         active
@@ -60,7 +48,7 @@ export function TabNavigationLayout(props: TabNavigationLayoutProps) {
                       aria-current={active ? 'page' : undefined}
                     >
                         <tab.icon className="h-4 mr-2" />
-                        {tab.name}
+                        {tab.label}
                     </a>
                   </Link>
                 );

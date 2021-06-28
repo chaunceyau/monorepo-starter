@@ -3,15 +3,17 @@ import Head from 'next/head';
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import {AppProps} from 'next/app';
-import {Provider} from 'next-auth/client';
+import {Provider as AuthProvider} from 'next-auth/client';
 import {ApolloProvider} from '@apollo/client';
 //
+import {LayoutProvider} from '@monorepo-starter/ui';
 import {createAbilitiesForUser} from '@monorepo-starter/casl';
 //
 import '../styles/tailwind.generated.css';
 //
 import {AbilityContext} from '../util/casl';
 import {useApollo} from '../util/api-client';
+import {UI_APP_NAVIGATION} from '../util/routes/nav';
 
 //
 Router.events.on('routeChangeStart', url => NProgress.start());
@@ -27,15 +29,18 @@ function CustomApp({Component, pageProps}: AppProps) {
         <title>Monorepo Starter</title>
         <link rel="stylesheet" type="text/css" href="/nprogress.css" />
       </Head>
-      <Provider session={pageProps.session}>
-        <ApolloProvider client={apolloClient}>
-          <AbilityContext.Provider
-            value={createAbilitiesForUser(pageProps.session?.user)}
-          >
-            {getLayout(<Component {...pageProps} />)}
-          </AbilityContext.Provider>
-        </ApolloProvider>
-      </Provider>
+
+      <AuthProvider session={pageProps.session}>
+        <LayoutProvider value={UI_APP_NAVIGATION}>
+          <ApolloProvider client={apolloClient}>
+            <AbilityContext.Provider
+              value={createAbilitiesForUser(pageProps.session?.user)}
+            >
+              {getLayout(<Component {...pageProps} />)}
+            </AbilityContext.Provider>
+          </ApolloProvider>
+        </LayoutProvider>
+      </AuthProvider>
     </>
   );
 }

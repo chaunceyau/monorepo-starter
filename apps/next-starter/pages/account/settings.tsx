@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Card} from '@monorepo-starter/ui';
 //
 import {requireSessionSSR} from 'apps/next-starter/util/misc';
-import {AccountPagesLayout} from 'apps/next-starter/components/layouts/account-pages';
+import {BasicAccountSettingsLayout} from 'apps/next-starter/components/layouts/account-pages';
 
 export default function AccountSettingsPage() {
   return (
@@ -21,10 +21,11 @@ export default function AccountSettingsPage() {
   );
 }
 
-AccountSettingsPage.getLayout = page => (
-  <AccountPagesLayout {...page.props}>
-      {page}
-  </AccountPagesLayout>
-);
+AccountSettingsPage.getLayout = BasicAccountSettingsLayout;
+//  page => (
+//   <AccountPagesLayout {...page.props}>
+//       {page}
+//   </AccountPagesLayout>
+// );
 
 export const getServerSideProps = requireSessionSSR;

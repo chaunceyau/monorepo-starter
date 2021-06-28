@@ -1,7 +1,9 @@
 import React from 'react';
 //
-import { requireSessionSSR } from '../util/misc';
-import { TopNavigationLayout } from '../components/layouts/top-nav';
+import {TopNavigationLayout} from '@monorepo-starter/ui';
+//
+import {requireSessionSSR} from '../util/misc';
+import { PrimaryLayout } from '../components/layouts';
 
 export default function Team({ session, router }) {
   return (
@@ -11,9 +13,9 @@ export default function Team({ session, router }) {
 
 Team.getLayout = page => {
   return (
-    <TopNavigationLayout session={page.props.session} router={null} title="Team">
+    <PrimaryLayout title="Team" page={page}>
       {page}
-    </TopNavigationLayout>
+    </PrimaryLayout>
   )
 }
 

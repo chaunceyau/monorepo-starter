@@ -4,7 +4,7 @@ import {gql, useQuery} from '@apollo/client';
 import {requireSessionSSR} from 'apps/next-starter/util/misc';
 import {MySubscriptionCard} from 'apps/next-starter/containers/account/subscription/my-subscription';
 import {UpgradePlanBanner} from 'apps/next-starter/containers/account/subscription/upgrade-banner';
-import {AccountPagesLayout} from 'apps/next-starter/components/layouts/account-pages';
+import {BasicAccountSettingsLayout} from 'apps/next-starter/components/layouts/account-pages';
 
 export default function AccountSubscriptionPage() {
   const query = useQuery(
@@ -25,10 +25,11 @@ export default function AccountSubscriptionPage() {
   );
 }
 
-AccountSubscriptionPage.getLayout = page => (
-  <AccountPagesLayout title="Account Settings" {...page.props}>
-    {page}
-  </AccountPagesLayout>
-);
+AccountSubscriptionPage.getLayout = BasicAccountSettingsLayout;
+//  page => (
+//   <AccountPagesLayout title="Account Settings" {...page.props}>
+//     {page}
+//   </AccountPagesLayout>
+// );
 
 export const getServerSideProps = requireSessionSSR;

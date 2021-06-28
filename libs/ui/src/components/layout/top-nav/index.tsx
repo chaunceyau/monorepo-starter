@@ -5,24 +5,29 @@ import {BellIcon, MenuIcon, XIcon} from '@heroicons/react/solid';
 //
 import {conditionallyConcatClassNames} from '@monorepo-starter/utils';
 //
+import {NavigationLink} from '../types';
 import {MainContent} from './main-content';
-import {TopNavigationPageHeader} from './page-header';
 import {DesktopLink} from './desktop/link';
-import {UserSession} from '../../../util/types';
 import {TopNavigationMobileMenu} from './mobile';
-import { UI_NAV_COMPONENT_LINKS } from '../../../util/routes/nav';
+import {TopNavigationPageHeader} from './page-header';
 
-export function TopNavigationLayout({
-  children,
-  session,
-  router,
-  title,
-}: {
-  children: React.ReactNode;
-  session: UserSession;
+interface TopNavigationLayoutProps<TUserSession>
+  extends React.PropsWithChildren<{}> {
   router?: any;
   title: string;
-}) {
+  session: TUserSession;
+  primaryNavigationLinks: Array<NavigationLink>;
+  profileDropdownNavigationLinks: Array<NavigationLink>;
+}
+
+export function TopNavigationLayout<TUserSession>({
+  title,
+  router,
+  session,
+  children,
+  primaryNavigationLinks,
+  profileDropdownNavigationLinks,
+}: TopNavigationLayoutProps<TUserSession>) {
   return (
     <div
       id="authenticated-app"
@@ -44,10 +49,10 @@ export function TopNavigationLayout({
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
                       {/* todo update navigation items*/}
-                      {UI_NAV_COMPONENT_LINKS.primaryNavbar.map(item => (
+                      {primaryNavigationLinks.map(item => (
                         <DesktopLink
                           key={item.label}
-                          to={item.to}
+                          to={item.href}
                           label={item.label}
                         />
                       ))}
@@ -94,11 +99,11 @@ export function TopNavigationLayout({
                               static
                               className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                             >
-                              {/* todo update */}
-                              {UI_NAV_COMPONENT_LINKS.profileDropdown.map(item => (
+                              {/* todo: update */}
+                              {profileDropdownNavigationLinks.map(item => (
                                 <Menu.Item key={item.label}>
                                   {({active}) => (
-                                    <Link href={item.to}>
+                                    <Link href={item.href}>
                                       <a
                                         className={conditionallyConcatClassNames(
                                           active ? 'bg-gray-100' : '',
@@ -131,7 +136,10 @@ export function TopNavigationLayout({
                 </div>
               </div>
             </div>
-            <TopNavigationMobileMenu />
+            <TopNavigationMobileMenu
+              primaryNavigationLinks={primaryNavigationLinks}
+              profileDropdownNavigationLinks={profileDropdownNavigationLinks}
+            />
           </>
         )}
       </Disclosure>

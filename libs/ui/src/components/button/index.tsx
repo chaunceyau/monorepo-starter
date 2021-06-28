@@ -3,8 +3,7 @@ import {CheckCircleIcon} from '@heroicons/react/solid'
 import { LoadingSpinner } from '../misc/spinner'
 import { Transition } from '@headlessui/react'
 
-export interface ButtonProps {
-  children: React.ReactNode
+export interface ButtonProps extends React.PropsWithChildren<{}> {
   className?: string
   // TODO: should seperate loading/disabled to either or
   loading?: boolean
