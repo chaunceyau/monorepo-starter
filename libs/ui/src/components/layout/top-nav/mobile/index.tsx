@@ -3,14 +3,17 @@ import Link from 'next/link';
 import {BellIcon} from '@heroicons/react/solid';
 import {Disclosure, Transition} from '@headlessui/react';
 //
-import {NavigationLink} from '../../types';
+import {useLayoutContext} from '@monorepo-starter/ui';
 
-interface TopNavigationMobileMenuProps {
-  primaryNavigationLinks: Array<NavigationLink>;
-  profileDropdownNavigationLinks: Array<NavigationLink>;
-}
+interface TopNavigationMobileMenuProps {}
 
 export function TopNavigationMobileMenu(props: TopNavigationMobileMenuProps) {
+  const ctx = useLayoutContext();
+
+  if (typeof ctx === `undefined`) {
+    throw new Error(`Application is not wrapped in LayoutProvider.`)
+  }
+
   return (
     <Disclosure.Panel className="md:hidden">
       {({open}) => {
@@ -27,7 +30,7 @@ export function TopNavigationMobileMenu(props: TopNavigationMobileMenuProps) {
           >
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {/* todo: fix itemIdx */}
-              {props.primaryNavigationLinks.map((item, itemIdx) =>
+              {ctx.primaryNavigationLinks.map((item, itemIdx) =>
                 itemIdx === 0 ? (
                   <React.Fragment key={item.label}>
                     {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
@@ -70,7 +73,7 @@ export function TopNavigationMobileMenu(props: TopNavigationMobileMenuProps) {
               </div>
               <div className="mt-3 px-2 space-y-1">
                 {/* todo: profile items again */}
-                {props.profileDropdownNavigationLinks.map(item => (
+                {ctx.profileDropdownNavigationLinks.map(item => (
                   <Link key={item.label} href={item.href}>
                     <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-white hover:bg-gray-700">
                       {item.label}

@@ -7,7 +7,7 @@ const LayoutContext = React.createContext<ILayoutContext>({
   profileDropdownNavigationLinks: [],
 });
 
-export function useLocationContext() {
+export function useLayoutContext() {
   const ctx = React.useContext(LayoutContext);
   return ctx;
 }

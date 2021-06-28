@@ -1,9 +1,8 @@
 import React from 'react';
 //
-import {H1} from '@monorepo-starter/ui';
+import {H1, TopNavigationLayout} from '@monorepo-starter/ui';
 //
 import {requireSessionSSR} from 'apps/next-starter/util/misc';
-import {TopNavigationLayout} from 'apps/next-starter/components/layouts/top-nav';
 import {SubscriptionPlanCard} from 'apps/next-starter/containers/account/subscription/plan-card';
 
 export default function SubscriptionPlans() {

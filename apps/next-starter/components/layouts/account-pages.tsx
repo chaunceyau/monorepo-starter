@@ -2,22 +2,7 @@ import React from 'react';
 //
 import {TabNavigationLayout, TopNavigationLayout} from '@monorepo-starter/ui';
 //
-import {UI_NAV_COMPONENT_LINKS} from 'apps/next-starter/util/routes/nav';
-
-// export function AccountPagesLayout(props: {page: any, title: string}) {
-//   return (
-//     <TopNavigationLayout
-//       title={props.title || 'Account Settings'}
-//       session={props.page.props.session}
-//       router={null}
-//     >
-//       <TabNavigationLayout tabs={UI_NAV_COMPONENT_LINKS.accountPageSubnav}>
-//         {props.page}
-//       </TabNavigationLayout>
-//     </TopNavigationLayout>
-//   );
-// }
-
+import {UI_APP_NAVIGATION} from 'apps/next-starter/util/routes/nav';
 
 export const BasicAccountSettingsLayout = page => {
   return (
@@ -26,7 +11,7 @@ export const BasicAccountSettingsLayout = page => {
       session={page.props.sessions}
       router={null}
     >
-      <TabNavigationLayout tabs={UI_NAV_COMPONENT_LINKS.accountPageSubnav}>
+      <TabNavigationLayout tabs={UI_APP_NAVIGATION.accountPageNavigationLinks}>
         {page}
       </TabNavigationLayout>
     </TopNavigationLayout>

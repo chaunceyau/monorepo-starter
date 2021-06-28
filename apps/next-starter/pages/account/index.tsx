@@ -1,49 +1,22 @@
 import React from 'react';
-import {gql, useApolloClient, useQuery} from '@apollo/client';
+import {gql} from '@apollo/client';
 //
-import {Form, FormButton, FormInput, FormUpload, TabNavigationLayout, TopNavigationLayout} from '@monorepo-starter/ui';
+import {Form, FormButton, FormInput, FormUpload} from '@monorepo-starter/ui';
 //
 import {requireSessionSSR} from 'apps/next-starter/util/misc';
-import {UI_NAV_COMPONENT_LINKS} from 'apps/next-starter/util/routes/nav';
-import { BasicAccountSettingsLayout } from 'apps/next-starter/components/layouts/account-pages';
-
-const ViewerGql = gql`
-  query Viewer {
-    viewer {
-      id
-      email
-      avatar {
-        url
-      }
-    }
-  }
-`;
-
-const PresignedUploadQuery = gql`
-  query PresignedUploadQuery($input: AwsS3UploadOptions!) {
-    presignedUpload(input: $input) {
-      url
-      fileId
-      fields {
-        key
-        value
-      }
-    }
-  }
-`;
+import {BasicAccountSettingsLayout} from 'apps/next-starter/components/layouts/account-pages';
+import {useViewerEmailQuery} from 'apps/next-starter/graphql/pages/account/useViewer';
+import {usePresignedUploadQuery} from 'apps/next-starter/graphql/presignedUpload';
 
 export default function AccountPage() {
-  const {data} = useQuery(ViewerGql);
-  // const [quer,{ data: upload }] = useLazyQuery(PresignedUploadQuery);
-  const client = useApolloClient();
-
+  const {data} = useViewerEmailQuery();
+  const {queryPresignedUpload} = usePresignedUploadQuery();
   return (
     <div>
       <Form
         id="account-settings"
         styled
         onSubmit={async () => {
-          console.log('FLDSAMFLDSMALFDS');
           return new Promise((resolve, _reject) =>
             setTimeout(() => resolve(), 5000)
           );
@@ -65,19 +38,7 @@ export default function AccountPage() {
           label="Profile Image"
           required={false}
           onDeleteMutation={() => {}}
-          presignedUpload={file =>
-            client.query({
-              query: PresignedUploadQuery,
-              variables: {
-                input: {
-                  type: file.file.type,
-                  size: file.file.size,
-                  fileName: file.file.name,
-                  fileId: file.id,
-                },
-              },
-            })
-          }
+          presignedUpload={file => queryPresignedUpload(file)}
           onUploadComplete={async () => {}}
           multiple
           defaultValue={[
@@ -101,21 +62,10 @@ export default function AccountPage() {
   );
 }
 
-
 export const getServerSideProps = requireSessionSSR;
 
-// export const BasicAccountSettingsLayout = page => {
-//   return (
-//     <TopNavigationLayout
-//       title="Account Settings"
-//       session={page.props.sessions}
-//       router={null}
-//     >
-//       <TabNavigationLayout tabs={UI_NAV_COMPONENT_LINKS.accountPageSubnav}>
-//         {page}
-//       </TabNavigationLayout>
-//     </TopNavigationLayout>
-//   );
-// };
-
 AccountPage.getLayout = BasicAccountSettingsLayout;
+
+AccountPage.fragments = {
+  viewerEmail: gql`fragment AccountPage_viewerEmail on User { viewer { email } }`
+}

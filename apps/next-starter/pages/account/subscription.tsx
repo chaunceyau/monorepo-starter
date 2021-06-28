@@ -25,11 +25,6 @@ export default function AccountSubscriptionPage() {
   );
 }
 
-AccountSubscriptionPage.getLayout = BasicAccountSettingsLayout;
-//  page => (
-//   <AccountPagesLayout title="Account Settings" {...page.props}>
-//     {page}
-//   </AccountPagesLayout>
-// );
-
 export const getServerSideProps = requireSessionSSR;
+
+AccountSubscriptionPage.getLayout = BasicAccountSettingsLayout;

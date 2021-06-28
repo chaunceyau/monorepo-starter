@@ -13,18 +13,19 @@ export function DesktopLink(props: DesktopLinkProps) {
   const match =
     props.router?.pathname === props.to || router?.pathname === props.to;
 
-  const aClasses = ['px-3 py-2 rounded-md text-sm font-medium text-white']
+  const anchorClasses = ['px-3 py-2 rounded-md text-sm font-medium text-white']
 
   if (match) {
-    aClasses.push("bg-black bg-opacity-50")
+    anchorClasses.push("bg-black bg-opacity-50")
   } else {
-    aClasses.push(
+    anchorClasses.push(
       "hover:bg-black hover:bg-opacity-25 hover:text-white"
     )
   }
+  
   return (
     <Link href={props.to}>
-      <a className={aClasses.join(" ")}>
+      <a className={anchorClasses.join(" ")}>
         {props.label}
       </a>
     </Link>

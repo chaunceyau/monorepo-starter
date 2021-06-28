@@ -3,9 +3,9 @@ import Link from 'next/link';
 import {Disclosure, Menu, Transition} from '@headlessui/react';
 import {BellIcon, MenuIcon, XIcon} from '@heroicons/react/solid';
 //
+import {useLayoutContext} from '@monorepo-starter/ui';
 import {conditionallyConcatClassNames} from '@monorepo-starter/utils';
 //
-import {NavigationLink} from '../types';
 import {MainContent} from './main-content';
 import {DesktopLink} from './desktop/link';
 import {TopNavigationMobileMenu} from './mobile';
@@ -16,8 +16,6 @@ interface TopNavigationLayoutProps<TUserSession>
   router?: any;
   title: string;
   session: TUserSession;
-  primaryNavigationLinks: Array<NavigationLink>;
-  profileDropdownNavigationLinks: Array<NavigationLink>;
 }
 
 export function TopNavigationLayout<TUserSession>({
@@ -25,9 +23,13 @@ export function TopNavigationLayout<TUserSession>({
   router,
   session,
   children,
-  primaryNavigationLinks,
-  profileDropdownNavigationLinks,
 }: TopNavigationLayoutProps<TUserSession>) {
+  const ctx = useLayoutContext();
+
+  if (typeof ctx === `undefined`) {
+    throw new Error(`Application is not wrapped in LayoutProvider.`)
+  }
+
   return (
     <div
       id="authenticated-app"
@@ -49,7 +51,7 @@ export function TopNavigationLayout<TUserSession>({
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
                       {/* todo update navigation items*/}
-                      {primaryNavigationLinks.map(item => (
+                      {ctx.primaryNavigationLinks.map(item => (
                         <DesktopLink
                           key={item.label}
                           to={item.href}
@@ -100,7 +102,7 @@ export function TopNavigationLayout<TUserSession>({
                               className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                             >
                               {/* todo: update */}
-                              {profileDropdownNavigationLinks.map(item => (
+                              {ctx.profileDropdownNavigationLinks.map(item => (
                                 <Menu.Item key={item.label}>
                                   {({active}) => (
                                     <Link href={item.href}>
@@ -136,10 +138,7 @@ export function TopNavigationLayout<TUserSession>({
                 </div>
               </div>
             </div>
-            <TopNavigationMobileMenu
-              primaryNavigationLinks={primaryNavigationLinks}
-              profileDropdownNavigationLinks={profileDropdownNavigationLinks}
-            />
+            <TopNavigationMobileMenu />
           </>
         )}
       </Disclosure>

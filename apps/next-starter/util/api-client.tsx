@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { env } from './config';
 
-let apolloClient;
+export let apolloClient;
 
 function createApolloClient() {
   return new ApolloClient({
