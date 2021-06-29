@@ -7,5 +7,6 @@ module.exports = {
     '<rootDir>/libs/ui',
     '<rootDir>/apps/marketing-starter',
     '<rootDir>/libs/utils',
+    '<rootDir>/libs/generated',
   ],
 };

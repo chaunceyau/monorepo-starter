@@ -10,30 +10,17 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@monorepo-starter/api-upload": [
-        "libs/api-upload/src/index.ts"
-      ],
-      "@monorepo-starter/casl": [
-        "libs/casl/src/index.ts"
-      ],
-      "@monorepo-starter/ui": [
-        "libs/ui/src/index.ts"
-      ],
-      "@monorepo-starter/utils": [
-        "libs/utils/src/index.ts"
-      ]
+      "@monorepo-starter/api-upload": ["libs/api-upload/src/index.ts"],
+      "@monorepo-starter/casl": ["libs/casl/src/index.ts"],
+      "@monorepo-starter/generated": ["libs/generated/src/index.ts"],
+      "@monorepo-starter/ui": ["libs/ui/src/index.ts"],
+      "@monorepo-starter/utils": ["libs/utils/src/index.ts"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

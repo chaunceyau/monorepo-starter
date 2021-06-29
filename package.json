@@ -36,7 +36,8 @@
     "prisma:migrate": "prisma migrate dev --schema=./apps/api-starter/prisma/schema.prisma",
     "prisma:gen": "prisma generate --schema=./apps/api-starter/prisma/schema.prisma",
     "tailwind:gen": "tailwindcss -i ./apps/next-starter/styles/tailwind.css -o ./apps/next-starter/styles/tailwind.generated.css --jit",
-    "tailwind:watch": "tailwindcss -i ./apps/next-starter/styles/tailwind.css -o ./apps/next-starter/styles/tailwind.generated.css --watch --jit"
+    "tailwind:watch": "tailwindcss -i ./apps/next-starter/styles/tailwind.css -o ./apps/next-starter/styles/tailwind.generated.css --watch --jit",
+    "gql:codegen": "graphql-codegen --config codegen.yml"
   },
   "private": true,
   "dependencies": {
@@ -101,6 +102,15 @@
     "@babel/preset-env": "7.14.5",
     "@babel/preset-react": "7.14.5",
     "@babel/preset-typescript": "7.14.5",
+    "@graphql-codegen/cli": "1.21.5",
+    "@graphql-codegen/fragment-matcher": "2.0.1",
+    "@graphql-codegen/introspection": "1.18.2",
+    "@graphql-codegen/typescript": "1.22.3",
+    "@graphql-codegen/typescript-document-nodes": "1.17.14",
+    "@graphql-codegen/typescript-graphql-files-modules": "1.18.1",
+    "@graphql-codegen/typescript-operations": "1.18.2",
+    "@graphql-codegen/typescript-react-apollo": "2.2.7",
+    "@graphql-codegen/typescript-resolvers": "1.19.4",
     "@nestjs/schematics": "^7.3.1",
     "@nestjs/testing": "^7.6.18",
     "@nrwl/cli": "12.4.0",
@@ -117,6 +127,7 @@
     "@nrwl/web": "12.4.0",
     "@nrwl/workspace": "12.4.0",
     "@testing-library/react": "11.2.7",
+    "@types/graphql": "^14.5.0",
     "@types/jest": "^26.0.23",
     "@types/node": "14.14.33",
     "@types/passport-jwt": "^3.0.5",

@@ -1,6 +1,6 @@
 import React from 'react';
-import {gql} from '@apollo/client';
 //
+import {gql} from '@apollo/client';
 import {Form, FormButton, FormInput, FormUpload} from '@monorepo-starter/ui';
 //
 import {requireSessionSSR} from 'apps/next-starter/util/misc';
@@ -9,7 +9,8 @@ import {useViewerEmailQuery} from 'apps/next-starter/graphql/pages/account/useVi
 import {usePresignedUploadQuery} from 'apps/next-starter/graphql/presignedUpload';
 
 export default function AccountPage() {
-  const {data} = useViewerEmailQuery();
+  const {data, loading} = useViewerEmailQuery();
+  console.log({data, loading});
   const {queryPresignedUpload} = usePresignedUploadQuery();
   return (
     <div>
@@ -22,15 +23,12 @@ export default function AccountPage() {
           );
         }}
         title="Personal Information"
-        description="Culpa possimus qui laboriosam voluptatem. Iusto tenetur et saepe
-            et. Perferendis illo omnis ut voluptates rerum ea. Nulla quas
-            corrupti quo id atque aspernatur. Ad est mollitia id est quisquam.
-            Omnis magnam cum veniam facere."
+        description="Update your account and personal information"
       >
         <FormInput
           name="email"
           label="Email Address"
-          defaultValue={data?.viewer.email}
+          defaultValue={data?.viewer?.email}
           disabled
         />
         <FormUpload
@@ -65,7 +63,3 @@ export default function AccountPage() {
 export const getServerSideProps = requireSessionSSR;
 
 AccountPage.getLayout = BasicAccountSettingsLayout;
-
-AccountPage.fragments = {
-  viewerEmail: gql`fragment AccountPage_viewerEmail on User { viewer { email } }`
-}

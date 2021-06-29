@@ -14,7 +14,6 @@ import '../styles/tailwind.generated.css';
 import {AbilityContext} from '../util/casl';
 import {useApollo} from '../util/api-client';
 import {UI_APP_NAVIGATION} from '../util/routes/nav';
-
 //
 Router.events.on('routeChangeStart', url => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -22,6 +21,7 @@ Router.events.on('routeChangeError', () => NProgress.done());
 
 function CustomApp({Component, pageProps}: AppProps) {
   const getLayout = (Component as any).getLayout || (page => page);
+  const fragments = (Component as any).fragments;
   const apolloClient = useApollo(pageProps.initialApolloState);
   return (
     <>
@@ -36,7 +36,7 @@ function CustomApp({Component, pageProps}: AppProps) {
             <AbilityContext.Provider
               value={createAbilitiesForUser(pageProps.session?.user)}
             >
-              {getLayout(<Component {...pageProps} />)}
+              {getLayout(<Component {...pageProps} fragments={fragments} />)}
             </AbilityContext.Provider>
           </ApolloProvider>
         </LayoutProvider>
