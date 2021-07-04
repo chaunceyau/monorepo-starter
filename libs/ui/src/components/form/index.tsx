@@ -3,16 +3,9 @@ import {toast} from 'react-hot-toast';
 import * as RHForm from 'react-hook-form';
 
 //
+import {createArrayOfFilesPendingDeletion, validateChildrenAndInitializeOptionForm} from './helpers';
 import {Toasts} from '../misc/toasts';
-import {FormInput} from './elements/input';
 import {FormButton} from './elements/button';
-import {FormUpload} from './elements/upload';
-import {FormToggle} from './elements/toggle';
-import {FormSelect} from './elements/select';
-import {FormDateInput} from './elements/date';
-import {FormDivider} from './elements/divider';
-import {FormTextarea} from './elements/textarea';
-import {FormRadioGroup, FormRadioGroupProps} from './elements/radio';
 
 import {Card} from '@monorepo-starter/ui';
 
@@ -28,66 +21,7 @@ export interface FormProps {
   onSubmit: (data: any) => void | Promise<void>;
 }
 
-// TODO: am i using formsubmitbutton?
-const ValidFormComponents: any = [
-  FormInput,
-  FormUpload,
-  FormToggle,
-  FormButton,
-  FormSelect,
-  FormDivider,
-  FormTextarea,
-  FormDateInput,
-  FormRadioGroup,
-];
 
-function validateChild(child: any) {
-  if (!ValidFormComponents.includes(child.type)) {
-    // fn = "Error: function FormHeader({ ...etc }) { }"
-    const fn: string = child.type.toString();
-    const firstParenthesisIndex = fn.indexOf('(');
-    // 9 = "function ".length
-    const componentName: string = fn.slice(9, firstParenthesisIndex);
-    throw new Error(
-      `${componentName} is not a valid child of the Form component.`
-    );
-  }
-}
-
-function initializeOptionInForm(child: any, defaultValues: any = {}) {
-  switch (child.type) {
-    case FormRadioGroup: {
-      const props: FormRadioGroupProps = child.props;
-
-      const noDefaultValueForRadioGroup =
-        !defaultValues || !defaultValues[props.name];
-
-      // default to first value
-      if (noDefaultValueForRadioGroup && !!props.options?.length) {
-        Object.assign(defaultValues, {
-          [props.name]: props.options[0].id,
-        });
-      }
-    }
-  }
-}
-
-// currently causes errors with storybook
-const VALIDATE_CHILDREN = false;
-
-function validateChildrenAndInitializeOptionForm(
-  children: React.ReactElement | React.ReactElement[],
-  defaultValues?: {[key: string]: any}
-) {
-  React.Children.map(children, child => {
-    // make sure valid child
-    if (VALIDATE_CHILDREN) {
-      validateChild(child);
-    }
-    // add default values if not provided for options
-    initializeOptionInForm(child, defaultValues);
-  });
-}
 
 export function Form({
   id,
@@ -103,39 +37,20 @@ export function Form({
 
   const methods = RHForm.useForm({});
   const {handleSubmit, reset, setValue} = methods;
-
   const onSubmit = async (data: any) => {
     const isFunctionAsync = _onSubmit.constructor.name === 'AsyncFunction';
-
-    const deleteFiles: {[key: string]: {
-      files: Array<string>, 
-      onDeleteFunction: (fileIds: string[]) => void
-    }} = {};
-
-    /**
-     * Create an internal array of files that need to be removed if saved
-     */
-    React.Children.forEach(children, async child => {
-      if (child.type === FormUpload) {
-        deleteFiles[child.props.name] = {
-          onDeleteFunction: child.props.onDeleteMutation,
-          files: data[child.props.name].reduce(
-          (acc: any, val: any) => {
-            return val.status === 'PENDING_REMOVAL' ? acc.concat(val.id) : acc;
-          },
-          [])
-        };
-      }
-    });
-
+    
+    const deleteFiles = createArrayOfFilesPendingDeletion(children, data);
+    
     try {
       for await (const [key, value] of Object.entries(deleteFiles)) {
-         new Promise(function(resolve, reject) {
-          deleteFiles[key].onDeleteFunction(deleteFiles[key].files)
-          setTimeout(() => resolve("done"), 1000);
-        });
+        // TODO: is await needed?
+        // await new Promise(function(resolve, reject) {
+        await deleteFiles[key].onDeleteFunction(deleteFiles[key].files)
+        // });
       }
 
+      console.log({data})
       await _onSubmit(data);
 
       for (const [key, deletes] of Object.entries<any>(deleteFiles)) {

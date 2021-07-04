@@ -15,6 +15,7 @@ export interface ButtonProps extends React.PropsWithChildren<{}> {
   alignRight?: boolean
   //
   onClick?: () => void
+  dataTestId?: string
 }
 
 export type ButtonStyle = 'primary' | 'positive' | 'negative' | 'secondary'
@@ -150,7 +151,7 @@ export function Button(props: ButtonProps) {
   })
 
   const spinner = (
-      <LoadingSpinner color='white' />
+    <LoadingSpinner color='white' />
   )
   
   const buttonProps = getButtonProps({
@@ -162,9 +163,8 @@ export function Button(props: ButtonProps) {
   })
 
   const buttonState = useButtonState(props.loading);
-
   return (
-    <button {...buttonProps}>
+    <button {...buttonProps} data-testid={props.dataTestId}>
       <div className='absolute w-full h-full flex flex-col items-center justify-center -mt-2'>
         {buttonState === 'loading' ? spinner : null}
         <Transition 
@@ -175,6 +175,7 @@ export function Button(props: ButtonProps) {
           leave="duration-100"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
+          as="span"
         >
           <CheckCircleIcon height={20} width={20} />
         </Transition>
@@ -186,6 +187,7 @@ export function Button(props: ButtonProps) {
           leave=""
           leaveFrom=""
           leaveTo=""
+          as="span"
         >
           {props.children}
         </Transition>

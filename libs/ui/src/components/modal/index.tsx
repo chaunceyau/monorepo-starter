@@ -145,6 +145,7 @@ function Portal(
                   buttonStyle='negative'
                   onClick={async () => {
                     setActionLoading(true)
+                    // TODO: this could be upgrade probably..
                     await props.action?.func()
                     setTimeout(() => {
                       props.onClose()

@@ -39,20 +39,20 @@ export default function AccountPage() {
           presignedUpload={file => queryPresignedUpload(file)}
           onUploadComplete={async () => {}}
           multiple
-          defaultValue={[
-            {
-              fileName: 'fake-file.png',
-              status: 'COMPLETE',
-              progress: 100,
-              id: 'mock_random_id',
-            },
-            {
-              fileName: 'another-example-file.png',
-              status: 'COMPLETE',
-              progress: 100,
-              id: 'mock_random_id_2',
-            },
-          ]}
+          // defaultValue={[
+          //   {
+          //     fileName: 'fake-file.png',
+          //     status: 'SAVED',
+          //     progress: 100,
+          //     id: 'mock_random_id',
+          //   },
+          //   {
+          //     fileName: 'another-example-file.png',
+          //     status: 'SAVED',
+          //     progress: 100,
+          //     id: 'mock_random_id_2',
+          //   },
+          // ]}
         />
         <FormButton buttonStyle="primary">Save</FormButton>
       </Form>

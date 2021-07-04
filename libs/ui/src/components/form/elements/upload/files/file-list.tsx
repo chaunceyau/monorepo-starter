@@ -46,15 +46,15 @@ export function FileList(props: FileListProps) {
           .map(fileState => (
             <FileListItem
               {...fileState}
-              key={fileState.id}
               name={props.name}
+              key={fileState.id}
               presignedUpload={props.presignedUpload}
               onUploadComplete={props.onUploadComplete}
             />
           ))}
       </ul>
       {ctx.formState.isSubmitting || !props.allowMultipleFiles ? null : (
-        <Button buttonStyle="secondary" onClick={onClickAddImageButton} fluid>
+        <Button buttonStyle="secondary" onClick={onClickAddImageButton} fluid data-testid="upload-input-add-file-button">
           Add another file
         </Button>
       )}

@@ -60,9 +60,9 @@ export function UploadInput(props: UploadInputProps) {
       </svg>
       <div className={flexWrapper.join(' ')}>
         <div className='flex text-sm text-gray-600'>
-          <span className='relative rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500'>
+          <label htmlFor={props.name} className='relative rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500'>
             Upload a file
-          </span>
+          </label>
           <input
             id={props.name}
             name={props.name}

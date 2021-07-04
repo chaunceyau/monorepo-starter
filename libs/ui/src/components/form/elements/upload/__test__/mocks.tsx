@@ -9,13 +9,13 @@ export const defaultValue: Array<FileStateObject> = [
   {
     id: 'file_id_123',
     progress: 100,
-    status: 'COMPLETE',
+    status: 'SAVED',
     fileName: 'fake-file.png',
   },
   {
     id: 'file_id_456',
     progress: 100,
-    status: 'COMPLETE',
+    status: 'SAVED',
     fileName: 'another-file.png',
   },
 ];
@@ -49,7 +49,7 @@ export const FakeQueriedDefaultValueForm = ({onSubmit, presignedUpload}) => {
           name={mocks.input.name}
           label={mocks.input.label}
           defaultValue={data.files.map(file => ({
-            status: 'COMPLETE',
+            status: 'SAVED',
             progress: 100,
             id: file.id,
             fileName: file.fileName,
@@ -66,29 +66,57 @@ export const FakeQueriedDefaultValueForm = ({onSubmit, presignedUpload}) => {
   return <span>loading...</span>;
 };
 
-export const queryMocks = [
-  {
-    request: {
-      query: FakeQueriedDefaultValueFormQuery,
-    },
-    result: {
-      data: {
-        files: [
-          {fileName: 'some mocked fileName', id: 'some_mocked_id'},
-          {fileName: 'some mocked fileName2', id: 'some_mocked_id2'},
-          {fileName: 'some mocked fileName3', id: 'some_mocked_id3'},
-        ],
+const query_mockPresignedUpload = {
+  request: '',
+  result: {
+    data: {
+      presignedUpload: {
+        fields: [],
+        fileId: '',
+        url: '',
       },
     },
   },
-];
+};
+const query_mockDefaultValue = {
+  request: {
+    query: FakeQueriedDefaultValueFormQuery,
+  },
+  result: {
+    data: {
+      files: [
+        {fileName: 'some mocked fileName', id: 'some_mocked_id'},
+        {fileName: 'some mocked fileName2', id: 'some_mocked_id2'},
+        {fileName: 'some mocked fileName3', id: 'some_mocked_id3'},
+      ],
+    },
+  },
+};
+
+export const queryMocks = [query_mockDefaultValue];
 
 export function createMockPresignedUpload() {
-  return jest.fn().mockImplementation(() => new Promise(resolve => {
-    setTimeout(() => {
-      resolve({
-        data: {presignedUpload: {url: '', fileId: '', fields: []}},
-      })
-    }, 10000)
-  }));
+  // return jest.fn().mockImplementation(() => new Promise(resolve => {
+  //   console.log(" IN NEW MOCK ")
+  //   setTimeout(() => {
+  //     console.log(" RESOLVING ")
+  //     resolve({
+  //       data: {presignedUpload: {url: '', fileId: '', fields: []}},
+  //     })
+  //   }, 1000)
+  // }));
+  return jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {presignedUpload: {url: '', fileId: '', fields: []}},
+    })
+  );
+  // return jest.fn().mockReturnValue(new Promise(resolve => {
+  //   console.log(" IN NEW MOCK ")
+  //   setTimeout(() => {
+  //     console.log(" RESOLVING ")
+  //     resolve({
+  //       data: {presignedUpload: {url: '', fileId: '', fields: []}},
+  //     })
+  //   }, 1000)
+  // }));
 }

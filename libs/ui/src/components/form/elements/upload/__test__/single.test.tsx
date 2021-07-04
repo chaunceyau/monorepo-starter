@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import {
   act,
+  screen,
   render,
   fireEvent,
   waitForElementToBeRemoved,
@@ -11,6 +12,7 @@ import {Form} from '../../../';
 import {FormUpload} from '../';
 import {FormButton} from '../../../elements/button';
 import {createMockPresignedUpload, mocks} from './mocks';
+import { FileStateObject } from '../types';
 
 /**
  *
@@ -20,11 +22,10 @@ describe('<FormUpload/> - WITH default value provided', () => {
   const mockOnSubmit = jest.fn();
   const mockOnDeleteMutation = jest.fn();
   const mockPresignedUpload = createMockPresignedUpload();
-  let wrapper;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    wrapper = render(
+    render(
       <Form id={mocks.formId} onSubmit={mockOnSubmit}>
         <FormUpload
           name={mocks.input.name}
@@ -41,58 +42,58 @@ describe('<FormUpload/> - WITH default value provided', () => {
 
   it('switches view when click delete & returns when click undo', async () => {
     const fileName = mockDefaultValue[0].fileName;
-    expect(wrapper.getByTestId('delete-' + fileName)).toBeInTheDocument();
+    expect(screen.getByTestId('delete-' + fileName)).toBeInTheDocument();
 
-    fireEvent.click(wrapper.getByTestId('delete-' + fileName));
-    expect(wrapper.getByTestId('undo-delete-' + fileName)).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId('delete-' + fileName));
+    expect(screen.getByTestId('undo-delete-' + fileName)).toBeInTheDocument();
 
-    fireEvent.click(wrapper.getByTestId('undo-delete-' + fileName));
-    expect(wrapper.getByTestId('delete-' + fileName)).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId('undo-delete-' + fileName));
+    expect(screen.getByTestId('delete-' + fileName)).toBeInTheDocument();
   });
 
   it('click delete then undo - make sure not actually deleted', async () => {
     const fileName = mockDefaultValue[0].fileName;
-    fireEvent.click(wrapper.getByTestId('delete-' + fileName));
-    fireEvent.click(wrapper.getByTestId('undo-delete-' + fileName));
-    fireEvent.submit(wrapper.getByRole('button', {name: /submit/i}));
+    fireEvent.click(screen.getByTestId('delete-' + fileName));
+    fireEvent.click(screen.getByTestId('undo-delete-' + fileName));
+    fireEvent.submit(screen.getByRole('button', {name: /submit/i}));
 
     await waitFor(() => mockOnSubmit);
 
+    const mockUploadInputVariableName: Array<FileStateObject> = [
+      {
+        fileName: 'fake-file.png',
+        id: 'file_id_123',
+        progress: 100,
+        status: 'SAVED',
+      },
+      {
+        fileName: 'another-file.png',
+        id: 'file_id_456',
+        progress: 100,
+        status: 'SAVED',
+      },
+    ]
+
     // TODO: update mockOnSubmit assertion
-    expect(mockOnSubmit).toHaveBeenCalledWith({
-      mockUploadInputVariableName: [
-        {
-          fileName: 'fake-file.png',
-          id: 'file_id_123',
-          progress: 100,
-          status: 'COMPLETE',
-        },
-        {
-          fileName: 'another-file.png',
-          id: 'file_id_456',
-          progress: 100,
-          status: 'COMPLETE',
-        },
-      ],
-    });
+    expect(mockOnSubmit).toHaveBeenCalledWith({mockUploadInputVariableName});
 
     expect(mockOnDeleteMutation).toHaveBeenCalledWith([]);
   });
 
   it('renders the list of default files', async () => {
-    expect(wrapper.getByText(mockDefaultValue[0].fileName)).toBeInTheDocument();
-    expect(wrapper.getByText(mockDefaultValue[1].fileName)).toBeInTheDocument();
+    expect(screen.getByText(mockDefaultValue[0].fileName)).toBeInTheDocument();
+    expect(screen.getByText(mockDefaultValue[1].fileName)).toBeInTheDocument();
   });
 
   it('properly handles deleting 1 file and submitting', async () => {
     fireEvent.click(
-      wrapper.getByTestId('delete-' + mockDefaultValue[0].fileName)
+      screen.getByTestId('delete-' + mockDefaultValue[0].fileName)
     );
-    fireEvent.click(wrapper.getAllByText(/submit/i)[0]);
+    fireEvent.click(screen.getAllByText(/submit/i)[0]);
 
     await waitFor(() => mockOnSubmit)
 
-    expect(wrapper.getAllByText(/submit/i)[0]).toBeInTheDocument();
+    expect(screen.getAllByText(/submit/i)[0]).toBeInTheDocument();
     // TODO: update mockOnSubmit assertion
     expect(mockOnSubmit).toHaveBeenCalledWith({
       mockUploadInputVariableName: [
@@ -106,10 +107,10 @@ describe('<FormUpload/> - WITH default value provided', () => {
   });
 
   it('properly handles deleting > 1 file and submitting', async () => {
-    const deleteFirstIcon = wrapper.getByTestId(
+    const deleteFirstIcon = screen.getByTestId(
       'delete-' + mockDefaultValue[0].fileName
     );
-    const deleteSecondIcon = wrapper.getByTestId(
+    const deleteSecondIcon = screen.getByTestId(
       'delete-' + mockDefaultValue[1].fileName
     );
     expect(deleteFirstIcon).toBeInTheDocument();
@@ -117,12 +118,12 @@ describe('<FormUpload/> - WITH default value provided', () => {
 
     fireEvent.click(deleteFirstIcon);
     fireEvent.click(deleteSecondIcon);
-    fireEvent.click(wrapper.getAllByText(/submit/i)[0]);
+    fireEvent.click(screen.getAllByText(/submit/i)[0]);
 
     await waitFor(() => mockOnSubmit);
     // await waitFor(() => mockOnDeleteMutation)
 
-    expect(wrapper.getAllByText(/submit/i)[0]).toBeInTheDocument();
+    expect(screen.getAllByText(/submit/i)[0]).toBeInTheDocument();
     // TODO: update mockOnSubmit assertion
     expect(mockOnSubmit).toHaveBeenCalledWith({
       mockUploadInputVariableName: [

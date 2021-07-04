@@ -33,6 +33,32 @@ export type FormUploadProps = {
  * @returns
  */
 export function FormUpload(props: FormUploadProps) {
+  const {inputProps, getRootProps, getInputProps, inputRef} =
+    useFormUpload(props);
+
+  return (
+    <div>
+      {/* TODO: FIX ERROR */}
+      <FormLabel label={props.label} name={props.name} error={false} />
+      <FileListComponent
+        name={props.name}
+        value={inputProps.value}
+        uploadInputRef={inputRef}
+        presignedUpload={props.presignedUpload}
+        onUploadComplete={props.onUploadComplete}
+        allowMultipleFiles={!!props.multiple}
+      />
+      <UploadInput
+        name={props.name}
+        hidden={!!inputProps.value?.length}
+        getRootProps={getRootProps}
+        getInputProps={getInputProps}
+      />
+    </div>
+  );
+}
+
+function useFormUpload(props: FormUploadProps) {
   const {
     field: {ref, ...inputProps},
   } = useController({
@@ -49,16 +75,6 @@ export function FormUpload(props: FormUploadProps) {
     },
     [inputProps]
   );
-
-  // should destructure all props of FormUploadProps
-  const {
-    name,
-    label,
-    onUploadComplete,
-    // onDeleteMutation,
-    presignedUpload,
-  } = props;
-
   const {getRootProps, getInputProps, inputRef} = useDropzone({
     onDrop,
     ...inputProps,
@@ -67,37 +83,26 @@ export function FormUpload(props: FormUploadProps) {
     accept: props.allowedFileTypes,
   });
 
-  return (
-    <div>
-      {/* TODO: FIX ERROR */}
-      <FormLabel label={label} name={name} error={false} />
-      <FileListComponent
-        name={props.name}
-        // name={name} <- try this
-        value={inputProps.value}
-        uploadInputRef={inputRef}
-        presignedUpload={presignedUpload}
-        onUploadComplete={onUploadComplete}
-        allowMultipleFiles={!!props.multiple}
-      />
-      <UploadInput
-        name={name}
-        hidden={!!inputProps.value?.length}
-        getRootProps={getRootProps}
-        getInputProps={getInputProps}
-      />
-    </div>
-  );
+  return {
+    inputProps,
+    getRootProps,
+    getInputProps,
+    inputRef,
+  };
 }
 
-const mapDroppedFilesToState = (
+/**
+ * takes files from user input and maps to
+ * shape of state
+ */
+export const mapDroppedFilesToState = (
   acceptedFiles: File[]
 ): Array<FileStateObject> =>
   acceptedFiles.map(file => ({
     id: cuid(),
     file: file,
     fileName: file.name,
-    status: 'IDLE',
+    status: 'UPLOADING',
     progress: 0,
   }));
 
