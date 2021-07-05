@@ -26,7 +26,7 @@ describe('<FormUpload/> basics', () => {
           onUploadComplete={mockOnUploadComplete}
           presignedUpload={mockPresignedUpload}
         />
-        <FormButton buttonStyle="primary">submit</FormButton>
+        <FormButton buttonStyle="primary" label="submit" />
       </Form>
     );
   });
@@ -65,7 +65,7 @@ describe('<FormUpload/> - WITH default value provided', () => {
           onUploadComplete={mockOnUploadComplete}
           presignedUpload={mockPresignedUpload}
         />
-        <FormButton buttonStyle="primary">submit</FormButton>
+        <FormButton buttonStyle="primary" label="submit" />
       </Form>
     );
   });

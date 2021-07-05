@@ -1,14 +1,5 @@
 // form
 export * from './components/form';
-export * from './components/form/elements/button';
-export * from './components/form/elements/input';
-export * from './components/form/elements/toggle';
-export * from './components/form/elements/upload';
-export * from './components/form/elements/select';
-export * from './components/form/elements/divider';
-export * from './components/form/elements/textarea';
-export * from './components/form/elements/date';
-export * from './components/form/elements/radio';
 // typography
 export * from './typography/headings';
 //

@@ -1,14 +1,14 @@
 import React from 'react';
 
-import {FormInput} from './elements/input';
-import {FormButton} from './elements/button';
-import {FormUpload} from './elements/upload';
-import {FormToggle} from './elements/toggle';
-import {FormSelect} from './elements/select';
-import {FormDateInput} from './elements/date';
-import {FormDivider} from './elements/divider';
-import {FormTextarea} from './elements/textarea';
-import {FormRadioGroup, FormRadioGroupProps} from './elements/radio';
+import {FormInput} from './input';
+import {FormButton} from './button';
+import {FormUpload} from './upload';
+import {FormToggle} from './toggle';
+import {FormSelect} from './select';
+import {FormDateInput} from './date';
+import {FormDivider} from './divider';
+import {FormTextarea} from './textarea';
+import {FormRadioGroup, FormRadioGroupProps} from './radio';
 
 // TODO: am i using formsubmitbutton?
 const ValidFormComponents: any = [

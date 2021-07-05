@@ -21,12 +21,12 @@ export function FormDateInput(props: FormDateInputProps) {
         control={ctx.control}
         name={props.name}
         defaultValue={new Date()}
-        render={({ onChange, onBlur, value }) => (
+        render={({ field }) => (
           <DatePicker
             className='border border-gray-300 rounded-lg p-2 w-full text-gray-800'
-            onBlur={onBlur}
-            selected={value}
-            onChange={onChange}
+            onBlur={field.onBlur}
+            selected={field.value}
+            onChange={field.onChange}
             timeInputLabel='Time:'
             dateFormat='MM/dd/yyyy h:mm aa'
             showTimeSelect={!!props.showHours}

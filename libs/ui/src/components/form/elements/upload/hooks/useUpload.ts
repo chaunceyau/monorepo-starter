@@ -35,57 +35,58 @@ export async function uploadFileToS3(
   presignedUpload: PresignedUploadFunction,
   dispatch: React.Dispatch<UploadFileAction>
 ) {
-  if (fileState.file) {
-    dispatch({type: 'START_UPLOAD'});
-
-    const response = await presignedUpload({
-      id: fileState.id,
-      file: fileState.file,
-    })
-      .then(async res => {
-        if (!res) {
-          // TODO: handle this with better
-          return;
-        }
-
-        const fileForm = new FormData();
-        res.data?.presignedUpload?.fields?.forEach(({key, value}) =>
-          fileForm.append(key, value)
-        );
-        fileForm.append('file', fileState.file);
-
-        const response = await postFileToS3(
-          fileState.file,
-          res.data.presignedUpload.url,
-          fileForm,
-          progressEvent => {
-            console.log({
-              payload: (progressEvent.loaded / progressEvent.total) * 100,
-            });
-            dispatch({
-              type: 'INCREASE_PROGRESS',
-              payload: (progressEvent.loaded / progressEvent.total) * 100,
-            });
-          }
-        )
-          .then(() => {
-            console.log('PRE: UPLOAD_COMPLETE');
-            dispatch({type: 'UPLOAD_COMPLETE'});
-            console.log('POST: UPLOAD_COMPLETE');
-            // aws s3 file key
-            if (onUploadComplete) {
-              onUploadComplete(fileState.id + '/' + fileState.fileName);
-            }
-          })
-          .catch(err => dispatch({type: 'ERROR', payload: err}));
-        return response;
-      })
-      .catch(err => {
-        // TODO: handle this with better
-        console.log('errrr presigning upload');
-      });
-    return response;
+  if (!fileState.file) {
+    return;
   }
+  dispatch({type: 'START_UPLOAD'});
+
+  const response = await presignedUpload({
+    id: fileState.id,
+    file: fileState.file,
+  })
+    .then(async res => {
+      if (!res) {
+        // TODO: handle this with better
+        return;
+      }
+
+      const fileForm = new FormData();
+      res.data?.presignedUpload?.fields?.forEach(({key, value}) =>
+        fileForm.append(key, value)
+      );
+      fileForm.append('file', fileState.file);
+
+      const response = await postFileToS3(
+        fileState.file,
+        res.data.presignedUpload.url,
+        fileForm,
+        progressEvent => {
+          console.log({
+            payload: (progressEvent.loaded / progressEvent.total) * 100,
+          });
+          dispatch({
+            type: 'INCREASE_PROGRESS',
+            payload: (progressEvent.loaded / progressEvent.total) * 100,
+          });
+        }
+      )
+        .then(() => {
+          console.log('PRE: UPLOAD_COMPLETE');
+          dispatch({type: 'UPLOAD_COMPLETE'});
+          console.log('POST: UPLOAD_COMPLETE');
+          // aws s3 file key
+          if (onUploadComplete) {
+            onUploadComplete(fileState.id + '/' + fileState.fileName);
+          }
+        })
+        .catch(err => dispatch({type: 'ERROR', payload: err}));
+      return response;
+    })
+    .catch(err => {
+      // TODO: handle this with better
+      console.log('errrr presigning upload');
+    });
+  return response;
 }
 
 async function postFileToS3(

@@ -1,13 +1,11 @@
 import React from 'react';
 import {toast} from 'react-hot-toast';
 import * as RHForm from 'react-hook-form';
-
+//
+import {Card, FormButton} from '@monorepo-starter/ui';
 //
 import {createArrayOfFilesPendingDeletion, validateChildrenAndInitializeOptionForm} from './helpers';
-import {Toasts} from '../misc/toasts';
-import {FormButton} from './elements/button';
-
-import {Card} from '@monorepo-starter/ui';
+import {Toasts} from '../../misc/toasts';
 
 export interface FormProps {
   id: string;
@@ -20,8 +18,6 @@ export interface FormProps {
   // UPDATE
   onSubmit: (data: any) => void | Promise<void>;
 }
-
-
 
 export function Form({
   id,

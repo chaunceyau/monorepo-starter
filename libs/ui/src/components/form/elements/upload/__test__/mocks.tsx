@@ -59,7 +59,7 @@ export const FakeQueriedDefaultValueForm = ({onSubmit, presignedUpload}) => {
           presignedUpload={presignedUpload}
           // registerOptions={{required: 'this value is required'}}
         />
-        <FormButton buttonStyle="primary">submit</FormButton>
+        <FormButton buttonStyle="primary" label="submit" />
       </Form>
     );
   }

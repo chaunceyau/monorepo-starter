@@ -1,6 +1,5 @@
 import React from 'react';
 //
-import {gql} from '@apollo/client';
 import {Form, FormButton, FormInput, FormUpload} from '@monorepo-starter/ui';
 //
 import {requireSessionSSR} from 'apps/next-starter/util/misc';
@@ -54,7 +53,7 @@ export default function AccountPage() {
           //   },
           // ]}
         />
-        <FormButton buttonStyle="primary">Save</FormButton>
+        <FormButton buttonStyle="primary" label="Save" />
       </Form>
     </div>
   );

@@ -35,7 +35,7 @@ describe('<FormUpload/> - WITH default value provided', () => {
           onUploadComplete={async () => {}}
           presignedUpload={mockPresignedUpload}
         />
-        <FormButton buttonStyle="primary">submit</FormButton>
+        <FormButton buttonStyle="primary" label="submit" />
       </Form>
     );
   });

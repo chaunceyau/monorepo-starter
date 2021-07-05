@@ -11,4 +11,6 @@ export const env = {
   JWT_SIGNING_KEY: process.env.JWT_SIGNING_KEY,
   // SUPPORT EMAIL
   SUPPORT_EMAIL: process.env.SUPPORT_EMAIL,
+  // the application title in browser tab
+  TITLE_BAR_BASE: process.env.TITLE_BAR_BASE,
 };

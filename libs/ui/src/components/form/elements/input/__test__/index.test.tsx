@@ -31,7 +31,7 @@ describe('Form with text input', () => {
           defaultValue={mocks.input.defaultValue}
           registerOptions={{required: mockRequiredMessage}}
         />
-        <FormButton buttonStyle="primary">submit</FormButton>
+        <FormButton buttonStyle="primary" label="submit" />
       </Form>
     );
   });

@@ -45,7 +45,7 @@
     "@aws-sdk/client-s3": "^3.18.0",
     "@aws-sdk/s3-presigned-post": "^3.18.0",
     "@casl/ability": "^5.3.1",
-    "@casl/prisma": "*",
+    "@casl/prisma": "1.0.0-alpha.2",
     "@casl/react": "^2.3.0",
     "@devoxa/prisma-relay-cursor-connection": "^1.1.1",
     "@hapi/joi": "^17.1.1",

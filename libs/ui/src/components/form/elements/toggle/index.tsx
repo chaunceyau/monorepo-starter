@@ -12,8 +12,8 @@ export function FormToggle(props: FormToggleProps) {
   return (
     <Controller
       name={props.name}
-      render={({ onChange, value }) => (
-        <Toggle {...props} value={value} onChange={onChange} />
+      render={({ field }) => (
+        <Toggle {...props} value={field.value} onChange={field.onChange} />
       )}
     />
   )

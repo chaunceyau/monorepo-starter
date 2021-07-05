@@ -52,7 +52,7 @@ describe('<FormUpload/> works with spy', () => {
           presignedUpload={mockPresignedUpload}
           required={false}
         />
-        <FormButton buttonStyle="primary">submit</FormButton>
+        <FormButton buttonStyle="primary" label="submit">
       </Form>
     );
   });
