@@ -1,5 +1,5 @@
 import React from 'react';
-import {FileStateObject, PresignedUploadFunction, UploadToRemoteFileStorageFunction} from './types';
+import {PresignedUploadFunction, UploadToRemoteFileStorageFunction} from './types';
 
 /**
  * We use a provider for the queryPresignedUpload &
@@ -32,7 +32,6 @@ const GlobalFormUploadContext =
   });
   
 export function GlobalFormUploadProvider(props: GlobalFormUploadProviderProps) {
-  console.log("HEREEEEEE")
   return (
     <GlobalFormUploadContext.Provider value={props.value}>
       {props.children}
@@ -41,7 +40,6 @@ export function GlobalFormUploadProvider(props: GlobalFormUploadProviderProps) {
 }
 
 export function useGlobalFormUploadContext() {
-  console.log('fmasdf9m923k9dfm923m392')
   const ctx = React.useContext<GlobalFormUploadContextValues>(
     GlobalFormUploadContext
   );

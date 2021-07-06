@@ -94,34 +94,18 @@ const query_mockDefaultValue = {
 
 export const queryMocks = [query_mockDefaultValue];
 
-export function createMockPresignedUpload() {
-  // return jest.fn().mockImplementation(() => new Promise(resolve => {
-  //   console.log(" IN NEW MOCK ")
-  //   setTimeout(() => {
-  //     console.log(" RESOLVING ")
-  //     resolve({
-  //       data: {presignedUpload: {url: '', fileId: '', fields: []}},
-  //     })
-  //   }, 1000)
-  // }));
-  return jest.fn().mockImplementation(() =>
-  Promise.resolve({
-    data: {
-      presignedUpload: {
-        fields: [{key: 'fake-meta-key', value: 'fake-meta-value'}],
-        fileId: 'fakeFileId',
-        url: 'https://fake.aws.com/fake_upload',
-      },
+export const mockPresignedUploadResponse = {
+  data: {
+    presignedUpload: {
+      fields: [{key: 'fake-meta-key', value: 'fake-meta-value'}],
+      fileId: 'fakeFileId',
+      url: 'https://fake.aws.com/fake_upload',
     },
-  })
-);
-  // return jest.fn().mockReturnValue(new Promise(resolve => {
-  //   console.log(" IN NEW MOCK ")
-  //   setTimeout(() => {
-  //     console.log(" RESOLVING ")
-  //     resolve({
-  //       data: {presignedUpload: {url: '', fileId: '', fields: []}},
-  //     })
-  //   }, 1000)
-  // }));
+  },
+};
+
+export function createMockPresignedUpload() {
+  return jest
+    .fn()
+    .mockImplementation(() => Promise.resolve(mockPresignedUploadResponse));
 }

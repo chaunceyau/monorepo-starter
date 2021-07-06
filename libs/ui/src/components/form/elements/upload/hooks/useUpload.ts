@@ -1,8 +1,8 @@
 import * as React from 'react';
 //
-import {useGlobalFormUploadContext} from '@monorepo-starter/ui';
 //
 import {UploadReducerState, useUploadReducer} from './reducer';
+import {useGlobalFormUploadContext} from '../provider';
 import {
   OnUploadCompleteFunction,
   FileStateObject,

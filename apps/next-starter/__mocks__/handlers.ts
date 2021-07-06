@@ -1,10 +1,13 @@
 import {graphql, rest} from 'msw';
+import {mockPresignedUploadResponse} from '../__test__/form.test';
 
+// TODO: probably should just
 export const mockPresignedUploadQueryResponse = (fileId: string) => ({
-  presignedUpload: {
-    fields: [{key: 'fake-meta-key', value: 'fake-meta-value'}],
-    fileId: fileId,
-    url: 'https://fake.aws.com/fake_upload',
+  data: {
+    presignedUpload: {
+      ...mockPresignedUploadResponse.data.presignedUpload,
+      fileId,
+    },
   },
 });
 

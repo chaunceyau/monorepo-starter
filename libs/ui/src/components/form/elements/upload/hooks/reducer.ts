@@ -15,7 +15,6 @@ function uploadReducer(
   state: UploadReducerState,
   action: UploadFileAction
 ): UploadReducerState {
-  console.log({action});
   switch (action.type) {
     case 'START_UPLOAD': {
       return Object.assign({}, state, {loading: true});

@@ -7,12 +7,20 @@ import {
   FormButton,
   FormUpload,
   GlobalFormUploadProvider,
-  mapDroppedFilesToState
 } from '@monorepo-starter/ui';
 
 import {server} from '../__mocks__/server';
 import {initializeApollo} from '../util/api-client';
 
+export const mockPresignedUploadResponse = {
+  data: {
+    presignedUpload: {
+      fields: [{key: 'fake-meta-key', value: 'fake-meta-value'}],
+      fileId: 'fakeFileId',
+      url: 'https://fake.aws.com/fake_upload',
+    },
+  },
+};
 
 export function createMockPresignedUpload() {
   // return jest.fn().mockImplementation(() => new Promise(resolve => {
@@ -25,15 +33,7 @@ export function createMockPresignedUpload() {
   //   }, 1000)
   // }));
   return jest.fn().mockImplementation(() =>
-    Promise.resolve({
-      data: {
-        presignedUpload: {
-          fields: [{key: 'fake-meta-key', value: 'fake-meta-value'}],
-          fileId: 'fakeFileId',
-          url: 'https://fake.aws.com/fake_upload',
-        },
-      },
-    }));
+    Promise.resolve(mockPresignedUploadResponse));
 }
 
 describe('<FormUpload/> works with spy', () => {

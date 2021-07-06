@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Transition } from '@headlessui/react'
 //
-// import { Action } from './interfaces'
 import { SlideoverHeader, SlideoverHeaderProps } from './header'
 import { useClickOutside } from '../../hooks/useClickOutside'
 

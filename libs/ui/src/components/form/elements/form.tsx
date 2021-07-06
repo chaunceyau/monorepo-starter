@@ -46,7 +46,6 @@ export function Form({
         // });
       }
 
-      console.log({data})
       await _onSubmit(data);
 
       for (const [key, deletes] of Object.entries<any>(deleteFiles)) {
