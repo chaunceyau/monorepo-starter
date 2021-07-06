@@ -33,7 +33,6 @@ describe('<FormUpload/> - WITH default value provided', () => {
           defaultValue={mockDefaultValue}
           onDeleteMutation={mockOnDeleteMutation}
           onUploadComplete={async () => {}}
-          presignedUpload={mockPresignedUpload}
         />
         <FormButton buttonStyle="primary" label="submit" />
       </Form>

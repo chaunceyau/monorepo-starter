@@ -56,7 +56,6 @@ export const FakeQueriedDefaultValueForm = ({onSubmit, presignedUpload}) => {
           }))}
           onDeleteMutation={() => {}}
           onUploadComplete={async () => {}}
-          presignedUpload={presignedUpload}
           // registerOptions={{required: 'this value is required'}}
         />
         <FormButton buttonStyle="primary" label="submit" />
@@ -106,10 +105,16 @@ export function createMockPresignedUpload() {
   //   }, 1000)
   // }));
   return jest.fn().mockImplementation(() =>
-    Promise.resolve({
-      data: {presignedUpload: {url: '', fileId: '', fields: []}},
-    })
-  );
+  Promise.resolve({
+    data: {
+      presignedUpload: {
+        fields: [{key: 'fake-meta-key', value: 'fake-meta-value'}],
+        fileId: 'fakeFileId',
+        url: 'https://fake.aws.com/fake_upload',
+      },
+    },
+  })
+);
   // return jest.fn().mockReturnValue(new Promise(resolve => {
   //   console.log(" IN NEW MOCK ")
   //   setTimeout(() => {

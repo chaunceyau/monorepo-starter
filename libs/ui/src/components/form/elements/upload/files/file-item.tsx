@@ -9,7 +9,7 @@ import {
   FileStateObject,
   OnUploadCompleteFunction,
 } from '../types';
-import { DeleteButton } from './delete-button';
+import {DeleteButton} from './delete-button';
 
 interface FileListItemProps extends FileStateObject {
   name: string

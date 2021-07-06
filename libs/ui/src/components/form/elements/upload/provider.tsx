@@ -32,13 +32,16 @@ const GlobalFormUploadContext =
   });
   
 export function GlobalFormUploadProvider(props: GlobalFormUploadProviderProps) {
+  console.log("HEREEEEEE")
   return (
     <GlobalFormUploadContext.Provider value={props.value}>
       {props.children}
     </GlobalFormUploadContext.Provider>
   );
 }
+
 export function useGlobalFormUploadContext() {
+  console.log('fmasdf9m923k9dfm923m392')
   const ctx = React.useContext<GlobalFormUploadContextValues>(
     GlobalFormUploadContext
   );

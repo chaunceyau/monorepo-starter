@@ -5,29 +5,35 @@ import {Form} from '../../../';
 import {FormUpload} from '../';
 import {FormButton} from '../../../elements/button';
 import {createMockPresignedUpload, mocks} from './mocks';
+import {GlobalFormUploadProvider} from '../provider';
 
 /**
  *
  */
-describe('<FormUpload/> basics', () => {
+describe('<FormUpload/> shows normal upload component with no default value', () => {
   const mockOnSubmit = jest.fn();
   const mockOnUploadComplete = jest.fn();
   const mockOnDeleteMutation = jest.fn();
+  const mockUploadFileToRemoteStorage = jest.fn().mockImplementation(() => Promise.resolve());
   const mockPresignedUpload = createMockPresignedUpload();
 
   beforeEach(() => {
     jest.clearAllMocks();
     render(
-      <Form id={mocks.formId} onSubmit={mockOnSubmit}>
-        <FormUpload
-          name={mocks.input.name}
-          label={mocks.input.label}
-          onDeleteMutation={mockOnDeleteMutation}
-          onUploadComplete={mockOnUploadComplete}
-          presignedUpload={mockPresignedUpload}
-        />
-        <FormButton buttonStyle="primary" label="submit" />
-      </Form>
+      <GlobalFormUploadProvider value={{
+        queryPresignedUpload: mockPresignedUpload,
+        uploadFileToRemoteStorage: mockUploadFileToRemoteStorage,
+      }}>
+        <Form id={mocks.formId} onSubmit={mockOnSubmit}>
+          <FormUpload
+            name={mocks.input.name}
+            label={mocks.input.label}
+            onDeleteMutation={mockOnDeleteMutation}
+            onUploadComplete={mockOnUploadComplete}
+          />
+          <FormButton buttonStyle="primary" label="submit" />
+        </Form>
+      </GlobalFormUploadProvider>
     );
   });
 
@@ -36,37 +42,32 @@ describe('<FormUpload/> basics', () => {
   });
 });
 
-describe('<FormUpload/> - WITH default value provided', () => {
+describe('<FormUpload/> basics with default value', () => {
   const mockOnSubmit = jest.fn();
   const mockOnUploadComplete = jest.fn();
   const mockOnDelete = jest.fn();
-  const mockPresignedUpload = jest.fn().mockImplementation(() =>
-    Promise.resolve({
-      data: {
-        presignedUpload: {
-          fields: [{key: 'fake-meta-key', value: 'fake-meta-value'}],
-          fileId: 'fakeFileId',
-          url: 'https://fake.aws.com/fake_upload',
-        },
-      },
-    })
-  );
+  const mockUploadFileToRemoteStorage = jest.fn().mockImplementation(() => Promise.resolve());
+  const mockPresignedUpload = createMockPresignedUpload();
 
   beforeEach(() => {
     jest.clearAllMocks();
     render(
-      <Form id={mocks.formId} onSubmit={mockOnSubmit}>
-        <FormUpload
-          multiple={true}
-          name={mocks.input.name}
-          label={mocks.input.label}
-          defaultValue={mocks.input.defaultValue}
-          onDeleteMutation={mockOnDelete}
-          onUploadComplete={mockOnUploadComplete}
-          presignedUpload={mockPresignedUpload}
-        />
-        <FormButton buttonStyle="primary" label="submit" />
-      </Form>
+      <GlobalFormUploadProvider value={{
+        queryPresignedUpload: mockPresignedUpload,
+        uploadFileToRemoteStorage: mockUploadFileToRemoteStorage,
+      }}>
+        <Form id={mocks.formId} onSubmit={mockOnSubmit}>
+          <FormUpload
+            multiple={true}
+            name={mocks.input.name}
+            label={mocks.input.label}
+            defaultValue={mocks.input.defaultValue}
+            onDeleteMutation={mockOnDelete}
+            onUploadComplete={mockOnUploadComplete}
+          />
+          <FormButton buttonStyle="primary" label="submit" />
+        </Form>
+      </GlobalFormUploadProvider>
     );
   });
 
