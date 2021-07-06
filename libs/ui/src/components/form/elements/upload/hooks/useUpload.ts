@@ -25,9 +25,9 @@ export function useUploadFileComponent(
         uploadFileToRemoteStorage,
         uploadEvents: {
           onUploadStart: () => dispatch({type: 'START_UPLOAD'}),
-          onUploadComplete: () => {
+          onUploadComplete: fileState => {
             dispatch({type: 'UPLOAD_COMPLETE'});
-            return onUploadComplete;
+            return onUploadComplete(fileState);
           },
           onUploadProgressFunction: () => dispatch({type: 'INCREASE_PROGRESS'}),
           onUploadError: error => dispatch({type: 'ERROR', payload: {error}}),
@@ -74,14 +74,11 @@ export async function getUploadUrlAndUploadFile(
         )
         .then(() => {
           // TODO: make sure this is correct
-          options.uploadEvents.onUploadComplete(
-            fileState.id + '/' + fileState.fileName
-          );
+          options.uploadEvents.onUploadComplete(fileState);
         })
         .catch(error => {
           options.uploadEvents.onUploadError(error);
         });
-      options.uploadEvents.onUploadComplete(res.data.presignedUpload.fileId);
       return res;
     })
     .catch(err => {

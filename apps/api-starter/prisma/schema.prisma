@@ -40,10 +40,11 @@ enum GlobalRole {
 }
 
 model S3Sync {
-  remoteFileKey String @id @map("remote_file_key")
-  fileName      String @map("file_name")
-  fileType      String @map("file_type")
-  User          User[]
+  remoteFileKey String   @id @map("remote_file_key")
+  fileName      String   @map("file_name")
+  fileType      String   @map("file_type")
+  owner         User[]
+  createdAt     DateTime @default(now())
 }
 
 model StripeSync {

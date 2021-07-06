@@ -1,13 +1,13 @@
 import * as cuid from 'cuid';
 // import { Stripe } from 'stripe';
-import { genSalt, hash } from 'bcrypt';
+import {genSalt, hash} from 'bcrypt';
 // import { InjectStripe } from 'nestjs-stripe';
-import { SubscriptionType } from '@prisma/client';
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {SubscriptionType} from '@prisma/client';
+import {Injectable, BadRequestException} from '@nestjs/common';
 //
-import { PrismaService } from '../prisma/prisma.service';
-import { UserGraphModel } from '../user/models/user.model';
-import { UpdatePasswordFailed } from './models/update-password.input';
+import {PrismaService} from '../prisma/prisma.service';
+import {UserGraphModel} from '../user/models/user.model';
+import {UpdatePasswordFailed} from './models/update-password.input';
 
 @Injectable()
 export class AccountService {
@@ -32,9 +32,7 @@ export class AccountService {
     //   )
     // }
 
-    const { salt, password: hashedPassword } = await this.hashPassword(
-      password
-    );
+    const {salt, password: hashedPassword} = await this.hashPassword(password);
     try {
       const {
         password,
@@ -64,9 +62,9 @@ export class AccountService {
   ) {
     try {
       const user = await this.prisma.user.findUnique({
-        where: { id },
+        where: {id},
       });
-      const { password: hashedOriginalPassword } = await this.hashPassword(
+      const {password: hashedOriginalPassword} = await this.hashPassword(
         originalPassword,
         user.salt
       );
@@ -75,13 +73,11 @@ export class AccountService {
         return new UpdatePasswordFailed('Passwords did not match.');
       }
 
-      const {
-        password: hashedNewPassword,
-        salt: newSalt,
-      } = await this.hashPassword(newPassword);
+      const {password: hashedNewPassword, salt: newSalt} =
+        await this.hashPassword(newPassword);
 
       await this.prisma.user.update({
-        where: { id },
+        where: {id},
         data: {
           password: hashedNewPassword,
           salt: newSalt,
@@ -101,11 +97,28 @@ export class AccountService {
   }> {
     if (salt) {
       const hashedPassword = await hash(password, salt);
-      return { salt, password: hashedPassword };
+      return {salt, password: hashedPassword};
     } else {
       const generatedSalt = await genSalt(10);
       const hashedPassword = await hash(password, generatedSalt);
-      return { salt: generatedSalt, password: hashedPassword };
+      return {salt: generatedSalt, password: hashedPassword};
     }
+  }
+
+  async updateAvatar(userId: string, remoteFileId: string) {
+    const newFile = await this.prisma.s3Sync.create({
+      data: {
+        remoteFileKey: remoteFileId,
+        fileName: 'testing',
+        fileType: 'image/png',
+        owner: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    });
+
+    return newFile.fileName;
   }
 }

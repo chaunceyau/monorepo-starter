@@ -18,6 +18,7 @@ interface PresignedUploadPayload {
   fields: Array<{[key: string]: string}>;
 }
 
+export type RemoveFileMutation = () => any;
 export interface PresignedUploadResponse {
   data: {
     presignedUpload: PresignedUploadPayload;
@@ -35,7 +36,7 @@ export type UploadToRemoteFileStorageFunction = (
   progressEvent: OnUploadProgressFunction
 ) => Promise<{success: boolean}>;
 
-export type OnUploadCompleteFunction = (fileId: string) => any;
+export type OnUploadCompleteFunction = (file: FileStateObject) => any;
 export type OnUploadProgressFunction = AxiosRequestConfig['onUploadProgress'];
 export type OnUploadStartFunction = () => any;
 export type OnUploadErrorFunction = (error: any) => any;
@@ -52,4 +53,3 @@ export interface GetUploadUrlAndUploadFileOptions {
   uploadFileToRemoteStorage: UploadToRemoteFileStorageFunction;
   uploadEvents?: UploadEvents;
 }
-

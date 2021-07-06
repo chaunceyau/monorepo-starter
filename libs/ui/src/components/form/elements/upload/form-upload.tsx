@@ -7,11 +7,11 @@ import {FileList as FileListComponent} from './files/file-list';
 
 import {UploadInput} from './input';
 import {FormLabel} from '../misc/label';
-import {FileStateObject} from './types';
+import {FileStateObject, OnUploadCompleteFunction, RemoveFileMutation} from './types';
 
 /**
  * we don't want to use basic HTML defaultValue because
- * it simply expects string and we want to pass an object
+ * it simply expects string and we want to pass a FileStateObject
  */
 export type FormUploadProps = {
   name: string;
@@ -20,8 +20,8 @@ export type FormUploadProps = {
   maxFiles?: number;
   allowedFileTypes?: string[];
   defaultValue?: FileStateObject[];
-  onDeleteMutation: () => void;
-  onUploadComplete: (key: string) => Promise<any>;
+  onDeleteMutation: RemoveFileMutation;
+  onUploadComplete: OnUploadCompleteFunction;
 } & Partial<Omit<HTMLInputElement, 'value' | 'defaultValue'>>;
 
 /**

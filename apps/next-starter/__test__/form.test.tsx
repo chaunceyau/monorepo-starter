@@ -12,6 +12,11 @@ import {
 import {server} from '../__mocks__/server';
 import {initializeApollo} from '../util/api-client';
 
+/**
+ * this must be tested within the context of the next-starter
+ * application, otherwise we won't have access to apollo client
+ */
+
 export const mockPresignedUploadResponse = {
   data: {
     presignedUpload: {

@@ -1,14 +1,21 @@
 import React from 'react';
+import {gql} from '@apollo/client';
 //
 import {Form, FormButton, FormInput, FormUpload} from '@monorepo-starter/ui';
 //
 import {requireSessionSSR} from 'apps/next-starter/util/misc';
 import {BasicAccountSettingsLayout} from 'apps/next-starter/components/layouts/account-pages';
 import {useViewerEmailQuery} from 'apps/next-starter/graphql/pages/account/useViewer';
+import {apolloClient} from 'apps/next-starter/util/api-client';
+
+const MUTATION_UPDATE_USER_AVATAR = gql`
+  mutation UpdateAvatar($remoteFileId: String!) {
+    updateAvatar(remoteFileId: $remoteFileId)
+  }
+`
 
 export default function AccountPage() {
   const {data, loading} = useViewerEmailQuery();
-  console.log({data, loading});
   return (
     <div>
       <Form
@@ -33,7 +40,14 @@ export default function AccountPage() {
           label="Profile Image"
           required={false}
           onDeleteMutation={() => {}}
-          onUploadComplete={async () => {}}
+          onUploadComplete={async (fileState) => 
+            apolloClient.mutate({
+              mutation: MUTATION_UPDATE_USER_AVATAR,
+              variables: {
+                remoteFileId: fileState.id 
+              }
+            })
+          }
           multiple
           // defaultValue={[
           //   {
