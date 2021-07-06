@@ -1,5 +1,5 @@
 import React from 'react';
-import {FileStateObject} from './types';
+import {FileStateObject, PresignedUploadFunction, UploadToRemoteFileStorageFunction} from './types';
 
 /**
  * We use a provider for the queryPresignedUpload &
@@ -10,8 +10,8 @@ import {FileStateObject} from './types';
  */
 
 export interface GlobalFormUploadContextValues {
-  queryPresignedUpload: (file: File) => void;
-  uploadFileToRemoteStorage: (file: FileStateObject) => void;
+  queryPresignedUpload: PresignedUploadFunction;
+  uploadFileToRemoteStorage: UploadToRemoteFileStorageFunction;
 }
 
 export interface GlobalFormUploadProviderProps
@@ -19,8 +19,16 @@ export interface GlobalFormUploadProviderProps
 
 const GlobalFormUploadContext =
   React.createContext<GlobalFormUploadContextValues>({
-    queryPresignedUpload: (file: File) => {},
-    uploadFileToRemoteStorage: (file: FileStateObject) => {},
+    queryPresignedUpload: async (file: File) => ({
+      data: {
+        presignedUpload: { 
+          url: '',
+          fileId: '',
+          fields: [],
+        }
+      }
+    }),
+    uploadFileToRemoteStorage: async (file: File) => ({success:true}),
   });
   
 export function GlobalFormUploadProvider(props: GlobalFormUploadProviderProps) {

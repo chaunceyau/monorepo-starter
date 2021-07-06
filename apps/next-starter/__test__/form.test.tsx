@@ -49,7 +49,6 @@ describe('<FormUpload/> works with spy', () => {
           defaultValue={undefined}
           onDeleteMutation={() => {}}
           onUploadComplete={mockOnUploadComplete}
-          presignedUpload={mockPresignedUpload}
           required={false}
         />
         <FormButton buttonStyle="primary" label="submit">

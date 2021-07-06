@@ -8,6 +8,7 @@ import {FileList as FileListComponent} from './files/file-list';
 import {UploadInput} from './input';
 import {FormLabel} from '../misc/label';
 import {FileStateObject, PresignedUploadFunction} from './types';
+import { useGlobalFormUploadContext } from './provider';
 
 /**
  * we don't want to use basic HTML defaultValue because
@@ -21,7 +22,6 @@ export type FormUploadProps = {
   allowedFileTypes?: string[];
   defaultValue?: FileStateObject[];
   onDeleteMutation: () => void;
-  presignedUpload: PresignedUploadFunction;
   onUploadComplete: (key: string) => Promise<any>;
 } & Partial<Omit<HTMLInputElement, 'value' | 'defaultValue'>>;
 
@@ -44,7 +44,6 @@ export function FormUpload(props: FormUploadProps) {
         name={props.name}
         value={inputProps.value}
         uploadInputRef={inputRef}
-        presignedUpload={props.presignedUpload}
         onUploadComplete={props.onUploadComplete}
         allowMultipleFiles={!!props.multiple}
       />

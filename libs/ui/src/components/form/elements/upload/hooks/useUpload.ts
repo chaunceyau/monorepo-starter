@@ -1,114 +1,92 @@
-import axios from 'axios';
 import * as React from 'react';
-
+//
+import {useGlobalFormUploadContext} from '@monorepo-starter/ui';
+//
+import {UploadReducerState, useUploadReducer} from './reducer';
 import {
   OnUploadCompleteFunction,
   FileStateObject,
-  PresignedUploadFunction,
+  GetUploadUrlAndUploadFileOptions,
 } from '../types';
-import {
-  UploadReducerState,
-  UploadFileAction,
-  useUploadReducer,
-} from './reducer';
 
 // TODO: check args
-export function useUpload(
+export function useUploadFileComponent(
   fileState: FileStateObject,
-  // function to update a record with newly uploaded s3 id
-  onUploadComplete: OnUploadCompleteFunction,
-  // imageUploadUrl: ImageUploadUrl
-  presignedUpload: PresignedUploadFunction
+  // user provided funcitno
+  onUploadComplete: OnUploadCompleteFunction
 ): UploadReducerState {
   const [state, dispatch] = useUploadReducer();
+  const {queryPresignedUpload, uploadFileToRemoteStorage} =
+    useGlobalFormUploadContext();
   React.useEffect(() => {
     if (fileState.file && !state.loading && state.progress !== 100) {
-      uploadFileToS3(fileState, onUploadComplete, presignedUpload, dispatch);
+      getUploadUrlAndUploadFile(fileState, {
+        queryPresignedUpload,
+        uploadFileToRemoteStorage,
+        uploadEvents: {
+          onUploadStart: () => dispatch({type: 'START_UPLOAD'}),
+          onUploadComplete: () => {
+            dispatch({type: 'UPLOAD_COMPLETE'});
+            return onUploadComplete;
+          },
+          onUploadProgressFunction: () => dispatch({type: 'INCREASE_PROGRESS'}),
+          onUploadError: error => dispatch({type: 'ERROR', payload: {error}}),
+        },
+      });
     }
   }, [fileState]);
   return state;
 }
 
-export async function uploadFileToS3(
+/**
+ * Handles both calling to request an aws presigned post request url
+ * (https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html)
+ * and then takes file and uploads to the presigned post url
+ * @param fileState
+ * @param onUploadComplete
+ * @param queryPresignedUpload
+ * @param uploadFileToRemoteStorage
+ * @param onUploadStart
+ * @returns
+ */
+export async function getUploadUrlAndUploadFile(
   fileState: FileStateObject,
-  onUploadComplete: OnUploadCompleteFunction,
-  presignedUpload: PresignedUploadFunction,
-  dispatch: React.Dispatch<UploadFileAction>
+  options: GetUploadUrlAndUploadFileOptions
 ) {
-  if (!fileState.file) {
-    return;
-  }
-  dispatch({type: 'START_UPLOAD'});
+  options.uploadEvents.onUploadStart();
 
-  const response = await presignedUpload({
-    id: fileState.id,
-    file: fileState.file,
-  })
+  const response = await options
+    .queryPresignedUpload(fileState.file)
     .then(async res => {
-      if (!res) {
-        // TODO: handle this with better
-        return;
-      }
-
+      const presignedUpload = res.data.presignedUpload;
       const fileForm = new FormData();
-      res.data?.presignedUpload?.fields?.forEach(({key, value}) =>
-        fileForm.append(key, value)
-      );
+      for (const {key, value} of presignedUpload.fields) {
+        fileForm.append(key, value);
+      }
       fileForm.append('file', fileState.file);
 
-      const response = await postFileToS3(
-        fileState.file,
-        res.data.presignedUpload.url,
-        fileForm,
-        progressEvent => {
-          console.log({
-            payload: (progressEvent.loaded / progressEvent.total) * 100,
-          });
-          dispatch({
-            type: 'INCREASE_PROGRESS',
-            payload: (progressEvent.loaded / progressEvent.total) * 100,
-          });
-        }
-      )
+      await options
+        .uploadFileToRemoteStorage(
+          fileState.file,
+          presignedUpload.url,
+          fileForm,
+          options.uploadEvents.onUploadProgressFunction
+        )
         .then(() => {
-          console.log('PRE: UPLOAD_COMPLETE');
-          dispatch({type: 'UPLOAD_COMPLETE'});
-          console.log('POST: UPLOAD_COMPLETE');
-          // aws s3 file key
-          if (onUploadComplete) {
-            onUploadComplete(fileState.id + '/' + fileState.fileName);
-          }
+          // TODO: make sure this is correct
+          options.uploadEvents.onUploadComplete(
+            fileState.id + '/' + fileState.fileName
+          );
         })
-        .catch(err => dispatch({type: 'ERROR', payload: err}));
-      return response;
+        .catch(error => {
+          options.uploadEvents.onUploadError(error);
+        });
+      options.uploadEvents.onUploadComplete(res.data.presignedUpload.fileId);
+      return res;
     })
     .catch(err => {
       // TODO: handle this with better
       console.log('errrr presigning upload');
     });
-  return response;
-}
-
-async function postFileToS3(
-  file: File,
-  url: string,
-  formData: FormData,
-  onUploadProgress: (progressEvent: ProgressEvent) => void
-) {
-  console.log('STARTING postFileToS3');
-  console.log(`postFileToS3 url: ${url}`);
-  const response = await axios.post(url, formData, {
-    onUploadProgress,
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      // 'Content-Disposition': contentDisposition(fileName)
-      // NOTE/TODO: no content-dispo might break upload
-      'Content-Disposition': `attachment; filename=${
-        file.name //+ '.' + file.type
-      }`,
-      // Content-Disposition: form-data; name="fieldName"; filename="filename.jpg"
-    },
-  });
-  console.log('FINISHED postFileToS3');
   return response;
 }

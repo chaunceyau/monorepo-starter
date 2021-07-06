@@ -3,15 +3,14 @@ import {useFormContext} from 'react-hook-form';
 //
 import {FileListItem} from './file-item';
 import {Button} from '../../../../button';
-import {FileStateObject, PresignedUpload} from '../types';
+import {FileStateObject, OnUploadCompleteFunction} from '../types';
 
 interface FileListProps {
   name: string;
   value: FileStateObject[];
-  uploadInputRef: any;
-  onUploadComplete: any;
   allowMultipleFiles: boolean;
-  presignedUpload: PresignedUpload;
+  uploadInputRef: React.RefObject<HTMLInputElement>;
+  onUploadComplete: OnUploadCompleteFunction;
 }
 
 export function FileList(props: FileListProps) {
@@ -48,7 +47,6 @@ export function FileList(props: FileListProps) {
               {...fileState}
               name={props.name}
               key={fileState.id}
-              presignedUpload={props.presignedUpload}
               onUploadComplete={props.onUploadComplete}
             />
           ))}

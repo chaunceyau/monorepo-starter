@@ -1,5 +1,8 @@
+import * as cuid from 'cuid'
 import {Resolver, Query, Args} from '@nestjs/graphql';
+// 
 import {ImageUploadService} from '@monorepo-starter/api-upload';
+// 
 import {
   AccessImageByKeyInput,
   AwsS3UploadOptions,
@@ -18,6 +21,7 @@ export class UploadResolver {
 
   @Query(_returns => PresignedUploadPayload)
   presignedUpload(@Args('input') input: AwsS3UploadOptions) {
-    return this.imageUploadService.generateSignedUploadUrl(input);
+    const fileId = cuid();
+    return this.imageUploadService.generateSignedUploadUrl({...input, fileId});
   }
 }

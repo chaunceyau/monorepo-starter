@@ -84,7 +84,6 @@ input AwsS3UploadOptions {
   type: String!
   size: Int!
   fileName: String!
-  fileId: String!
 }
 
 type Mutation {

@@ -1,3 +1,5 @@
+import {AxiosRequestConfig} from 'axios';
+
 export interface FileStateObject extends RemoteFile {
   file?: File;
   // ALREADY_SAVED: If has been uploaded and ran `onUploadComplete?` func
@@ -10,16 +12,44 @@ interface RemoteFile {
   fileName: string;
 }
 
-export type PresignedUploadFunction = (file: {id: string; file: File}) => Promise<{
-  data: {
-    presignedUpload: PresignedUploadPayload;
-  };
-}>;
-
-export type OnUploadCompleteFunction = (fileId: string) => any;
-
 interface PresignedUploadPayload {
   url: string;
   fileId: string;
   fields: Array<{[key: string]: string}>;
 }
+
+export interface PresignedUploadResponse {
+  data: {
+    presignedUpload: PresignedUploadPayload;
+  };
+}
+
+export type PresignedUploadFunction = (
+  file: File
+) => Promise<PresignedUploadResponse>;
+
+export type UploadToRemoteFileStorageFunction = (
+  file: File,
+  url: string,
+  formData: FormData,
+  progressEvent: OnUploadProgressFunction
+) => Promise<{success: boolean}>;
+
+export type OnUploadCompleteFunction = (fileId: string) => any;
+export type OnUploadProgressFunction = AxiosRequestConfig['onUploadProgress'];
+export type OnUploadStartFunction = () => any;
+export type OnUploadErrorFunction = (error: any) => any;
+
+export interface UploadEvents {
+  onUploadStart?: OnUploadStartFunction;
+  onUploadProgressFunction?: OnUploadProgressFunction;
+  onUploadComplete?: OnUploadCompleteFunction;
+  onUploadError?: OnUploadErrorFunction;
+}
+
+export interface GetUploadUrlAndUploadFileOptions {
+  queryPresignedUpload: PresignedUploadFunction;
+  uploadFileToRemoteStorage: UploadToRemoteFileStorageFunction;
+  uploadEvents?: UploadEvents;
+}
+

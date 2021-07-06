@@ -3,20 +3,17 @@ import {useFormContext} from 'react-hook-form';
 import {UndoDeleteFileButton} from './undo-delete-button'
 import {ProgressBar} from '../../../../misc/progress-bar';
 import {CheckIcon} from '../../../../icons/check';
-import {ArchiveSvg} from '../../../../icons/archive';
 import {LoadingSpinner} from '../../../../misc/spinner';
-import {useUpload} from '../hooks/useUpload';
+import {useUploadFileComponent} from '../hooks/useUpload';
 import {
   FileStateObject,
   OnUploadCompleteFunction,
-  PresignedUpload,
 } from '../types';
 import { DeleteButton } from './delete-button';
 
 interface FileListItemProps extends FileStateObject {
   name: string
   onUploadComplete: OnUploadCompleteFunction;
-  presignedUpload: PresignedUpload;
 }
 
 function useCSSClasses(props: FileListItemProps, ctx, state) {
@@ -44,7 +41,7 @@ function useCSSClasses(props: FileListItemProps, ctx, state) {
 
 export function FileListItem(props: FileListItemProps) {
   const ctx = useFormContext();
-  const state = useUpload(props, props.onUploadComplete, props.presignedUpload);
+  const state = useUploadFileComponent(props, props.onUploadComplete);
   const {liClasses} = useCSSClasses(props, ctx, state);
 
   if (typeof ctx === 'undefined') {

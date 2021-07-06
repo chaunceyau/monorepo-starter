@@ -1,4 +1,5 @@
 import {ApolloQueryResult, gql} from '@apollo/client';
+
 import {apolloClient} from '../util/api-client';
 
 export const PresignedUploadQuery = gql`
@@ -28,25 +29,18 @@ interface PresignedUploadReplaceMe {
 
 // export so we can test
 export function queryPresignedUpload(
-  file
+  file: File
 ): Promise<ApolloQueryResult<PresignedUploadReplaceMe>> {
+  console.log({file});
   return apolloClient.query({
     query: PresignedUploadQuery,
+    fetchPolicy: 'network-only',
     variables: {
       input: {
-        type: file.file.type,
-        size: file.file.size,
-        fileName: file.file.name,
-        fileId: file.id,
+        type: file.type,
+        size: file.size,
+        fileName: file.name,
       },
     },
   });
-}
-
-export function usePresignedUploadQuery() {
-  // const [query, queryInfo] = useLazyQuery(PresignedUploadQuery);
-  // const client = useApolloClient();
-  return {
-    queryPresignedUpload: file => queryPresignedUpload(file),
-  };
 }

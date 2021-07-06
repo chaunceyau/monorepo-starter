@@ -5,18 +5,16 @@ import {Form, FormButton, FormInput, FormUpload} from '@monorepo-starter/ui';
 import {requireSessionSSR} from 'apps/next-starter/util/misc';
 import {BasicAccountSettingsLayout} from 'apps/next-starter/components/layouts/account-pages';
 import {useViewerEmailQuery} from 'apps/next-starter/graphql/pages/account/useViewer';
-import {usePresignedUploadQuery} from 'apps/next-starter/graphql/presignedUpload';
 
 export default function AccountPage() {
   const {data, loading} = useViewerEmailQuery();
   console.log({data, loading});
-  const {queryPresignedUpload} = usePresignedUploadQuery();
   return (
     <div>
       <Form
         id="account-settings"
         styled
-        onSubmit={async () => {
+        onSubmit={() => {
           return new Promise((resolve, _reject) =>
             setTimeout(() => resolve(), 5000)
           );
@@ -35,7 +33,6 @@ export default function AccountPage() {
           label="Profile Image"
           required={false}
           onDeleteMutation={() => {}}
-          presignedUpload={file => queryPresignedUpload(file)}
           onUploadComplete={async () => {}}
           multiple
           // defaultValue={[

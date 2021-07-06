@@ -9,6 +9,8 @@ import {createAbilitiesForUser} from '@monorepo-starter/casl';
 import {useApollo} from '../util/api-client';
 import {AbilityContext} from '../util/casl';
 import {UI_APP_NAVIGATION} from '../util/routes/nav';
+import { queryPresignedUpload } from '../graphql/presignedUpload';
+import { uploadFileToPresignedS3Url } from '../graphql/uploadToRemote';
 //
 
 interface ApplicationProvidersProps extends Pick<AppProps, 'pageProps'> {}
@@ -26,8 +28,8 @@ export function ApplicationProviders({
             value={createAbilitiesForUser(pageProps.session?.user)}
           >
             <GlobalFormUploadProvider value={{
-                queryPresignedUpload: (file: File) => {},
-                uploadFileToRemoteStorage: (file: FileStateObject) => {},
+                queryPresignedUpload: queryPresignedUpload,
+                uploadFileToRemoteStorage: uploadFileToPresignedS3Url,
             }}>
               {children}
             </GlobalFormUploadProvider>
