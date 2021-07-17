@@ -8,19 +8,24 @@ import {
   FileStateObject,
   GetUploadUrlAndUploadFileOptions,
 } from '../types';
+import {FieldValues, useFormContext, UseFormReturn} from 'react-hook-form';
+import {FileListItemProps} from '../files/file-item';
 
 // TODO: check args
 export function useUploadFileComponent(
-  fileState: FileStateObject,
-  // user provided funcitno
+  fileState: FileListItemProps,
+  // user provided funciton
   onUploadComplete: OnUploadCompleteFunction
 ): UploadReducerState {
   const [state, dispatch] = useUploadReducer();
   const {queryPresignedUpload, uploadFileToRemoteStorage} =
     useGlobalFormUploadContext();
+  const formCtx = useFormContext();
+
   React.useEffect(() => {
     if (fileState.file && !state.loading && state.progress !== 100) {
-      getUploadUrlAndUploadFile(fileState, {
+      getUploadUrlAndUploadFile(formCtx, fileState, {
+        fieldName: fileState.fieldName,
         queryPresignedUpload,
         uploadFileToRemoteStorage,
         uploadEvents: {
@@ -35,7 +40,25 @@ export function useUploadFileComponent(
       });
     }
   }, [fileState]);
+
   return state;
+}
+
+/**
+ * file id is initially set to filename
+ * so server can reliably generate us a new id.
+ * when id comes back, we need to update the item id
+ */
+function updateExistingStateFileId(
+  ctx: UseFormReturn<FieldValues>,
+  key: string,
+  newId: string,
+  idFieldName: string = 'id'
+) {
+  const value = ctx.getValues(key);
+  const newValue = Object.assign({}, value, {[idFieldName]: newId});
+
+  ctx.setValue(key, newValue);
 }
 
 /**
@@ -50,6 +73,7 @@ export function useUploadFileComponent(
  * @returns
  */
 export async function getUploadUrlAndUploadFile(
+  ctx: UseFormReturn<FieldValues>,
   fileState: FileStateObject,
   options: GetUploadUrlAndUploadFileOptions
 ) {
@@ -64,6 +88,12 @@ export async function getUploadUrlAndUploadFile(
         fileForm.append(key, value);
       }
       fileForm.append('file', fileState.file);
+
+      updateExistingStateFileId(
+        ctx,
+        'options.fieldName',
+        presignedUpload.fileId
+      );
 
       await options
         .uploadFileToRemoteStorage(

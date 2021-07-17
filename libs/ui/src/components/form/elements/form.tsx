@@ -41,8 +41,10 @@ export function Form({
     try {
       for await (const [key, value] of Object.entries(deleteFiles)) {
         // TODO: is await needed?
+        // TODO: refactor to promise.all
         // await new Promise(function(resolve, reject) {
         await deleteFiles[key].onDeleteFunction(deleteFiles[key].files)
+
         // });
       }
 
@@ -52,7 +54,7 @@ export function Form({
         setValue(
           key,
           data[key].filter(
-            (val: any) => !deletes.some((d: string) => d === val.id)
+            (val: any) => !deletes.files.some((d: string) => d === val.id)
           )
         );
       }

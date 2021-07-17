@@ -1,13 +1,17 @@
 import {gql, useQuery} from '@apollo/client';
 
-const query = gql`
-  query ViewerEmail {
-    ...AccountPage_viewerEmail
+export const QueryViewerAccountPage = gql`
+  query QueryViewerAccountPage {
+    viewer {
+      email
+      avatar {
+        url
+      }
+    }
   }
-  fragment AccountPage_viewerEmail on Query { viewer { email } }
 `;
 
-export function useViewerEmailQuery() {
-  const info = useQuery(query);
+export function useViewerBasicsQuery() {
+  const info = useQuery(QueryViewerAccountPage);
   return info;
 }

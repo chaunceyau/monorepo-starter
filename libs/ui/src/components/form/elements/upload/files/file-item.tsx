@@ -11,8 +11,8 @@ import {
 } from '../types';
 import {DeleteButton} from './delete-button';
 
-interface FileListItemProps extends FileStateObject {
-  name: string
+export interface FileListItemProps extends FileStateObject {
+  fieldName: string
   onUploadComplete: OnUploadCompleteFunction;
 }
 
@@ -55,9 +55,9 @@ export function FileListItem(props: FileListItemProps) {
 
   return (
     <li key={props.id} className={liClasses.join(' ')}>
-      {showLoading ? <LoadingSpinner color="currentColor" dataTestId="check-svg-file-upload-loading" /> : <CheckIcon dataTestId="check-svg-file-upload-complete" />}
+      {showLoading ? <LoadingSpinner color="currentColor" dataTestId="check-svg-file-upload-loading" /> : <CheckIcon dataTestId="check-svg-file-upload-complete" className="flex-shrink-0" />}
 
-      <p className="flex-shrink-0 flex-grow mr-8 ml-3 overflow-hidden text-sm tracking-wide">
+      <p className="truncate overflow-ellipsis flex-grow mr-8 ml-3 overflow-hidden text-sm tracking-wide">
         {props.fileName}
       </p>
 
@@ -68,11 +68,11 @@ export function FileListItem(props: FileListItemProps) {
       ) : null}
 
       {pendingRemoval ? (
-        <UndoDeleteFileButton file={props.file} status={props.status} progress={props.progress} id={props.id} fileName={props.fileName} name={props.name} />
+        <UndoDeleteFileButton file={props.file} status={props.status} progress={props.progress} id={props.id} fileName={props.fileName} fieldName={props.fieldName} />
       ) : null}
       
       {!pendingRemoval ? (
-        <DeleteButton file={props.file} status={props.status} progress={props.progress} id={props.id} fileName={props.fileName} name={props.name} />
+        <DeleteButton file={props.file} status={props.status} progress={props.progress} id={props.id} fileName={props.fileName} fieldName={props.fieldName} />
       ) : null}
     </li>
   );

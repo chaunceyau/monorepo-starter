@@ -48,7 +48,7 @@ export class UserService {
     return result;
   }
 
-  async findUserAvatar(userId: string) {
+  async findViewerAvatar(userId: string) {
     const res = await this.prisma.user
       .findUnique({where: {id: userId}})
       .avatar();

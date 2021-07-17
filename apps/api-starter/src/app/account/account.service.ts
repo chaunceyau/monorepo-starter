@@ -105,7 +105,21 @@ export class AccountService {
     }
   }
 
-  async updateAvatar(userId: string, remoteFileId: string) {
+  async removeAvatar(viewerId: string) {
+    const avatar = await this.prisma.user
+      .findUnique({
+        where: {id: viewerId},
+      })
+      .avatar();
+
+    const deleted = await this.prisma.s3Sync.delete({
+      where: {remoteFileKey: avatar.remoteFileKey},
+    });
+
+    return deleted.remoteFileKey;
+  }
+
+  async updateAvatar(viewerId: string, remoteFileId: string) {
     const newFile = await this.prisma.s3Sync.create({
       data: {
         remoteFileKey: remoteFileId,
@@ -113,7 +127,7 @@ export class AccountService {
         fileType: 'image/png',
         owner: {
           connect: {
-            id: userId,
+            id: viewerId,
           },
         },
       },

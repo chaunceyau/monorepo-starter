@@ -7,7 +7,12 @@ export interface UploadReducerState {
 }
 
 export interface UploadFileAction {
-  type: 'START_UPLOAD' | 'UPLOAD_COMPLETE' | 'INCREASE_PROGRESS' | 'ERROR';
+  type:
+    | 'START_UPLOAD'
+    | 'UPLOAD_COMPLETE'
+    | 'INCREASE_PROGRESS'
+    | 'REMOVE_FILE'
+    | 'ERROR';
   payload?: any;
 }
 
@@ -24,6 +29,9 @@ function uploadReducer(
     }
     case 'INCREASE_PROGRESS': {
       return Object.assign({}, state, {progress: action.payload});
+    }
+    case 'REMOVE_FILE': {
+      return null;
     }
     case 'ERROR': {
       return Object.assign({}, state, {

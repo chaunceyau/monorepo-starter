@@ -52,4 +52,5 @@ export interface GetUploadUrlAndUploadFileOptions {
   queryPresignedUpload: PresignedUploadFunction;
   uploadFileToRemoteStorage: UploadToRemoteFileStorageFunction;
   uploadEvents?: UploadEvents;
+  fieldName: string
 }

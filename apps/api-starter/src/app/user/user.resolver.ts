@@ -63,8 +63,13 @@ export class UserResolver {
     name: 'avatar',
     nullable: true,
   })
-  async getUserAvatar(@AuthenticatedUser() user: AuthenticatedUserContext) {
-    const res = await this.userService.findUserAvatar(user.id);
+  async getViewerAvatar(@AuthenticatedUser() user: AuthenticatedUserContext) {
+    const res = await this.userService.findViewerAvatar(user.id);
+
+    if (!res) {
+      return null;
+    }
+
     return this.uploadService.getSignedImageAccessUrl(res.remoteFileKey);
   }
 

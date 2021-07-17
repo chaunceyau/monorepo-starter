@@ -26,6 +26,18 @@ export class AccountResolver {
   //   // @ts-ignore
   //   ability.can(DatabaseAction.Manage, subject('User', {id: args.id}))
   // )
+  async removeViewerAvatar(
+    @AuthenticatedUser() user: AuthenticatedUserContext
+  ) {
+    return this.accountService.removeAvatar(user.id);
+  }
+
+  @Mutation(_returns => String)
+  @UseGuards(JwtAuthGuard, PoliciesGuard)
+  // @CheckPolicies((ability: RbacAbility, args: Record<string, any>) =>
+  //   // @ts-ignore
+  //   ability.can(DatabaseAction.Manage, subject('User', {id: args.id}))
+  // )
   async updateAvatar(
     @Args('remoteFileId') remoteFileId: string,
     @AuthenticatedUser() user: AuthenticatedUserContext

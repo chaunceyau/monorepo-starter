@@ -3,7 +3,7 @@ import {useFormContext} from 'react-hook-form';
 import {FileStateObject} from '../types';
 
 interface UndoDeleteFileButtonProps extends FileStateObject {
-  name: string
+  fieldName: string
 }
 
 export const UndoDeleteFileButton = (props: UndoDeleteFileButtonProps) => {
@@ -15,9 +15,9 @@ export const UndoDeleteFileButton = (props: UndoDeleteFileButtonProps) => {
       disabled={ctx.formState.isSubmitting}
       onClick={() => {
         ctx.setValue(
-          props.name,
+          props.fieldName,
           ctx
-            .getValues(props.name).map(
+            .getValues(props.fieldName).map(
               (val: FileStateObject): FileStateObject =>
                 val.id === props.id
                   ? Object.assign({}, val, {status: 'SAVED'} as Pick<FileStateObject, 'status'>)

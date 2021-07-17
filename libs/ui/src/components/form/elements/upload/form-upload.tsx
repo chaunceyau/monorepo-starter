@@ -40,7 +40,7 @@ export function FormUpload(props: FormUploadProps) {
       {/* TODO: FIX ERROR */}
       <FormLabel label={props.label} name={props.name} error={false} />
       <FileListComponent
-        name={props.name}
+        fieldName={props.name}
         value={inputProps.value}
         uploadInputRef={inputRef}
         onUploadComplete={props.onUploadComplete}
@@ -73,6 +73,7 @@ function useFormUpload(props: FormUploadProps) {
     },
     [inputProps]
   );
+  
   const {getRootProps, getInputProps, inputRef} = useDropzone({
     onDrop,
     ...inputProps,

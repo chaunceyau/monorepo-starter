@@ -4,23 +4,23 @@ import {FileStateObject} from "../types";
 import {ArchiveSvg} from "../../../../../components/icons/archive";
 
 interface DeleteButtonProps extends FileStateObject {
-    name: string
+  fieldName: string
 }
 
 export const DeleteButton = (props: DeleteButtonProps) => {
     const ctx = useFormContext();
     return (
-        <button
+      <button
         type="button"
         data-testid={`delete-${props.fileName}`}
         className={`ml-4 ${ctx.formState.isSubmitting ? 'cursor-disabled' : 'text-red-500'}`}
         disabled={ctx.formState.isSubmitting}
         onClick={() => {
           ctx.setValue(
-            props.name,
+            props.fieldName,
             // map through existing and update statuss
             ctx
-              .getValues(props.name).map((val: FileStateObject) =>
+              .getValues(props.fieldName).map((val: FileStateObject) =>
                 val.id === props.id
                   ? Object.assign({}, val, {status: 'PENDING_REMOVAL'} as Pick<FileStateObject, 'status'>)
                   : val

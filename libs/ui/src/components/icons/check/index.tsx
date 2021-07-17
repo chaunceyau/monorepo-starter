@@ -3,11 +3,12 @@ import styles from './styles.module.css'
 
 interface CheckIconProps {
  dataTestId?: string
+ className?: string
 }
 
 export const CheckIcon: React.FC<CheckIconProps> = (props: CheckIconProps) => (
   <svg
-    className={styles.checkmark + ' w-4 h-4'}
+    className={`${styles.checkmark} ${props.className} w-3 h-3`}
     xmlns='http://www.w3.org/2000/svg'
     viewBox='0 0 52 52'
     data-testid={props.dataTestId}

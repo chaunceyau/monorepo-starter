@@ -6,7 +6,7 @@ import {Button} from '../../../../button';
 import {FileStateObject, OnUploadCompleteFunction} from '../types';
 
 interface FileListProps {
-  name: string;
+  fieldName: string;
   value: FileStateObject[];
   allowMultipleFiles: boolean;
   uploadInputRef: React.RefObject<HTMLInputElement>;
@@ -45,8 +45,8 @@ export function FileList(props: FileListProps) {
           .map(fileState => (
             <FileListItem
               {...fileState}
-              name={props.name}
               key={fileState.id}
+              fieldName={props.fieldName}
               onUploadComplete={props.onUploadComplete}
             />
           ))}

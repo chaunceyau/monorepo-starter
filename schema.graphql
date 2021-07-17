@@ -87,6 +87,7 @@ input AwsS3UploadOptions {
 }
 
 type Mutation {
+  removeViewerAvatar: String!
   updateAvatar(remoteFileId: String!): String!
   changePassword(input: UpdatePasswordInput!): ChangePasswordResult!
   stripeCheckoutSession(input: StripeCheckoutSessionInput!): CheckoutSession!
