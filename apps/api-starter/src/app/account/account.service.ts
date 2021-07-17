@@ -119,12 +119,17 @@ export class AccountService {
     return deleted.remoteFileKey;
   }
 
-  async updateAvatar(viewerId: string, remoteFileId: string) {
+  async updateAvatar(
+    viewerId: string,
+    remoteFileId: string,
+    fileName: string,
+    fileType: string
+  ) {
     const newFile = await this.prisma.s3Sync.create({
       data: {
         remoteFileKey: remoteFileId,
-        fileName: 'testing',
-        fileType: 'image/png',
+        fileName: fileName,
+        fileType: fileType,
         owner: {
           connect: {
             id: viewerId,

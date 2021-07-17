@@ -5,6 +5,7 @@ import {DatabaseAction, RbacAbility} from '@monorepo-starter/casl';
 //
 import {
   ChangePasswordResult,
+  UpdateAvatarInput,
   UpdatePasswordInput,
 } from './models/update-password.input';
 import {
@@ -39,10 +40,15 @@ export class AccountResolver {
   //   ability.can(DatabaseAction.Manage, subject('User', {id: args.id}))
   // )
   async updateAvatar(
-    @Args('remoteFileId') remoteFileId: string,
+    @Args('input') input: UpdateAvatarInput,
     @AuthenticatedUser() user: AuthenticatedUserContext
   ) {
-    return this.accountService.updateAvatar(user.id, remoteFileId);
+    return this.accountService.updateAvatar(
+      user.id,
+      input.remoteFileId,
+      input.fileName,
+      input.fileType
+    );
   }
 
   @Mutation(_returns => ChangePasswordResult)

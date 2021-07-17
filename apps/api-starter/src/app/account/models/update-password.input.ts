@@ -1,5 +1,23 @@
-import { createUnionType, Field, InputType, ObjectType } from '@nestjs/graphql';
-import { MinLength, MaxLength } from 'class-validator';
+import {createUnionType, Field, InputType, ObjectType} from '@nestjs/graphql';
+import {MinLength, MaxLength} from 'class-validator';
+
+@InputType()
+export class UpdateAvatarInput {
+  @Field(_type => String)
+  @MinLength(6)
+  @MaxLength(50)
+  fileName: string;
+
+  @Field(_type => String)
+  @MinLength(6)
+  @MaxLength(50)
+  fileType: string;
+
+  @Field(_type => String)
+  @MinLength(6)
+  @MaxLength(50)
+  remoteFileId: string;
+}
 
 @InputType()
 export class UpdatePasswordInput {
@@ -29,7 +47,7 @@ export class UpdatePasswordFailed {
   constructor(message: string) {
     this.message = message;
   }
-  
+
   @Field(_type => String)
   message: String;
 }

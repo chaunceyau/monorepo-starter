@@ -89,9 +89,15 @@ input AwsS3UploadOptions {
 
 type Mutation {
   removeViewerAvatar: String!
-  updateAvatar(remoteFileId: String!): String!
+  updateAvatar(input: UpdateAvatarInput!): String!
   changePassword(input: UpdatePasswordInput!): ChangePasswordResult!
   stripeCheckoutSession(input: StripeCheckoutSessionInput!): CheckoutSession!
+}
+
+input UpdateAvatarInput {
+  fileName: String!
+  fileType: String!
+  remoteFileId: String!
 }
 
 union ChangePasswordResult = UpdatePasswordSuccess | UpdatePasswordFailed

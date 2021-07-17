@@ -36,7 +36,7 @@ export type UploadToRemoteFileStorageFunction = (
   progressEvent: OnUploadProgressFunction
 ) => Promise<{success: boolean}>;
 
-export type OnUploadCompleteFunction = (file: FileStateObject) => any;
+export type OnUploadCompleteFunction = (fileState: FileStateObject) => any;
 export type OnUploadProgressFunction = AxiosRequestConfig['onUploadProgress'];
 export type OnUploadStartFunction = () => any;
 export type OnUploadErrorFunction = (error: any) => any;
