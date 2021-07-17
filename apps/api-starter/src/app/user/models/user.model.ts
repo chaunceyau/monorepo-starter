@@ -9,6 +9,8 @@ export class UserAvatarGraphModel {
   url: string;
   // @Field(_type => String)
   // awsFileKey: string;
+  @Field(_type => String)
+  fileName: string;
 }
 
 @ObjectType('User')

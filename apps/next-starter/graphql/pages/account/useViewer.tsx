@@ -6,6 +6,7 @@ export const QueryViewerAccountPage = gql`
       email
       avatar {
         url
+        fileName
       }
     }
   }

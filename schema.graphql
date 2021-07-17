@@ -13,6 +13,7 @@ type Subscription {
 
 type UserAvatar {
   url: String!
+  fileName: String!
 }
 
 type User {

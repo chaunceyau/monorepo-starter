@@ -5,7 +5,7 @@ import {Form, FormButton, FormInput, FormUpload} from '@monorepo-starter/ui';
 //
 import {requireSessionSSR} from 'apps/next-starter/util/misc';
 import {BasicAccountSettingsLayout} from 'apps/next-starter/components/layouts/account-pages';
-import {FragmentAvatarFields, QueryViewerAccountPage, useViewerBasicsQuery} from 'apps/next-starter/graphql/pages/account/useViewer';
+import {QueryViewerAccountPage, useViewerBasicsQuery} from 'apps/next-starter/graphql/pages/account/useViewer';
 import {apolloClient} from 'apps/next-starter/util/api-client';
 
 const MUTATION_UPDATE_USER_AVATAR = gql`
@@ -29,14 +29,6 @@ export default function AccountPage() {
     <div>
       <Form
         id="account-settings"
-        // defaultValues={{
-        //   avatar:[ {
-        //     fileId: 'data.viewer.avatar.url',
-        //     fileName: 'data.viewer.avatar.url',
-        //     status: 'SAVED',
-        //     progress: 100
-        //   }]
-        // }}
         styled
         onSubmit={() => {
           return new Promise((resolve, _reject) =>
@@ -61,7 +53,7 @@ export default function AccountPage() {
               ? [
                   {
                     id: data?.viewer?.avatar.url,
-                    fileName: data?.viewer?.avatar.url,
+                    fileName: data?.viewer?.avatar.fileName,
                     status: 'SAVED',
                     progress: 100,
                   },

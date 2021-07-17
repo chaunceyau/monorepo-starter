@@ -61,6 +61,7 @@ export class ImageUploadService {
     };
     this.logger.debug(`Generated a signed asset access url.`);
     return {
+      expiresAt: urlOptions.expires,
       url: this.imgixClient.buildURL(fileKey, urlOptions),
     };
   }

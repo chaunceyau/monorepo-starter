@@ -70,7 +70,14 @@ export class UserResolver {
       return null;
     }
 
-    return this.uploadService.getSignedImageAccessUrl(res.remoteFileKey);
+    const signedImageObj = this.uploadService.getSignedImageAccessUrl(
+      res.remoteFileKey
+    );
+
+    return {
+      url: signedImageObj.url,
+      fileName: res.fileName,
+    };
   }
 
   @ResolveField(_type => SubscriptionGraphModel, {nullable: true})
