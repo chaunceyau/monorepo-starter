@@ -19,7 +19,7 @@ function CustomApp({Component, pageProps}: AppProps) {
   return (
     <>
       <Head>
-        <title>{env.TITLE_BAR_BASE}</title>
+        <title>{env.TITLE_BAR_BASE || 'Monorepo Starter'}</title>
         <link rel="stylesheet" type="text/css" href="/nprogress.css" />
       </Head>
       <ApplicationProviders pageProps={pageProps}>

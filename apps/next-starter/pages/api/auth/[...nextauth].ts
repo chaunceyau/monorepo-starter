@@ -6,7 +6,7 @@ import Providers from 'next-auth/providers';
 import {env} from 'apps/next-starter/util/config';
 import {prisma} from 'apps/next-starter/util/prisma';
 import {UserSession} from 'apps/next-starter/util/types';
-// 
+//
 import {routes} from '@monorepo-starter/utils';
 
 export default NextAuth({
@@ -14,6 +14,7 @@ export default NextAuth({
     signIn: routes.client.login,
   },
   session: {
+    jwt: true,
     maxAge: 30 * 24 * 60 * 60,
   },
   // secret: '',
