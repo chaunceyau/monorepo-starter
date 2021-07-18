@@ -1,13 +1,13 @@
-import { Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
+import {Module} from '@nestjs/common';
+import {JwtModule} from '@nestjs/jwt';
+import {PassportModule} from '@nestjs/passport';
 //
-import { UserModule } from '../user/user.module';
-import { JwtStrategy } from './util/jwt.strategy';
-import { PrismaModule } from '../prisma/prisma.module';
-import { LocalConfigModule } from '../config/config.module';
-import { SessionSerializer } from './util/session.serializer';
-import { JwtConfigService } from '../config/services/jwt.config';
+import {UserModule} from '../user/user.module';
+import {JwtStrategy} from './util/jwt.strategy';
+import {PrismaModule} from '../prisma/prisma.module';
+import {LocalConfigModule} from '../config/config.module';
+import {SessionSerializer} from './util/session.serializer';
+import {JwtConfigService} from '../config/services/jwt.config';
 
 @Module({
   imports: [

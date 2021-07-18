@@ -24,7 +24,7 @@ import {
 } from './models/user.model';
 import {SubscriptionGraphModel} from '../subscription/models/subscription.model';
 
-@Resolver(_of => UserGraphModel)
+// @Resolver(_of => UserGraphModel)
 export class UserResolver {
   constructor(
     private readonly userService: UserService,
@@ -32,66 +32,66 @@ export class UserResolver {
     @InjectStripe() private readonly stripeClient: Stripe
   ) {}
 
-  @UseGuards(JwtAuthGuard, PoliciesGuard)
-  @Query(_returns => UserGraphModel, {name: 'viewer'})
-  // @CheckPolicies((ability: RbacAbility) =>
-  //   ability.can(DatabaseAction.Read, 'User')
+  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  // @Query(_returns => UserGraphModel, {name: 'viewer'})
+  // // @CheckPolicies((ability: RbacAbility) =>
+  // //   ability.can(DatabaseAction.Read, 'User')
+  // // )
+  // async getCurrentViewer(@AuthenticatedUser() user) {
+  //   return await this.userService.findUniqueById(user.id);
+  // }
+
+  // @UseGuards(JwtAuthGuard, PoliciesGuard)
+  // @Query(_returns => UserGraphModel, {name: 'userById'})
+  // @CheckPolicies((ability: RbacAbility, args: Record<string, any>) =>
+  //   // @ts-ignore
+  //   ability.can(DatabaseAction.Read, subject('User', {id: args.id}))
   // )
-  async getCurrentViewer(@AuthenticatedUser() user) {
-    return await this.userService.findUniqueById(user.id);
-  }
+  // async getUserById(@Args('id') id: string) {
+  //   return this.userService.findUniqueById(id);
+  // }
 
-  @UseGuards(JwtAuthGuard, PoliciesGuard)
-  @Query(_returns => UserGraphModel, {name: 'userById'})
-  @CheckPolicies((ability: RbacAbility, args: Record<string, any>) =>
-    // @ts-ignore
-    ability.can(DatabaseAction.Read, subject('User', {id: args.id}))
-  )
-  async getUserById(@Args('id') id: string) {
-    return this.userService.findUniqueById(id);
-  }
+  // @Query(_returns => UserConnectionGraphModel, {name: 'users'})
+  // async getUsersConnection(
+  //   @Args('input', {nullable: true, defaultValue: {first: 5}})
+  //   input?: ConnectionArguments
+  // ) {
+  //   return this.userService.findAllConnection(input);
+  // }
 
-  @Query(_returns => UserConnectionGraphModel, {name: 'users'})
-  async getUsersConnection(
-    @Args('input', {nullable: true, defaultValue: {first: 5}})
-    input?: ConnectionArguments
-  ) {
-    return this.userService.findAllConnection(input);
-  }
+  // @ResolveField(_type => UserAvatarGraphModel, {
+  //   name: 'avatar',
+  //   nullable: true,
+  // })
+  // async getViewerAvatar(@AuthenticatedUser() user: AuthenticatedUserContext) {
+  //   const res = await this.userService.findViewerAvatar(user.id);
 
-  @ResolveField(_type => UserAvatarGraphModel, {
-    name: 'avatar',
-    nullable: true,
-  })
-  async getViewerAvatar(@AuthenticatedUser() user: AuthenticatedUserContext) {
-    const res = await this.userService.findViewerAvatar(user.id);
+  //   if (!res) {
+  //     return null;
+  //   }
 
-    if (!res) {
-      return null;
-    }
+  //   const signedImageObj = this.uploadService.getSignedImageAccessUrl(
+  //     res.remoteFileKey
+  //   );
 
-    const signedImageObj = this.uploadService.getSignedImageAccessUrl(
-      res.remoteFileKey
-    );
+  //   return {
+  //     url: signedImageObj.url,
+  //     fileName: res.fileName,
+  //   };
+  // }
 
-    return {
-      url: signedImageObj.url,
-      fileName: res.fileName,
-    };
-  }
-
-  @ResolveField(_type => SubscriptionGraphModel, {nullable: true})
-  async subscription() {
-    const stripeResponse = {
-      id: 'string',
-      planTitle: 'planTitlee',
-      planAmount: 250000,
-      billingFrequency: 'monthly',
-      upcomingAmountDue: 500000,
-      upcomingDueDate: 102340023,
-    };
-    return stripeResponse;
-  }
+  // @ResolveField(_type => SubscriptionGraphModel, {nullable: true})
+  // async subscription() {
+  //   const stripeResponse = {
+  //     id: 'string',
+  //     planTitle: 'planTitlee',
+  //     planAmount: 250000,
+  //     billingFrequency: 'monthly',
+  //     upcomingAmountDue: 500000,
+  //     upcomingDueDate: 102340023,
+  //   };
+  //   return stripeResponse;
+  // }
 
   // @Mutation(_returns => String)
   // @UseGuards(AuthenticatedGuard)

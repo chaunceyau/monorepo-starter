@@ -25,8 +25,8 @@ export function LoginContainer({csrfToken}: LoginContainerProps) {
         </button>
       )}
       <div className="pt-2 pb-8 sm:rounded-lg">
-        {router.query.error === 'CredentialsSignin' ? (
-          <p className="text-red-500 text-sm text-center">
+        {state === 'default' && router.query.error === 'CredentialsSignin' ? (
+          <p className="text-red-500 text-sm text-center mb-6 -mt-2">
             Login failed with the provided credentials
           </p>
         ) : null}

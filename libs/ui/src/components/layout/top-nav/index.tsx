@@ -4,7 +4,7 @@ import {Disclosure, Menu, Transition} from '@headlessui/react';
 import {BellIcon, MenuIcon, XIcon} from '@heroicons/react/solid';
 //
 import {useLayoutContext} from '@monorepo-starter/ui';
-import {conditionallyConcatClassNames} from '@monorepo-starter/utils';
+import {concatClassNames} from '@monorepo-starter/utils';
 //
 import {MainContent} from './main-content';
 import {DesktopLink} from './desktop/link';
@@ -101,22 +101,21 @@ export function TopNavigationLayout<TUserSession>({
                               static
                               className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                             >
-                              {/* todo: update */}
                               {ctx.profileDropdownNavigationLinks.map(item => (
-                                <Menu.Item key={item.label}>
-                                  {({active}) => (
-                                    <Link href={item.href}>
-                                      <a
-                                        className={conditionallyConcatClassNames(
-                                          active ? 'bg-gray-100' : '',
-                                          'block px-4 py-2 text-sm text-gray-700'
-                                        )}
-                                      >
-                                        {item.label}
-                                      </a>
-                                    </Link>
-                                  )}
-                                </Menu.Item>
+                                <Link href={item.href} key={item.label}>
+                                  <Menu.Item>
+                                    {({active}) => (
+                                        <a
+                                          className={concatClassNames(
+                                            active ? 'bg-gray-100' : '',
+                                            'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200'
+                                          )}
+                                        >
+                                          {item.label}
+                                        </a>
+                                    )}
+                                  </Menu.Item>
+                                </Link>
                               ))}
                             </Menu.Items>
                           </Transition>

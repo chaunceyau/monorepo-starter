@@ -7,7 +7,8 @@ import {usersDataLoaderProvider} from '../common/dataloader/users/provider';
 
 @Module({
   imports: [PrismaModule],
-  providers: [UserService, UserResolver, usersDataLoaderProvider],
+  providers: [UserService, usersDataLoaderProvider],
+  // providers: [UserService, UserResolver, usersDataLoaderProvider],
   exports: [UserService],
 })
 export class UserModule {}

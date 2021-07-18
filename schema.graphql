@@ -11,36 +11,6 @@ type Subscription {
   upcomingDueDate: Int!
 }
 
-type UserAvatar {
-  url: String!
-  fileName: String!
-}
-
-type User {
-  id: String!
-  email: String!
-  subscription: Subscription
-  avatar: UserAvatar
-}
-
-type UserGraphModelEdge {
-  cursor: String!
-  node: User!
-}
-
-type UserConnection {
-  edges: [UserGraphModelEdge!]
-  nodes: [User!]
-  pageInfo: PaginationPageInfo!
-}
-
-type PaginationPageInfo {
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  startCursor: String!
-  endCursor: String!
-}
-
 type CheckoutSession {
   id: ID!
 }
@@ -60,21 +30,29 @@ type PresignedImageAssetPayload {
   url: String!
 }
 
+type UserAvatar {
+  url: String!
+  fileName: String!
+}
+
+type User {
+  id: String!
+  email: String!
+  subscription: Subscription
+  avatar: UserAvatar
+}
+
+type UserGraphModelEdge {
+  cursor: String!
+  node: User!
+}
+
 type Query {
   viewer: User!
-  userById(id: String!): User!
-  users(input: ConnectionArguments = {first: 5}): UserConnection!
   presignedImageAccess(input: AccessImageByKeyInput!): PresignedImageAssetPayload!
   presignedUpload(input: AwsS3UploadOptions!): PresignedUploadPayload!
   stripePortalSession: String
   subscription: Subscription
-}
-
-input ConnectionArguments {
-  first: Int
-  after: String
-  last: Int
-  before: String
 }
 
 input AccessImageByKeyInput {
