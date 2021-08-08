@@ -26,8 +26,15 @@ export default NextAuth({
       return encoded;
     },
     async decode({secret, token, maxAge}) {
-      const decoded = jwt.verify(token, secret);
-      return decoded as JWT;
+      try {
+        const decoded = jwt.verify(token, secret);
+        return decoded as JWT;
+      } catch (err) {
+        console.log({token});
+        console.log('errerrerrerrerr');
+        console.log(err);
+        throw new Error(err);
+      }
     },
   },
   callbacks: {

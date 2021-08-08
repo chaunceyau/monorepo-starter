@@ -1,15 +1,16 @@
 import {Module} from '@nestjs/common';
 import {GraphQLModule} from '@nestjs/graphql';
 
-import {UserGraphResolver} from './user/resolver';
 import {LocalConfigModule} from '../config/config.module';
 import {GlobalConfigService} from '../config/services/global.config';
 import {UserRepository} from '../data/repos/user.repository';
 import {PrismaModule} from '../prisma/prisma.module';
 import {PrismaService} from '../prisma/prisma.service';
+import {UserResolversModule} from './user/resolver.module';
 
 @Module({
   imports: [
+    UserResolversModule,
     GraphQLModule.forRootAsync({
       imports: [LocalConfigModule, PrismaModule],
       useFactory: (
@@ -31,6 +32,6 @@ import {PrismaService} from '../prisma/prisma.service';
       inject: [GlobalConfigService, PrismaService],
     }),
   ],
-  providers: [UserGraphResolver],
+  providers: [],
 })
 export class GraphModule {}
